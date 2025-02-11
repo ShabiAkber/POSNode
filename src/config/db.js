@@ -1,27 +1,23 @@
-require('dotenv').config();
-const sql = require('mssql');
+const sequelize = require("../config/db");
 
-const config = {
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    server: process.env.DB_SERVER,
-    database: process.env.DB_DATABASE,
-    port: parseInt(process.env.DB_PORT),
-    options: {
-        encrypt: process.env.DB_ENCRYPT === 'true', 
-        enableArithAbort: true
-    }
-};
+const UserDetails = require("./UserDetails");
+const UserTypes = require("./UserTypes");
+const Department = require("./Department");
+const WageType = require("./WageType");
 
-const poolPromise = new sql.ConnectionPool(config)
-    .connect()
-    .then(pool => {
-        console.log("Connected to SQL Server");
-        return pool;
-    })
-    .catch(err => {
-        console.error("Database Connection Failed! ", err);
-        process.exit(1);
-    });
+// **Associations (Relationships)**
+UserTypes.hasMany(UserDetails, { foreignKey: "Usr_UsrTFK", as: "Users" });
+UserDetails.belongsTo(UserTypes, { foreignKey: "Usr_UsrTFK", as: "UserType" });
 
-module.exports = { sql, poolPromise };
+Department.hasMany(UserDetails, { foreignKey: "Usr_DeptFK", as: "Users" });
+UserDetails.belongsTo(Department, { foreignKey: "Usr_DeptFK", as: "Department" });
+
+WageType.hasMany(UserDetails, { foreignKey: "Usr_WageTFK", as: "Users" });
+UserDetails.belongsTo(WageType, { foreignKey: "Usr_WageTFK", as: "WageType" });
+
+// Sync models with the database
+sequelize.sync({ alter: true })
+    .then(() => console.log("Database & tables synced successfully"))
+    .catch(err => console.error("Error syncing database:", err));
+
+module.exports = { sequelize, UserDetails, UserTypes, Department, WageType };
