@@ -21,12 +21,14 @@ const userRoutes = require("./routes/userRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
 const wageTypeRoutes = require("./routes/wageTypeRoutes");
 const userTypeRoutes = require("./routes/userTypeRoutes");
+const branchRoutes = require("./routes/branchRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/users", authMiddleware, userRoutes);
 app.use("/api/departments", authMiddleware, departmentRoutes);
 app.use("/api/wage-types", authMiddleware, wageTypeRoutes);
 app.use("/api/user-types", authMiddleware, userTypeRoutes);
+app.use("/api/branches", authMiddleware, branchRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);
