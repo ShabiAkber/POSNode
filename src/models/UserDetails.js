@@ -1,10 +1,15 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db"); // Import Sequelize connection
+const Branch = require("./Branch");
+const WageType = require("./WageTypes");
+const Department = require("./Departments");
+const UserType = require("./UserTypes");
 
 const UserDetails = sequelize.define("UserDetails", {
   Usr_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
+    allowNull: false,
   },
   Usr_UserName: {
     type: DataTypes.STRING,
@@ -61,10 +66,18 @@ const UserDetails = sequelize.define("UserDetails", {
   Usr_UsrTFK: {
     type: DataTypes.STRING,
     allowNull: true,
+    references: {
+      model: UserType,
+      key: "UsrT_PK"
+    }
   },
   Usr_DeptFK: {
     type: DataTypes.STRING,
     allowNull: true,
+    references: {
+      model: Department,
+      key: "Dept_PK"
+    }
   },
   Usr_CheckIn: {
     type: DataTypes.DATE,
@@ -80,7 +93,11 @@ const UserDetails = sequelize.define("UserDetails", {
   },
   Usr_WageTFK: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: WageType,
+      key: "WageT_PK"
+    }
   },
   Usr_WageAmt: {
     type: DataTypes.FLOAT,
@@ -88,7 +105,11 @@ const UserDetails = sequelize.define("UserDetails", {
   },
   Usr_BranchFK: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: Branch,
+      key: "Branch_PK"
+    }
   },
   IsDeleted: {  // Assuming `IsDelete` means a soft delete flag
     type: DataTypes.BOOLEAN,

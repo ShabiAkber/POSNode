@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Branch = sequelize.define("Branch", {
+const Branch = sequelize.define("Branches", {
   Branch_PK: {
     type: DataTypes.STRING,
     primaryKey: true,

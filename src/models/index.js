@@ -1,36 +1,60 @@
 const sequelize = require("../config/db");
 
 // Import models
-const UserDetails = require("./UserDetails");
-const UserTypes = require("./UserTypes");
+const UserDetail = require("./UserDetails");
+const UserType = require("./UserTypes");
 const Department = require("./Department");
 const WageType = require("./WageType");
-const Branch = require("./Branch"); // Added Branch model
+const Branch = require("./Branch");
+const Role = require("./Role");
+const Permission = require("./Permission");
+const RolePermission = require("./RolePermission");
+const UserRole = require("./UserRole");
 
 // **Associations (Relationships)**
 
 // ✅ UserDetail Relationships
-UserTypes.hasMany(UserDetails, { foreignKey: "Usr_UsrTFK", as: "Users" });
-UserDetails.belongsTo(UserTypes, { foreignKey: "Usr_UsrTFK", as: "UserType" });
+UserType.hasMany(UserDetail, { foreignKey: "Usr_UsrTFK", as: "UserDetails" });
+UserDetail.belongsTo(UserType, { foreignKey: "Usr_UsrTFK", as: "UserTypes" });
 
-Department.hasMany(UserDetails, { foreignKey: "Usr_DeptFK", as: "Users" });
-UserDetails.belongsTo(Department, { foreignKey: "Usr_DeptFK", as: "Department" });
+Department.hasMany(UserDetail, { foreignKey: "Usr_DeptFK", as: "UserDetails" });
+UserDetail.belongsTo(Department, { foreignKey: "Usr_DeptFK", as: "Departments" });
 
-WageType.hasMany(UserDetails, { foreignKey: "Usr_WageTFK", as: "Users" });
-UserDetails.belongsTo(WageType, { foreignKey: "Usr_WageTFK", as: "WageType" });
+WageType.hasMany(UserDetail, { foreignKey: "Usr_WageTFK", as: "UserDetails" });
+UserDetail.belongsTo(WageType, { foreignKey: "Usr_WageTFK", as: "WageTypes" });
 
 // ✅ Branch Relationships
-Branch.hasMany(UserDetails, { foreignKey: "Usr_BranchFK", as: "Users" });
-UserDetails.belongsTo(Branch, { foreignKey: "Usr_BranchFK", as: "Branch" });
+Branch.hasMany(UserDetail, { foreignKey: "Usr_BranchFK", as: "UserDetails" });
+UserDetail.belongsTo(Branch, { foreignKey: "Usr_BranchFK", as: "Branches" });
 
 Branch.hasMany(Department, { foreignKey: "Dept_BranchFK", as: "Departments" });
-Department.belongsTo(Branch, { foreignKey: "Dept_BranchFK", as: "Branch" });
+Department.belongsTo(Branch, { foreignKey: "Dept_BranchFK", as: "Branches" });
 
 Branch.hasMany(WageType, { foreignKey: "WageT_BranchFK", as: "WageTypes" });
-WageType.belongsTo(Branch, { foreignKey: "WageT_BranchFK", as: "Branch" });
+WageType.belongsTo(Branch, { foreignKey: "WageT_BranchFK", as: "Branches" });
 
-Branch.hasMany(UserTypes, { foreignKey: "UsrT_BranchFK", as: "UserTypes" });
-UserTypes.belongsTo(Branch, { foreignKey: "UsrT_BranchFK", as: "Branch" });
+Branch.hasMany(UserType, { foreignKey: "UsrT_BranchFK", as: "UserTypes" });
+UserTypes.belongsTo(Branch, { foreignKey: "UsrT_BranchFK", as: "Branches" });
+
+Branch.hasMany(Role, { foreignKey: "R_BranchFK", as: "Roles" });
+Role.belongsTo(Branch, { foreignKey: "R_BranchFK", as: "Branches" });
+
+Branch.hasMany(Permission, { foreignKey: "Perm_BranchFK", as: "Permissions" });
+Permission.belongsTo(Branch, { foreignKey: "Perm_BranchFK", as: "Branches" });
+
+Branch.hasMany(RolePermission, { foreignKey: "RP_BranchFK", as: "RolePermissions" });
+RolePermission.belongsTo(Branch, { foreignKey: "RP_BranchFK", as: "Branches" });
+
+Branch.hasMany(UserRole, { foreignKey: "UR_BranchFK", as: "UserRoles" });
+UserRole.belongsTo(Branch, { foreignKey: "UR_BranchFK", as: "Branches" });
+
+// **Role-Permission Relationship**
+Role.belongsToMany(Permission, { through: RolePermission, foreignKey: "RP_RoleFK", as: "Permissions" });
+Permission.belongsToMany(Role, { through: RolePermission, foreignKey: "RP_PermissionFK", as: "Roles" });
+
+// **User-Role Relationship**
+UserDetails.belongsToMany(Role, { through: UserRole, foreignKey: "UR_UserFK", as: "Roles" });
+Role.belongsToMany(UserDetails, { through: UserRole, foreignKey: "UR_RoleFK", as: "Users" });
 
 // **Sync models with the database**
 sequelize.sync({ alter: true })

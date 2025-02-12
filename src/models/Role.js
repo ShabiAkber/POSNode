@@ -1,27 +1,30 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
+const Branch = require("./Branch");
 
-const Department = sequelize.define("Departments", {
-  Dept_PK: {
+const Role = sequelize.define("Roles", {
+  Role_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
     allowNull: false,
   },
-  Dept_Name: {
+  Role_Name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true,
   },
-  Dept_BranchFK: {
+  R_BranchFK: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    references:{
+        model: Branch,
+        key: "Branch_PK"
+    }
   },
   IsDeleted: {  // Assuming `IsDelete` means a soft delete flag
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-}, {
-  tableName: "Department",
-  timestamps: false,
 });
 
-module.exports = Department;
+module.exports = Role;
