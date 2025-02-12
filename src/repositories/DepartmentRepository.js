@@ -24,7 +24,7 @@ class DepartmentRepository extends IRepository {
     const department = await this.getById(id);
     if (!department) return null;
     await department.destroy();
-    return true;
+    return { message: "Department deleted successfully" };
   }
 }
 

@@ -10,6 +10,10 @@ const WageType = sequelize.define("WageType", {
     type: DataTypes.STRING,
     allowNull: false, // Required field
   },
+  WageT_BranchFK: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   IsDeleted: { // Assuming IsDelete is a soft delete flag
     type: DataTypes.BOOLEAN,
     defaultValue: false,

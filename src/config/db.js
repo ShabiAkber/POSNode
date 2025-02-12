@@ -1,23 +1,15 @@
-const sequelize = require("../config/db");
+const { Sequelize } = require("sequelize");
+const dotenv = require("dotenv");
 
-const UserDetails = require("./UserDetails");
-const UserTypes = require("./UserTypes");
-const Department = require("./Department");
-const WageType = require("./WageType");
+dotenv.config();
 
-// **Associations (Relationships)**
-UserTypes.hasMany(UserDetails, { foreignKey: "Usr_UsrTFK", as: "Users" });
-UserDetails.belongsTo(UserTypes, { foreignKey: "Usr_UsrTFK", as: "UserType" });
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+    host: process.env.DB_HOST,
+    dialect: "mssql",
+    logging: false, // Disable logging for cleaner output
+    dialectOptions: {
+        options: { encrypt: true, trustServerCertificate: true },
+    },
+});
 
-Department.hasMany(UserDetails, { foreignKey: "Usr_DeptFK", as: "Users" });
-UserDetails.belongsTo(Department, { foreignKey: "Usr_DeptFK", as: "Department" });
-
-WageType.hasMany(UserDetails, { foreignKey: "Usr_WageTFK", as: "Users" });
-UserDetails.belongsTo(WageType, { foreignKey: "Usr_WageTFK", as: "WageType" });
-
-// Sync models with the database
-sequelize.sync({ alter: true })
-    .then(() => console.log("Database & tables synced successfully"))
-    .catch(err => console.error("Error syncing database:", err));
-
-module.exports = { sequelize, UserDetails, UserTypes, Department, WageType };
+module.exports = sequelize;
