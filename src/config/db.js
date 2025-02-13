@@ -1,15 +1,33 @@
-const { Sequelize } = require("sequelize");
+const sql = require("mssql");
 const dotenv = require("dotenv");
 
 dotenv.config();
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-    host: process.env.DB_HOST,
-    dialect: "mssql",
-    logging: false, // Disable logging for cleaner output
-    dialectOptions: {
-        options: { encrypt: true, trustServerCertificate: true },
-    },
-});
+// Database configuration
+const config = {
+  user: process.env.DB_USER || "sa",
+  password: process.env.DB_PASSWORD || "Pak123",
+  server: process.env.DB_HOST || "localhost",
+  database: process.env.DB_NAME || "POSDB",
+  port: parseInt(process.env.DB_PORT, 10) || 1433,
+  options: {
+    encrypt: true, // Set to true if using SSL
+    trustServerCertificate: true, // Required for self-signed certificates
+  },
+};
 
-module.exports = sequelize;
+// Connect to the database
+async function connectDB() {
+  try {
+    const pool = await sql.connect(config);
+    console.log("✅ Connected to SQL Server using mssql!");
+    return pool;
+  } catch (err) {
+    console.error("❌ Database connection failed:", err);
+  }
+}
+
+// Test the connection
+connectDB();
+
+module.exports = { connectDB, sql };

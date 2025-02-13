@@ -3,8 +3,8 @@ const sequelize = require("../config/db");
 // Import models
 const UserDetail = require("./UserDetails");
 const UserType = require("./UserTypes");
-const Department = require("./Department");
-const WageType = require("./WageType");
+const Department = require("./Departments");
+const WageType = require("./WageTypes");
 const Branch = require("./Branch");
 const Role = require("./Role");
 const Permission = require("./Permission");
@@ -34,7 +34,7 @@ Branch.hasMany(WageType, { foreignKey: "WageT_BranchFK", as: "WageTypes" });
 WageType.belongsTo(Branch, { foreignKey: "WageT_BranchFK", as: "Branches" });
 
 Branch.hasMany(UserType, { foreignKey: "UsrT_BranchFK", as: "UserTypes" });
-UserTypes.belongsTo(Branch, { foreignKey: "UsrT_BranchFK", as: "Branches" });
+UserType.belongsTo(Branch, { foreignKey: "UsrT_BranchFK", as: "Branches" });
 
 Branch.hasMany(Role, { foreignKey: "R_BranchFK", as: "Roles" });
 Role.belongsTo(Branch, { foreignKey: "R_BranchFK", as: "Branches" });
@@ -53,12 +53,12 @@ Role.belongsToMany(Permission, { through: RolePermission, foreignKey: "RP_RoleFK
 Permission.belongsToMany(Role, { through: RolePermission, foreignKey: "RP_PermissionFK", as: "Roles" });
 
 // **User-Role Relationship**
-UserDetails.belongsToMany(Role, { through: UserRole, foreignKey: "UR_UserFK", as: "Roles" });
-Role.belongsToMany(UserDetails, { through: UserRole, foreignKey: "UR_RoleFK", as: "Users" });
+UserDetail.belongsToMany(Role, { through: UserRole, foreignKey: "UR_UserFK", as: "Roles" });
+Role.belongsToMany(UserDetail, { through: UserRole, foreignKey: "UR_RoleFK", as: "Users" });
 
 // **Sync models with the database**
 sequelize.sync({ alter: true })
   .then(() => console.log("✅ Database & tables synced successfully"))
   .catch((err) => console.error("❌ Error syncing database:", err));
 
-module.exports = { sequelize, UserDetails, UserTypes, Department, WageType, Branch };
+module.exports = { sequelize, UserDetail, UserType, Department, WageType, Branch };
