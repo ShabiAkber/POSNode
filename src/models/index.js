@@ -10,6 +10,8 @@ const Role = require("./Role");
 const Permission = require("./Permission");
 const RolePermission = require("./RolePermission");
 const UserRole = require("./UserRole");
+const PaymentType = require("./PaymentTypes");
+const PaymentStatus = require("./PaymentStatuses");
 
 // **Associations (Relationships)**
 
@@ -47,6 +49,12 @@ RolePermission.belongsTo(Branch, { foreignKey: "RP_BranchFK", as: "Branches" });
 
 Branch.hasMany(UserRole, { foreignKey: "UR_BranchFK", as: "UserRoles" });
 UserRole.belongsTo(Branch, { foreignKey: "UR_BranchFK", as: "Branches" });
+
+Branch.hasMany(PaymentType, { foreignKey: "PayT_BranchFK", as: "PaymentTypes" });
+PaymentType.belongsTo(Branch, { foreignKey: "PayT_BranchFK", as: "Branches" });
+
+Branch.hasMany(PaymentStatus, { foreignKey: "PayS_BranchFK", as: "PaymentStatuses" });
+PaymentStatus.belongsTo(Branch, { foreignKey: "PayS_BranchFK", as: "Branches" });
 
 // **Role-Permission Relationship**
 Role.belongsToMany(Permission, { through: RolePermission, foreignKey: "RP_RoleFK", as: "Permissions" });

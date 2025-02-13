@@ -26,6 +26,8 @@ const roleRoutes = require("./routes/roleRoutes");
 const permissionRoutes = require("./routes/permissionRoutes");
 const rolePermissionRoutes = require("./routes/rolePermissionRoutes");
 const userRoleRoutes = require("./routes/userRoleRoutes");
+const paymentTypesRoutes = require("./routes/paymentTypesRoutes");
+const paymentStatusesRoutes = require("./routes/paymentStatusesRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/users", authMiddleware, userRoutes);
@@ -37,6 +39,8 @@ app.use("/api/roles", authMiddleware, roleRoutes);
 app.use("/api/permissions", authMiddleware, permissionRoutes);
 app.use("/api/role-permissions", authMiddleware, rolePermissionRoutes);
 app.use("/api/user-roles", authMiddleware, userRoleRoutes);
+app.use("/api/payment-types", authMiddleware, paymentTypesRoutes);
+app.use("/api/payment-statuses", authMiddleware, paymentStatusesRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);
