@@ -2,17 +2,21 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 const Branch = require("./Branch");
 
-const Department = sequelize.define("Departments", {
-  Dept_PK: {
+const OrderType = sequelize.define("OrderTypes", {
+  OrdT_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
     allowNull: false,
   },
-  Dept_Name: {
+  OrdT_Name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
-  Dept_BranchFK: {
+  OrdT_ImagePath: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  OrdT_BranchFK: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
@@ -20,13 +24,10 @@ const Department = sequelize.define("Departments", {
       key: "Branch_PK"
     }
   },
-  IsDeleted: {  // Assuming `IsDelete` means a soft delete flag
+  IsDeleted: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-}, {
-  tableName: "Department",
-  timestamps: false,
 });
 
-module.exports = Department;
+module.exports = OrderTypes;

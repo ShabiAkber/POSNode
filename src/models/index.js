@@ -12,6 +12,12 @@ const RolePermission = require("./RolePermission");
 const UserRole = require("./UserRole");
 const PaymentType = require("./PaymentTypes");
 const PaymentStatus = require("./PaymentStatuses");
+const OrderType = require("./OrderTypes");
+const OrderStatus = require("./OrderStatuses");
+const Order = require("./Orders");
+const OrderDetail = require("./OrderDetails");
+const VoucherCardDetail = require("./VoucherCardDetails");
+const GiftCardDetail = require("./GiftCardDetails");
 
 // **Associations (Relationships)**
 
@@ -56,6 +62,24 @@ PaymentType.belongsTo(Branch, { foreignKey: "PayT_BranchFK", as: "Branches" });
 Branch.hasMany(PaymentStatus, { foreignKey: "PayS_BranchFK", as: "PaymentStatuses" });
 PaymentStatus.belongsTo(Branch, { foreignKey: "PayS_BranchFK", as: "Branches" });
 
+Branch.hasMany(OrderType, { foreignKey: "OrdT_BranchFK", as: "OrderTypes" });
+OrderType.belongsTo(Branch, { foreignKey: "OrdT_BranchFK", as: "Branches" });
+
+Branch.hasMany(OrderStatus, { foreignKey: "OrdS_BranchFK", as: "OrderStatuses" });
+OrderStatus.belongsTo(Branch, { foreignKey: "OrdS_BranchFK", as: "Branches" });
+
+Branch.hasMany(Order, { foreignKey: "Ord_BranchFK", as: "Orders" });
+Order.belongsTo(Branch, { foreignKey: "Ord_BranchFK", as: "Branches" });
+
+Branch.hasMany(OrderDetail, { foreignKey: "OrdD_BranchFK", as: "OrderDetails" });
+OrderDetail.belongsTo(Branch, { foreignKey: "OrdD_BranchFK", as: "Branches" });
+
+Branch.hasMany(VoucherCardDetail, { foreignKey: "VchCrd_BranchFK", as: "VoucherCardDetails" });
+VoucherCardDetail.belongsTo(Branch, { foreignKey: "VchCrd_BranchFK", as: "Branches" });
+
+Branch.hasMany(GiftCardDetail, { foreignKey: "GiftCrd_BranchFK", as: "GiftCardDetails" });
+GiftCardDetail.belongsTo(Branch, { foreignKey: "GiftCrd_BranchFK", as: "Branches" });
+
 // **Role-Permission Relationship**
 Role.belongsToMany(Permission, { through: RolePermission, foreignKey: "RP_RoleFK", as: "Permissions" });
 Permission.belongsToMany(Role, { through: RolePermission, foreignKey: "RP_PermissionFK", as: "Roles" });
@@ -64,9 +88,25 @@ Permission.belongsToMany(Role, { through: RolePermission, foreignKey: "RP_Permis
 UserDetail.belongsToMany(Role, { through: UserRole, foreignKey: "UR_UserFK", as: "Roles" });
 Role.belongsToMany(UserDetail, { through: UserRole, foreignKey: "UR_RoleFK", as: "Users" });
 
+// 🔗 **Define Relationships Order**
+Order.belongsTo(PaymentStatus, { foreignKey: "Ord_PaySFK", as: "PaymentStatus" });
+Order.belongsTo(PaymentType, { foreignKey: "Ord_PayTFK", as: "PaymentType" });
+Order.belongsTo(OrderType, { foreignKey: "Ord_OrdTFK", as: "OrderType" });
+Order.belongsTo(OrderStatus, { foreignKey: "Ord_OrdSFK", as: "OrderStatus" });
+
+Order.hasMany(OrderDetail, { foreignKey: "OrdD_OrdFK", as: "OrderDetails" });
+
+// 🔗 **Define Relationships Order Detail**
+OrderDetail.belongsTo(Order, { foreignKey: "OrdD_OrdFK", as: "Orders" });
+OrderDetail.belongsTo(VoucherCardDetail, { foreignKey: "Ord_VchCrdFK", as: "VoucherCardDetails" });
+OrderDetail.belongsTo(GiftCardDetail, { foreignKey: "OrdD_GiftCrdFK", as: "GiftCardDetails" });
+
+VoucherCardDetail.hasMany(OrderDetail, { foreignKey: "Ord_VchCrdFK", as: "OrderDetails" });
+GiftCardDetail.hasMany(OrderDetail, { foreignKey: "OrdD_GiftCrdFK", as: "OrderDetails" });
+
 // **Sync models with the database**
 sequelize.sync({ alter: true })
   .then(() => console.log("✅ Database & tables synced successfully"))
   .catch((err) => console.error("❌ Error syncing database:", err));
 
-module.exports = { sequelize, UserDetail, UserType, Department, WageType, Branch };
+module.exports = { sequelize, UserDetail, UserType, Department, WageType, Branch, Role, Permission, RolePermission, UserRole, PaymentType, PaymentStatus, OrderType, OrderStatus, Order, OrderDetail, VoucherCardDetail, GiftCardDetail };

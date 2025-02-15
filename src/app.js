@@ -28,6 +28,12 @@ const rolePermissionRoutes = require("./routes/rolePermissionRoutes");
 const userRoleRoutes = require("./routes/userRoleRoutes");
 const paymentTypesRoutes = require("./routes/paymentTypesRoutes");
 const paymentStatusesRoutes = require("./routes/paymentStatusesRoutes");
+const orderTypesRoutes = require("./routes/orderTypesRoutes");
+const orderStatusesRoutes = require("./routes/orderStatusesRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const orderDetailRoutes = require("./routes/orderDetailRoutes");
+const voucherCardRoutes = require("./routes/voucherCardDetailRoutes");
+const giftCardRoutes = require("./routes/gftCardDetailRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/users", authMiddleware, userRoutes);
@@ -41,6 +47,12 @@ app.use("/api/role-permissions", authMiddleware, rolePermissionRoutes);
 app.use("/api/user-roles", authMiddleware, userRoleRoutes);
 app.use("/api/payment-types", authMiddleware, paymentTypesRoutes);
 app.use("/api/payment-statuses", authMiddleware, paymentStatusesRoutes);
+app.use("/api/order-types", authMiddleware, orderTypesRoutes);
+app.use("/api/order-statuses", authMiddleware, orderStatusesRoutes);
+app.use("/api/orders", authMiddleware, orderRoutes);
+app.use("/api/order-details", authMiddleware, orderDetailRoutes);
+app.use("/api/voucher-cards", authMiddleware, voucherCardRoutes);
+app.use("/api/gift-cards", authMiddleware, giftCardRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);
