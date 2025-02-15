@@ -1,5 +1,5 @@
 const IRepository = require("./IRepository");
-const { Branch } = require("../models");
+const { Branch } = require("../models/Branches");
 
 class BranchRepository extends IRepository {
   async getAll() {

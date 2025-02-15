@@ -1,4 +1,4 @@
-const IRepository = require("../interfaces/IRepository");
+const IRepository = require("./IRepository");
 const OrderDetail = require("../models/OrderDetails");
 
 class OrderDetailRepository extends IRepository {

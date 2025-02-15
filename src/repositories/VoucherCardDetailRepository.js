@@ -1,4 +1,4 @@
-const VoucherCardDetail = require("../models/VoucherCardDetail");
+const VoucherCardDetail = require("../models/VoucherCardDetails");
 const OrderDetail = require("../models/OrderDetails");
 const IRepository = require("./IRepository");
 

@@ -1,10 +1,10 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
+const { sequelize } = require("../config/db");
 
-const Order = require("./Order");
+const Order = require("./Orders");
 const VoucherCardDetail = require("./VoucherCardDetails");
-const GiftCardDetail = require("./GiftCardDetail");
-const Branch = require("./Branch");
+const GiftCardDetail = require("./GiftCardDetails");
+const Branch = require("./Branches");
 
 const OrderDetail = sequelize.define("OrderDetails", {
   OrdD_PK: {

@@ -1,5 +1,5 @@
-const IRepository = require("../interfaces/IRepository");
-const Order = require("../models/Order");
+const IRepository = require("./IRepository");
+const Order = require("../models/Orders");
 
 class OrderRepository extends IRepository {
   async findAll() {

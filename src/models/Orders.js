@@ -1,11 +1,11 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
+const { sequelize } = require("../config/db");
 
 const PaymentStatuses = require("./PaymentStatuses");
 const PaymentTypes = require("./PaymentTypes");
 const OrderTypes = require("./OrderTypes");
 const OrderStatuses = require("./OrderStatuses");
-const Branch = require("./Branch");
+const Branch = require("./Branches");
 
 const Order = sequelize.define("Orders", {
   Ord_PK: {

@@ -1,5 +1,5 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
+const { sequelize, Sequelize } = require("../config/db");
+const { DataTypes } = Sequelize;
 
 const Branch = sequelize.define("Branches", {
   Branch_PK: {

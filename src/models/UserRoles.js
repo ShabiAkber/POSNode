@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
+const { sequelize } = require("../config/db");
 const UserDetails = require("./UserDetails");
-const Role = require("./Role");
-const Branch = require("./Branch");
+const Role = require("./Roles");
+const Branch = require("./Branches");
 
 const UserRole = sequelize.define("UserRoles", {
   UR_PK: {

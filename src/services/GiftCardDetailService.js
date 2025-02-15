@@ -1,4 +1,4 @@
-const IService = require("../interfaces/IService");
+const IService = require("./IService");
 const GiftCardDetailRepository = require("../repositories/GiftCardDetailRepository");
 
 class GiftCardDetailService extends IService {

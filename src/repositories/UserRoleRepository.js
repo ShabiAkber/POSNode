@@ -1,5 +1,5 @@
-const IRepository = require("../interfaces/IRepository");
-const UserRole = require("../models/UserRole");
+const IRepository = require("./IRepository");
+const UserRole = require("../models/UserRoles");
 
 class UserRoleRepository extends IRepository {
   async findAll() {

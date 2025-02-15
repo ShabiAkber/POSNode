@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
-const Branch = require("./Branch");
+const { sequelize } = require("../config/db");
+const Branch = require("./Branches");
 
 const OrderType = sequelize.define("OrderTypes", {
   OrdT_PK: {
@@ -30,4 +30,4 @@ const OrderType = sequelize.define("OrderTypes", {
   },
 });
 
-module.exports = OrderTypes;
+module.exports = OrderType;

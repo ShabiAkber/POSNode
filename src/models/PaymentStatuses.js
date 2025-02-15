@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
-const Branch = require("./Branch");
+const { sequelize } = require("../config/db");
+const Branch = require("./Branches");
 
 const PaymentStatuses = sequelize.define("PaymentStatuses", {
   PayS_PK: {

@@ -1,6 +1,6 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db"); // Import Sequelize connection
-const Branch = require("./Branch");
+const { sequelize, Sequelize } = require("../config/db");
+const { DataTypes } = Sequelize;
+const Branch = require("./Branches");
 const WageType = require("./WageTypes");
 const Department = require("./Departments");
 const UserType = require("./UserTypes");
@@ -117,7 +117,7 @@ const UserDetails = sequelize.define("UserDetails", {
   },
 }, {
   tableName: "UserDetails",
-  timestamps: false, // Disable createdAt & updatedAt fields
+  timestamps: true
 });
 
 module.exports = UserDetails;

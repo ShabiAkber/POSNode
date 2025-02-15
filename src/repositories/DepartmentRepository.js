@@ -1,5 +1,5 @@
 const IRepository = require("./IRepository");
-const { Department } = require("../models");
+const { Department } = require("../models/Departments");
 
 class DepartmentRepository extends IRepository {
   async getAll() {

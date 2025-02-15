@@ -1,4 +1,4 @@
-const IService = require("../interfaces/IService");
+const IService = require("./IService");
 const rolePermissionRepository = require("../repositories/RolePermissionRepository");
 
 class RolePermissionService extends IService {

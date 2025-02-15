@@ -1,15 +1,15 @@
-const sequelize = require("../config/db");
+const { sequelize, connectDB } = require("../config/db");
 
-// Import models
-const UserDetail = require("./UserDetails");
+// Import all models
+const Branch = require("./Branches");
 const UserType = require("./UserTypes");
 const Department = require("./Departments");
 const WageType = require("./WageTypes");
-const Branch = require("./Branch");
-const Role = require("./Role");
-const Permission = require("./Permission");
-const RolePermission = require("./RolePermission");
-const UserRole = require("./UserRole");
+const UserDetail = require("./UserDetails");
+const Role = require("./Roles");
+const Permission = require("./Permissions");
+const RolePermission = require("./RolePermissions");
+const UserRole = require("./UserRoles");
 const PaymentType = require("./PaymentTypes");
 const PaymentStatus = require("./PaymentStatuses");
 const OrderType = require("./OrderTypes");
@@ -104,9 +104,69 @@ OrderDetail.belongsTo(GiftCardDetail, { foreignKey: "OrdD_GiftCrdFK", as: "GiftC
 VoucherCardDetail.hasMany(OrderDetail, { foreignKey: "Ord_VchCrdFK", as: "OrderDetails" });
 GiftCardDetail.hasMany(OrderDetail, { foreignKey: "OrdD_GiftCrdFK", as: "OrderDetails" });
 
-// **Sync models with the database**
-sequelize.sync({ alter: true })
-  .then(() => console.log("✅ Database & tables synced successfully"))
-  .catch((err) => console.error("❌ Error syncing database:", err));
+// Function to initialize associations
+function initializeAssociations() {
+  // UserDetail Relationships
+  UserType.hasMany(UserDetail, { foreignKey: "Usr_UsrTFK", as: "UserDetails" });
+  UserDetail.belongsTo(UserType, { foreignKey: "Usr_UsrTFK", as: "UserTypes" });
 
-module.exports = { sequelize, UserDetail, UserType, Department, WageType, Branch, Role, Permission, RolePermission, UserRole, PaymentType, PaymentStatus, OrderType, OrderStatus, Order, OrderDetail, VoucherCardDetail, GiftCardDetail };
+  Department.hasMany(UserDetail, { foreignKey: "Usr_DeptFK", as: "UserDetails" });
+  UserDetail.belongsTo(Department, { foreignKey: "Usr_DeptFK", as: "Departments" });
+
+  WageType.hasMany(UserDetail, { foreignKey: "Usr_WageTFK", as: "UserDetails" });
+  UserDetail.belongsTo(WageType, { foreignKey: "Usr_WageTFK", as: "WageTypes" });
+
+  // Branch Relationships
+  Branch.hasMany(UserDetail, { foreignKey: "Usr_BranchFK", as: "UserDetails" });
+  UserDetail.belongsTo(Branch, { foreignKey: "Usr_BranchFK", as: "Branches" });
+
+  // ... rest of your associations ...
+}
+
+// Initialize models and database
+async function initializeModels() {
+  try {
+    // Test connection
+    const isConnected = await connectDB();
+    if (!isConnected) {
+      throw new Error('Database connection failed');
+    }
+
+    // Initialize associations
+    initializeAssociations();
+
+    // Sync models (in development)
+    if (process.env.NODE_ENV !== 'production') {
+      await sequelize.sync({ alter: true });
+      console.log("✅ Database & tables synced successfully");
+    }
+
+  } catch (err) {
+    console.error("❌ Database initialization failed:", err);
+    throw err;
+  }
+}
+
+// Export all models and initialization functions
+module.exports = {
+  sequelize,
+  Branch,
+  UserType,
+  Department,
+  WageType,
+  UserDetail,
+  Role,
+  Permission,
+  RolePermission,
+  UserRole,
+  PaymentType,
+  PaymentStatus,
+  OrderType,
+  OrderStatus,
+  Order,
+  OrderDetail,
+  VoucherCardDetail,
+  GiftCardDetail,
+  initializeModels,
+  initializeAssociations
+};

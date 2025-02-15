@@ -33,7 +33,7 @@ const orderStatusesRoutes = require("./routes/orderStatusesRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const orderDetailRoutes = require("./routes/orderDetailRoutes");
 const voucherCardRoutes = require("./routes/voucherCardDetailRoutes");
-const giftCardRoutes = require("./routes/gftCardDetailRoutes");
+const giftCardRoutes = require("./routes/giftCardDetailRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/users", authMiddleware, userRoutes);

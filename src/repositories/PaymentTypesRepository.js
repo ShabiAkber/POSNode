@@ -1,4 +1,4 @@
-const IRepository = require("../interfaces/IRepository");
+const IRepository = require("./IRepository");
 const PaymentTypes = require("../models/PaymentTypes");
 
 class PaymentTypesRepository extends IRepository {

@@ -1,5 +1,5 @@
-const IRepository = require("../interfaces/IRepository");
-const Permission = require("../models/Permission");
+const IRepository = require("./IRepository");
+const Permission = require("../models/Permissions");
 
 class PermissionRepository extends IRepository {
   async findAll() {

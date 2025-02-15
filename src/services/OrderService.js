@@ -1,4 +1,4 @@
-const IService = require("../interfaces/IService");
+const IService = require("./IService");
 const orderRepository = require("../repositories/OrderRepository");
 
 class OrderService extends IService {
