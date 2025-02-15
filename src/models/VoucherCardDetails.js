@@ -45,6 +45,9 @@ const VoucherCardDetail = sequelize.define("VoucherCardDetails", {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+}, {
+  tableName: "VoucherCardDetails",
+  timestamps: false,
 });
 
 module.exports = VoucherCardDetail;

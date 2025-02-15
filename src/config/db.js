@@ -8,30 +8,25 @@ dotenv.config();
 const DB_NAME = process.env.DB_NAME || "POSDB";
 const DB_USER = process.env.DB_USER || "sa";
 const DB_PASSWORD = process.env.DB_PASSWORD || "Pak123";
-const DB_HOST = process.env.DB_HOST || "MACPK-WKS-0258";
-const DB_INSTANCE = process.env.DB_INSTANCE || "MSSQLSERVER02";
-const DB_PORT = parseInt(process.env.DB_PORT, 10) || 1433;
-const DB_LOGGING = process.env.DB_LOGGING === "true";
+const DB_HOST = process.env.DB_HOST || "localhost";
 
 // Initialize Sequelize
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   dialect: "mssql",
-  port: DB_PORT,
   dialectOptions: {
     options: {
-      encrypt: true,
-      trustServerCertificate: true,
-      instanceName: DB_INSTANCE
+      encrypt: false,
+      trustServerCertificate: true
     },
   },
   pool: {
-    max: 10,
+    max: 5,
     min: 0,
     acquire: 30000,
     idle: 10000,
   },
-  logging: DB_LOGGING ? console.log : false,
+  logging: false, // Set to console.log to see SQL queries
 });
 
 // Test Database Connection

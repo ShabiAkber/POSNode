@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
 const Branch = require("./Branches");
 
-const UserTypes = sequelize.define("UserTypes", {
+const UserType = sequelize.define("UserTypes", {
   UsrT_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -26,8 +26,7 @@ const UserTypes = sequelize.define("UserTypes", {
   }
 }, {
   tableName: "UserTypes",
-  timestamps: false, // Disabling createdAt & updatedAt fields
+  timestamps: false,
 });
 
-// Export model
-module.exports = UserTypes;
+module.exports = UserType;

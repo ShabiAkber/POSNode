@@ -1,28 +1,25 @@
-const { sequelize, connectDB } = require('../config/db');
-const models = require('../models');
+const { initializeModels } = require('../models');
 
 async function initializeDatabase() {
   try {
-    // First test the connection
-    const isConnected = await connectDB();
+    console.log('Starting database initialization...');
     
-    if (!isConnected) {
-      console.error('❌ Unable to connect to the database');
-      process.exit(1);
-    }
-
-    // Initialize associations
-    models.initializeAssociations();
-
-    // Sync all models
-    await sequelize.sync({ force: true }); // This will drop existing tables and recreate them
-    console.log('✅ All models were synchronized successfully.');
-
+    await initializeModels();
+    
+    console.log('✅ Database initialization completed successfully');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error initializing database:', error);
+    console.error('❌ Database initialization failed:');
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
     process.exit(1);
   }
 }
+
+// Handle any uncaught errors
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled Rejection:', err);
+  process.exit(1);
+});
 
 initializeDatabase(); 

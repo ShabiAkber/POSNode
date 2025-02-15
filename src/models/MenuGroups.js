@@ -1,32 +1,28 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
-const UserDetails = require("./UserDetails");
-const Role = require("./Roles");
+
+const MenuVersion = require("./MenuVersions");
 const Branch = require("./Branches");
 
-const UserRole = sequelize.define("UserRoles", {
-  UR_PK: {
+const MenuGroup = sequelize.define("MenuGroups", {
+  MenuGrp_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
     allowNull: false,
   },
-  UR_UserFK: {
+  MenuGrp_Name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  MenuGrp_MenuVerFK: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
-      model: UserDetails,
-      key: "Usr_PK",
-    },
+      model: MenuVersion,
+      key: "MenuVer_PK"
+    }
   },
-  UR_RoleFK: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    references: {
-      model: Role,
-      key: "Role_PK",
-    },
-  },
-  UR_BranchFK: {
+  MenuGrp_BranchFK: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
@@ -34,13 +30,13 @@ const UserRole = sequelize.define("UserRoles", {
       key: "Branch_PK"
     }
   },
-  IsDeleted: {  // Assuming `IsDelete` means a soft delete flag
+  IsDeleted: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
 }, {
-  tableName: "UserRoles",
+  tableName: "MenuGroups",
   timestamps: false,
 });
 
-module.exports = UserRole;
+module.exports = MenuGroup;

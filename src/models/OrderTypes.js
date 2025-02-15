@@ -28,6 +28,9 @@ const OrderType = sequelize.define("OrderTypes", {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+}, {
+  tableName: "OrderTypes",
+  timestamps: false,
 });
 
 module.exports = OrderType;

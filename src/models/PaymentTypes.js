@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
 const Branch = require("./Branches");
 
-const PaymentTypes = sequelize.define("PaymentTypes", {
+const PaymentType = sequelize.define("PaymentTypes", {
   PayT_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -15,15 +15,18 @@ const PaymentTypes = sequelize.define("PaymentTypes", {
   PayT_BranchFK: {
     type: DataTypes.STRING,
     allowNull: false,
-    references:{
-        model: Branch,
-        key: "Branch_PK"
+    references: {
+      model: Branch,
+      key: "Branch_PK"
     }
   },
   IsDeleted: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+}, {
+  tableName: "PaymentTypes",
+  timestamps: false,
 });
 
-module.exports = PaymentTypes;
+module.exports = PaymentType;

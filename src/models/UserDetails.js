@@ -5,7 +5,7 @@ const WageType = require("./WageTypes");
 const Department = require("./Departments");
 const UserType = require("./UserTypes");
 
-const UserDetails = sequelize.define("UserDetails", {
+const UserDetail = sequelize.define("UserDetails", {
   Usr_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -117,7 +117,7 @@ const UserDetails = sequelize.define("UserDetails", {
   },
 }, {
   tableName: "UserDetails",
-  timestamps: true
+  timestamps: false,
 });
 
-module.exports = UserDetails;
+module.exports = UserDetail;

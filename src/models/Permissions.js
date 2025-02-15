@@ -16,15 +16,18 @@ const Permission = sequelize.define("Permissions", {
   Perm_BranchFK: {
     type: DataTypes.STRING,
     allowNull: false,
-    references:{
-        model: Branch,
-        key: "Branch_PK"
+    references: {
+      model: Branch,
+      key: "Branch_PK"
     }
   },
   IsDeleted: {  // Assuming `IsDelete` means a soft delete flag
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+}, {
+  tableName: "Permissions",
+  timestamps: false,
 });
 
 module.exports = Permission;

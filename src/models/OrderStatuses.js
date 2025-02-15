@@ -28,6 +28,9 @@ const OrderStatus = sequelize.define("OrderStatuses", {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+}, {
+  tableName: "OrderStatuses",
+  timestamps: false,
 });
 
 module.exports = OrderStatus;

@@ -1,32 +1,34 @@
 const sql = require('mssql');
 
 const config = {
-  server: 'MACPK-WKS-0258',
   user: 'sa',
   password: 'Pak123',
+  server: 'localhost',
   options: {
     trustServerCertificate: true,
-    instanceName: 'MSSQLSERVER02',
-    encrypt: true,
-    connectTimeout: 30000, // Increased timeout
+    // enableArithAbort: true,
+    encrypt: false,
+    // Comment out instanceName if you're using default instance
+    // instanceName: 'MSSQLSERVER02',
+    connectTimeout: 30000,  // Increased timeout to 30 seconds
     requestTimeout: 30000
-  },
-  pool: {
-    max: 10,
-    min: 0,
-    idleTimeoutMillis: 30000
   }
 };
 
 async function createDatabase() {
-  let pool;
   try {
-    // Create a connection pool
-    pool = await new sql.ConnectionPool(config).connect();
+    console.log('Attempting to connect with config:', {
+      server: config.server + '\\' + config.options.instanceName,
+      user: config.user,
+      options: config.options
+    });
+
+    // Connect to SQL Server
+    await sql.connect(config);
     console.log('✅ Connected to SQL Server');
-    
+
     // Create database if it doesn't exist
-    await pool.request().query(`
+    await sql.query(`
       IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'POSDB')
       BEGIN
         CREATE DATABASE POSDB;
@@ -37,21 +39,16 @@ async function createDatabase() {
         PRINT 'Database POSDB already exists';
       END
     `);
-    
-    console.log('✅ Database created or already exists');
-    
-    // Switch to the new database
-    await pool.request().query('USE POSDB');
-    console.log('✅ Switched to POSDB database');
-    
+
+    console.log('✅ Database operation completed');
     process.exit(0);
   } catch (err) {
-    console.error('❌ Error:', err);
+    console.error('❌ Error details:', {
+      message: err.message,
+      code: err.code,
+      number: err.number
+    });
     process.exit(1);
-  } finally {
-    if (pool) {
-      await pool.close();
-    }
   }
 }
 

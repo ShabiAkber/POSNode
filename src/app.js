@@ -34,6 +34,8 @@ const orderRoutes = require("./routes/orderRoutes");
 const orderDetailRoutes = require("./routes/orderDetailRoutes");
 const voucherCardRoutes = require("./routes/voucherCardDetailRoutes");
 const giftCardRoutes = require("./routes/giftCardDetailRoutes");
+const menuVersionRoutes = require("./routes/menuVersionRoutes");
+const menuGroupRoutes = require("./routes/menuGroupRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/users", authMiddleware, userRoutes);
@@ -53,6 +55,8 @@ app.use("/api/orders", authMiddleware, orderRoutes);
 app.use("/api/order-details", authMiddleware, orderDetailRoutes);
 app.use("/api/voucher-cards", authMiddleware, voucherCardRoutes);
 app.use("/api/gift-cards", authMiddleware, giftCardRoutes);
+app.use("/api/menuVersions", authMiddleware, menuVersionRoutes);
+app.use("/api/menuGroups", authMiddleware, menuGroupRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);

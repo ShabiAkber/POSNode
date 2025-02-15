@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
 const Branch = require("./Branches");
 
-const PaymentStatuses = sequelize.define("PaymentStatuses", {
+const PaymentStatus = sequelize.define("PaymentStatuses", {
   PayS_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -24,6 +24,9 @@ const PaymentStatuses = sequelize.define("PaymentStatuses", {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+}, {
+  tableName: "PaymentStatuses",
+  timestamps: false,
 });
 
-module.exports = PaymentStatuses;
+module.exports = PaymentStatus;

@@ -45,7 +45,7 @@ const OrderDetail = sequelize.define("OrderDetails", {
     allowNull: true,
     references: {
       model: VoucherCardDetail,
-      key: "Vch_PK",
+      key: "VchCrd_PK",
     },
   },
   OrdD_GiftCrdFK: {
@@ -53,7 +53,7 @@ const OrderDetail = sequelize.define("OrderDetails", {
     allowNull: true,
     references: {
       model: GiftCardDetail,
-      key: "Gift_PK",
+      key: "GiftCrd_PK",
     },
   },
   OrdD_Tip: {
@@ -73,6 +73,9 @@ const OrderDetail = sequelize.define("OrderDetails", {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+}, {
+  tableName: "OrderDetails",
+  timestamps: false,
 });
 
 module.exports = OrderDetail;

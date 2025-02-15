@@ -1,32 +1,32 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
-const UserDetails = require("./UserDetails");
-const Role = require("./Roles");
+
+const MenuGroup = require("./MenuGroups");
 const Branch = require("./Branches");
 
-const UserRole = sequelize.define("UserRoles", {
-  UR_PK: {
+const Category = sequelize.define("Categories", {
+  Cat_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
     allowNull: false,
   },
-  UR_UserFK: {
+  Cat_Name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  Cat_ImagePath: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  Cat_MenuGrpFK: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
-      model: UserDetails,
-      key: "Usr_PK",
-    },
+      model: MenuGroup,
+      key: "MenuGrp_PK"
+    }
   },
-  UR_RoleFK: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    references: {
-      model: Role,
-      key: "Role_PK",
-    },
-  },
-  UR_BranchFK: {
+  Cat_BranchFK: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
@@ -34,13 +34,13 @@ const UserRole = sequelize.define("UserRoles", {
       key: "Branch_PK"
     }
   },
-  IsDeleted: {  // Assuming `IsDelete` means a soft delete flag
+  IsDeleted: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
 }, {
-  tableName: "UserRoles",
+  tableName: "Categories",
   timestamps: false,
 });
 
-module.exports = UserRole;
+module.exports = Category;

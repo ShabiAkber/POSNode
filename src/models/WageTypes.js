@@ -25,7 +25,7 @@ const WageType = sequelize.define("WageTypes", {
     defaultValue: false,
   }
 }, {
-  tableName: "WageType",
+  tableName: "WageTypes",
   timestamps: false,
 });
 

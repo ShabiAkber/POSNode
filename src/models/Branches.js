@@ -31,6 +31,9 @@ const Branch = sequelize.define("Branches", {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
+}, {
+  tableName: "Branches",
+  timestamps: false,
 });
 
 module.exports = Branch;
