@@ -6,6 +6,7 @@ const PaymentTypes = require("./PaymentTypes");
 const OrderTypes = require("./OrderTypes");
 const OrderStatuses = require("./OrderStatuses");
 const Branch = require("./Branches");
+const TableDineIn = require("./TableDineIns");
 
 const Order = sequelize.define("Orders", {
   Ord_PK: {
@@ -63,6 +64,14 @@ const Order = sequelize.define("Orders", {
     references: {
       model: Branch,
       key: "Branch_PK"
+    }
+  },
+  Ord_TableFK: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    references: {
+      model: TableDineIn,
+      key: "Table_PK"
     }
   },
   IsDeleted: {

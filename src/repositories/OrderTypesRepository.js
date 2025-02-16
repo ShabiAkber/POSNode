@@ -2,11 +2,11 @@ const IRepository = require("./IRepository");
 const OrderTypes = require("../models/OrderTypes");
 
 class OrderTypesRepository extends IRepository {
-  async findAll() {
+  async getAll() {
     return await OrderTypes.findAll();
   }
 
-  async findById(id) {
+  async getById(id) {
     return await OrderTypes.findByPk(id);
   }
 
@@ -15,13 +15,13 @@ class OrderTypesRepository extends IRepository {
   }
 
   async update(id, data) {
-    const orderType = await this.findById(id);
+    const orderType = await OrderTypes.findByPk(id);
     if (!orderType) return null;
     return await orderType.update(data);
   }
 
   async delete(id) {
-    const orderType = await this.findById(id);
+    const orderType = await OrderTypes.findByPk(id);
     if (!orderType) return null;
     return await orderType.destroy();
   }

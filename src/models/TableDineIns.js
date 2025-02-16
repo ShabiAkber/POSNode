@@ -3,21 +3,26 @@ const { sequelize } = require("../config/db");
 
 const Branch = require("./Branches");
 
-const OrderType = sequelize.define("OrderTypes", {
-  OrdT_PK: {
+const TableDineIn = sequelize.define("TableDineIns", {
+  Table_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
     allowNull: false,
   },
-  OrdT_Name: {
-    type: DataTypes.STRING,
+  Table_Number: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    unique: true,
+  },
+  Table_Capacity: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  OrdT_ImagePath: {
-    type: DataTypes.STRING,
-    allowNull: true,
+  Table_IsOccupied: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
-  OrdT_BranchFK: {
+  Table_BranchFK: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
@@ -30,8 +35,8 @@ const OrderType = sequelize.define("OrderTypes", {
     defaultValue: false,
   },
 }, {
-  tableName: "OrderTypes",
+  tableName: "TableDineIns",
   timestamps: false,
 });
 
-module.exports = OrderType;
+module.exports = TableDineIn;

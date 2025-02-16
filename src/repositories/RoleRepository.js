@@ -2,11 +2,11 @@ const IRepository = require("./IRepository");
 const Role = require("../models/Roles");
 
 class RoleRepository extends IRepository {
-  async findAll() {
+  async getAll() {
     return await Role.findAll();
   }
 
-  async findById(id) {
+  async getById(id) {
     return await Role.findByPk(id);
   }
 
@@ -15,13 +15,13 @@ class RoleRepository extends IRepository {
   }
 
   async update(id, data) {
-    const role = await this.findById(id);
+    const role = await Role.findByPk(id);
     if (!role) return null;
     return await role.update(data);
   }
 
   async delete(id) {
-    const role = await this.findById(id);
+    const role = await Role.findByPk(id);
     if (!role) return null;
     return await role.destroy();
   }

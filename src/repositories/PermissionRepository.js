@@ -2,11 +2,11 @@ const IRepository = require("./IRepository");
 const Permission = require("../models/Permissions");
 
 class PermissionRepository extends IRepository {
-  async findAll() {
+  async getAll() {
     return await Permission.findAll();
   }
 
-  async findById(id) {
+  async getById(id) {
     return await Permission.findByPk(id);
   }
 
@@ -15,13 +15,13 @@ class PermissionRepository extends IRepository {
   }
 
   async update(id, data) {
-    const permission = await this.findById(id);
+    const permission = await Permission.findByPk(id);
     if (!permission) return null;
     return await permission.update(data);
   }
 
   async delete(id) {
-    const permission = await this.findById(id);
+    const permission = await Permission.findByPk(id);
     if (!permission) return null;
     return await permission.destroy();
   }

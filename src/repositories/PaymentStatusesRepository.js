@@ -2,11 +2,11 @@ const IRepository = require("./IRepository");
 const PaymentStatuses = require("../models/PaymentStatuses");
 
 class PaymentStatusesRepository extends IRepository {
-  async findAll() {
+  async getAll() {
     return await PaymentStatuses.findAll();
   }
 
-  async findById(id) {
+  async getById(id) {
     return await PaymentStatuses.findByPk(id);
   }
 
@@ -15,13 +15,13 @@ class PaymentStatusesRepository extends IRepository {
   }
 
   async update(id, data) {
-    const status = await this.findById(id);
+    const status = await PaymentStatuses.findByPk(id);
     if (!status) return null;
     return await status.update(data);
   }
 
   async delete(id) {
-    const status = await this.findById(id);
+    const status = await PaymentStatuses.findByPk(id);
     if (!status) return null;
     return await status.destroy();
   }

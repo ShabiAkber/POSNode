@@ -2,11 +2,11 @@ const IRepository = require("./IRepository");
 const OrderStatuses = require("../models/OrderStatuses");
 
 class OrderStatusesRepository extends IRepository {
-  async findAll() {
+  async getAll() {
     return await OrderStatuses.findAll();
   }
 
-  async findById(id) {
+  async getById(id) {
     return await OrderStatuses.findByPk(id);
   }
 
@@ -15,13 +15,13 @@ class OrderStatusesRepository extends IRepository {
   }
 
   async update(id, data) {
-    const orderStatus = await this.findById(id);
+    const orderStatus = await OrderStatuses.findByPk(id);
     if (!orderStatus) return null;
     return await orderStatus.update(data);
   }
 
   async delete(id) {
-    const orderStatus = await this.findById(id);
+    const orderStatus = await OrderStatuses.findByPk(id);
     if (!orderStatus) return null;
     return await orderStatus.destroy();
   }

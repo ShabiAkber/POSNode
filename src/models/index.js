@@ -28,6 +28,7 @@ const KitWiseCat = require("./KitWiseCats");
 const Inventory = require("./Inventories");
 const CashRegister = require("./CashRegisters");
 const CashTransaction = require("./CashTransactions");
+const TableDineIn = require("./TableDineIns");
 
 // Initialize models and database
 async function initializeModels() {
@@ -365,6 +366,17 @@ async function initializeModels() {
       as: "Branches"
     });
 
+    Branch.hasMany(TableDineIn, {
+      foreignKey: "Table_BranchFK",
+      as: "TableDineIns",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+    TableDineIn.belongsTo(Branch, {
+      foreignKey: "Table_BranchFK",
+      as: "Branches"
+    });
+
     // Role-Permission Relationship with NO ACTION
     Role.belongsToMany(Permission, {
       through: RolePermission,
@@ -420,6 +432,11 @@ async function initializeModels() {
       as: "OrderDetails",
       onDelete: 'NO ACTION',
       onUpdate: 'NO ACTION'
+    });
+
+    Order.belongsTo(TableDineIn, { 
+      foreignKey: "Ord_TableFK", 
+      as: "TableDineIns" 
     });
 
     // Define Relationships Order Detail
@@ -567,5 +584,13 @@ module.exports = {
   MenuVersion,
   MenuGroup,
   Category,
+  GenModifire,
+  GenAddon,
+  KitchenSection,
+  KitWiseCat,
+  Inventory,
+  CashRegister,
+  CashTransaction,
+  TableDineIn,
   initializeModels
 };
