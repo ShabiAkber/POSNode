@@ -3,31 +3,17 @@ const { sequelize } = require("../config/db");
 
 const Branch = require("./Branches");
 
-const GiftCardDetail = sequelize.define("GiftCardDetails", {
-  GiftCrd_PK: {
+const KitchenSection = sequelize.define("KitchenSections", {
+  KitSec_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
     allowNull: false,
   },
-  GiftCrdIss_Name: {
+  KitSec_Name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  GiftCrd_CrdNum: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  GiftCrd_ExpDate: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  GiftCrd_Bal: {
-    type: DataTypes.DOUBLE,
-    allowNull: false,
-    defaultValue: 0.0,
-  },
-  GiftCrd_BranchFK: {
+  KitSec_BranchFK: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
@@ -40,8 +26,8 @@ const GiftCardDetail = sequelize.define("GiftCardDetails", {
     defaultValue: false,
   },
 }, {
-  tableName: "GiftCardDetails",
+  tableName: "KitchenSections",
   timestamps: false,
 });
 
-module.exports = GiftCardDetail;
+module.exports = KitchenSection;

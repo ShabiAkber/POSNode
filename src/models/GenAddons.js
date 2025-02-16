@@ -1,33 +1,33 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
 
+const Category = require("./Categories");
 const Branch = require("./Branches");
 
-const GiftCardDetail = sequelize.define("GiftCardDetails", {
-  GiftCrd_PK: {
+const GenAddon = sequelize.define("GenAddons", {
+  GenAddon_PK: {
     type: DataTypes.STRING,
     primaryKey: true,
     allowNull: false,
   },
-  GiftCrdIss_Name: {
+  GenAddon_Name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  GiftCrd_CrdNum: {
+  GenAddon_CatFK: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    references: {
+      model: Category,
+      key: "Cat_PK"
+    }
   },
-  GiftCrd_ExpDate: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  GiftCrd_Bal: {
+  GenAddon_Price: {
     type: DataTypes.DOUBLE,
     allowNull: false,
-    defaultValue: 0.0,
+    defaultValue: 0,
   },
-  GiftCrd_BranchFK: {
+  GenAddon_BranchFK: {
     type: DataTypes.STRING,
     allowNull: false,
     references: {
@@ -40,8 +40,8 @@ const GiftCardDetail = sequelize.define("GiftCardDetails", {
     defaultValue: false,
   },
 }, {
-  tableName: "GiftCardDetails",
+  tableName: "GenAddons",
   timestamps: false,
 });
 
-module.exports = GiftCardDetail;
+module.exports = GenAddon;

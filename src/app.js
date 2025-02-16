@@ -37,6 +37,10 @@ const giftCardRoutes = require("./routes/giftCardDetailRoutes");
 const menuVersionRoutes = require("./routes/menuVersionRoutes");
 const menuGroupRoutes = require("./routes/menuGroupRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const genModifireRoutes = require("./routes/genModifireRoutes");
+const genAddonRoutes = require("./routes/genAddonRoutes");
+const kitchenSectionRoutes = require("./routes/kitchenSectionRoutes");
+const kitWiseCatRoutes = require("./routes/kitWiseCatRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/users", authMiddleware, userRoutes);
@@ -59,6 +63,10 @@ app.use("/api/gift-cards", authMiddleware, giftCardRoutes);
 app.use("/api/menuVersions", authMiddleware, menuVersionRoutes);
 app.use("/api/menuGroups", authMiddleware, menuGroupRoutes);
 app.use("/api/categories", authMiddleware, categoryRoutes);
+app.use("/api/genmodifires", authMiddleware, genModifireRoutes);
+app.use("/api/genaddons", authMiddleware, genAddonRoutes);
+app.use("/api/kitchensections", authMiddleware, kitchenSectionRoutes);
+app.use("/api/kitwisecats", authMiddleware, kitWiseCatRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);
