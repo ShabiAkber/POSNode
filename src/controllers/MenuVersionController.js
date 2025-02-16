@@ -5,7 +5,7 @@ class MenuVersionController {
     try {
       const menuVersions = await menuVersionService.getAll();
       res.json(menuVersions);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -16,7 +16,7 @@ class MenuVersionController {
       const menuVersion = await menuVersionService.getById(id);
       if (!menuVersion) return res.status(404).json({ message: "MenuVersion not found" });
       res.json(menuVersion);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -25,7 +25,7 @@ class MenuVersionController {
     try {
       const newMenuVersion = await menuVersionService.create(req.body);
       res.status(201).json(newMenuVersion);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -36,7 +36,7 @@ class MenuVersionController {
       const updatedMenuVersion = await menuVersionService.update(id, req.body);
       if (!updatedMenuVersion) return res.status(404).json({ message: "MenuVersion not found" });
       res.json(updatedMenuVersion);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -47,7 +47,7 @@ class MenuVersionController {
       const deletedMenuVersion = await menuVersionService.delete(id);
       if (!deletedMenuVersion) return res.status(404).json({ message: "MenuVersion not found" });
       res.json({ message: "MenuVersion deleted successfully" });
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }

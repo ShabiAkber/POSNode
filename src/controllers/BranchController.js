@@ -7,7 +7,7 @@ class BranchController {
       const branches = await BranchService.getAll();
       res.json(branches);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error); // Pass the error to errorMiddleware
     }
   }
 
@@ -17,7 +17,7 @@ class BranchController {
       if (!branch) return res.status(404).json({ message: "Branch not found" });
       res.json(branch);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error); // Pass the error to errorMiddleware
     }
   }
 
@@ -26,7 +26,7 @@ class BranchController {
       const branch = await BranchService.create(req.body);
       res.status(201).json(branch);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error); // Pass the error to errorMiddleware
     }
   }
 
@@ -35,7 +35,7 @@ class BranchController {
       const branch = await BranchService.update(req.params.id, req.body);
       res.json(branch);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error); // Pass the error to errorMiddleware
     }
   }
 
@@ -44,7 +44,7 @@ class BranchController {
       const result = await BranchService.delete(req.params.id);
       res.json(result);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error); // Pass the error to errorMiddleware
     }
   }
 }

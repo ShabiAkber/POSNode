@@ -5,7 +5,7 @@ class MenuGroupController {
     try {
       const menuGroups = await menuGroupService.getAll();
       res.json(menuGroups);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -16,7 +16,7 @@ class MenuGroupController {
       const menuGroup = await menuGroupService.getById(id);
       if (!menuGroup) return res.status(404).json({ message: "MenuGroup not found" });
       res.json(menuGroup);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -25,7 +25,7 @@ class MenuGroupController {
     try {
       const newMenuGroup = await menuGroupService.create(req.body);
       res.status(201).json(newMenuGroup);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -36,7 +36,7 @@ class MenuGroupController {
       const updatedMenuGroup = await menuGroupService.update(id, req.body);
       if (!updatedMenuGroup) return res.status(404).json({ message: "MenuGroup not found" });
       res.json(updatedMenuGroup);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -47,7 +47,7 @@ class MenuGroupController {
       const deletedMenuGroup = await menuGroupService.delete(id);
       if (!deletedMenuGroup) return res.status(404).json({ message: "MenuGroup not found" });
       res.json({ message: "MenuGroup deleted successfully" });
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
