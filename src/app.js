@@ -41,6 +41,7 @@ const genModifireRoutes = require("./routes/genModifireRoutes");
 const genAddonRoutes = require("./routes/genAddonRoutes");
 const kitchenSectionRoutes = require("./routes/kitchenSectionRoutes");
 const kitWiseCatRoutes = require("./routes/kitWiseCatRoutes");
+const inventoriesRoutes = require("./routes/inventoriesRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/users", authMiddleware, userRoutes);
@@ -67,6 +68,7 @@ app.use("/api/genmodifires", authMiddleware, genModifireRoutes);
 app.use("/api/genaddons", authMiddleware, genAddonRoutes);
 app.use("/api/kitchensections", authMiddleware, kitchenSectionRoutes);
 app.use("/api/kitwisecats", authMiddleware, kitWiseCatRoutes);
+app.use("/api/inventories", authMiddleware, inventoriesRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);

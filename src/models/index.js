@@ -24,8 +24,8 @@ const Category = require("./Categories");
 const GenModifire = require("./GenModifires");
 const GenAddon = require("./GenAddons");
 const KitchenSection = require("./KitchenSections");
-const KitWiseCat = require("./KitWiseCats")
-
+const KitWiseCat = require("./KitWiseCats");
+const Inventory = require("./Inventories");
 
 // Initialize models and database
 async function initializeModels() {
@@ -330,6 +330,17 @@ async function initializeModels() {
       as: "Branches"
     });
 
+    Branch.hasMany(Inventory, {
+      foreignKey: "Ivn_BranchFK",
+      as: "Inventories",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+    Inventory.belongsTo(Branch, {
+      foreignKey: "Ivn_BranchFK",
+      as: "Branches"
+    });
+
     // Role-Permission Relationship with NO ACTION
     Role.belongsToMany(Permission, {
       through: RolePermission,
@@ -463,13 +474,19 @@ async function initializeModels() {
     });
 
     // Define Relationships KIt Section
-    KitWiseCat.belongsTo(Category, { 
-      foreignKey: "KitSecCat_CatFK", 
+    KitWiseCat.belongsTo(Category, {
+      foreignKey: "KitSecCat_CatFK",
       as: "Categories",
     });
-    KitWiseCat.belongsTo(KitchenSection, { 
-      foreignKey: "KitSecCat_KitSecFK", 
+    KitWiseCat.belongsTo(KitchenSection, {
+      foreignKey: "KitSecCat_KitSecFK",
       as: "KitchenSection",
+    });
+
+    // Define Relationships Inventory
+    Inventory.belongsTo(Category, { 
+      foreignKey: "Inv_CatFK", 
+      as: "Categories" 
     });
 
     console.log("Model associations set up successfully!");
