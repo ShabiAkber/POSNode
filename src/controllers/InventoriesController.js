@@ -5,7 +5,7 @@ class InventoriesController {
     try {
       const inventories = await inventoriesService.getAll();
       res.json(inventories);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -16,7 +16,7 @@ class InventoriesController {
       const inventory = await inventoriesService.getById(id);
       if (!inventory) return res.status(404).json({ message: "Inventory not found" });
       res.json(inventory);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -25,7 +25,7 @@ class InventoriesController {
     try {
       const newInventory = await inventoriesService.create(req.body);
       res.status(201).json(newInventory);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -36,7 +36,7 @@ class InventoriesController {
       const updatedInventory = await inventoriesService.update(id, req.body);
       if (!updatedInventory) return res.status(404).json({ message: "Inventory not found" });
       res.json(updatedInventory);
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }
@@ -47,7 +47,7 @@ class InventoriesController {
       const deletedInventory = await inventoriesService.delete(id);
       if (!deletedInventory) return res.status(404).json({ message: "Inventory not found" });
       res.json({ message: "Inventory deleted successfully" });
-    } catch (err) {
+    } catch (error) {
       next(error); // Pass the error to errorMiddleware
     }
   }

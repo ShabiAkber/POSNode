@@ -42,6 +42,8 @@ const genAddonRoutes = require("./routes/genAddonRoutes");
 const kitchenSectionRoutes = require("./routes/kitchenSectionRoutes");
 const kitWiseCatRoutes = require("./routes/kitWiseCatRoutes");
 const inventoriesRoutes = require("./routes/inventoriesRoutes");
+const cashRegisterRoutes = require("./routes/cashRegisterRoutes");
+const cashTransactionRoutes = require("./routes/cashTransactionRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/users", authMiddleware, userRoutes);
@@ -69,6 +71,8 @@ app.use("/api/genaddons", authMiddleware, genAddonRoutes);
 app.use("/api/kitchensections", authMiddleware, kitchenSectionRoutes);
 app.use("/api/kitwisecats", authMiddleware, kitWiseCatRoutes);
 app.use("/api/inventories", authMiddleware, inventoriesRoutes);
+app.use("/api/cash-registers", authMiddleware, cashRegisterRoutes);
+app.use("/api/cash-transactions", authMiddleware, cashTransactionRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);

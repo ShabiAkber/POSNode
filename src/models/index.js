@@ -26,6 +26,8 @@ const GenAddon = require("./GenAddons");
 const KitchenSection = require("./KitchenSections");
 const KitWiseCat = require("./KitWiseCats");
 const Inventory = require("./Inventories");
+const CashRegister = require("./CashRegisters");
+const CashTransaction = require("./CashTransactions");
 
 // Initialize models and database
 async function initializeModels() {
@@ -341,6 +343,28 @@ async function initializeModels() {
       as: "Branches"
     });
 
+    Branch.hasMany(CashRegister, {
+      foreignKey: "CashReg_BranchFK",
+      as: "CashRegisters",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+    CashRegister.belongsTo(Branch, {
+      foreignKey: "CashReg_BranchFK",
+      as: "Branches"
+    });
+
+    Branch.hasMany(CashTransaction, {
+      foreignKey: "CashTrans_BranchFK",
+      as: "CashTransactions",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+    CashTransaction.belongsTo(Branch, {
+      foreignKey: "CashTrans_BranchFK",
+      as: "Branches"
+    });
+
     // Role-Permission Relationship with NO ACTION
     Role.belongsToMany(Permission, {
       through: RolePermission,
@@ -484,9 +508,23 @@ async function initializeModels() {
     });
 
     // Define Relationships Inventory
-    Inventory.belongsTo(Category, { 
-      foreignKey: "Inv_CatFK", 
-      as: "Categories" 
+    Inventory.belongsTo(Category, {
+      foreignKey: "Inv_CatFK",
+      as: "Categories"
+    });
+
+    // Define Associations Cash Transaction
+    CashTransaction.belongsTo(CashRegister, { 
+      foreignKey: "CashTrans_CashRegFK", 
+      as: "CashRegisters" 
+    });
+    CashTransaction.belongsTo(UserDetail, { 
+      foreignKey: "CashTrans_AuthUsrFK", 
+      as: "UserDetails" 
+    });
+    CashTransaction.belongsTo(UserDetail, { 
+      foreignKey: "CashTrans_UserFK", 
+      as: "UserDetails" 
     });
 
     console.log("Model associations set up successfully!");
