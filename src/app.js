@@ -45,6 +45,7 @@ const inventoriesRoutes = require("./routes/inventoriesRoutes");
 const cashRegisterRoutes = require("./routes/cashRegisterRoutes");
 const cashTransactionRoutes = require("./routes/cashTransactionRoutes");
 const tableDineInRoutes = require("./routes/tableDineInRoutes");
+const orderDealRoutes = require("./routes/orderDealRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/users", authMiddleware, userRoutes);
@@ -75,6 +76,7 @@ app.use("/api/inventories", authMiddleware, inventoriesRoutes);
 app.use("/api/cash-registers", authMiddleware, cashRegisterRoutes);
 app.use("/api/cash-transactions", authMiddleware, cashTransactionRoutes);
 app.use("/api/tabledineins", authMiddleware, tableDineInRoutes);
+app.use("/api/orderdeals", authMiddleware, orderDealRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);
