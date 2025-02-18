@@ -1,29 +1,33 @@
 const IRepository = require("./IRepository");
-const PaymentStatuses = require("../models/PaymentStatuses");
+const PaymentStatus = require("../models/PaymentStatuses");
 
 class PaymentStatusesRepository extends IRepository {
+  constructor() {
+    super(PaymentStatus);
+  }
+
   async getAll() {
-    return await PaymentStatuses.findAll();
+    return await PaymentStatus.findAll();
   }
 
   async getById(id) {
-    return await PaymentStatuses.findByPk(id);
+    return await PaymentStatus.findByPk(id);
   }
 
   async create(data) {
-    return await PaymentStatuses.create(data);
+    return await PaymentStatus.create(data);
   }
 
   async update(id, data) {
-    const status = await PaymentStatuses.findByPk(id);
+    const status = await PaymentStatus.findByPk(id);
     if (!status) return null;
     return await status.update(data);
   }
 
   async delete(id) {
-    const status = await PaymentStatuses.findByPk(id);
+    const status = await PaymentStatus.findByPk(id);
     if (!status) return null;
-    return await status.destroy();
+    return await status.update({ IsDeleted: true });
   }
 }
 

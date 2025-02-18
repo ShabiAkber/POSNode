@@ -1,31 +1,34 @@
 const IRepository = require("./IRepository");
-const { UserTypes } = require("../models");
+const UserType = require("../models/UserTypes");
 
 class UserTypeRepository extends IRepository {
+  constructor() {
+    super(UserType);
+  }
+
   async getAll() {
-    return await UserTypes.findAll();
+    return await UserType.findAll();
   }
 
   async getById(id) {
-    return await UserTypes.findByPk(id);
+    return await UserType.findByPk(id);
   }
 
   async create(data) {
-    return await UserTypes.create(data);
+    return await UserType.create(data);
   }
 
   async update(id, data) {
-    const userType = await UserTypes.findByPk(id);
+    const userType = await UserType.findByPk(id);
     if (!userType) return null;
     await userType.update(data);
     return userType;
   }
 
   async delete(id) {
-    const userType = await UserTypes.findByPk(id);
+    const userType = await UserType.findByPk(id);
     if (!userType) return null;
-    await userType.destroy();
-    return { message: "User Type deleted successfully" };
+    return await userType.update({ IsDeleted: true });
   }
 }
 

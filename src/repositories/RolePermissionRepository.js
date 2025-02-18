@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const RolePermission = require("../models/RolePermissions");
 
 class RolePermissionRepository extends IRepository {
+  constructor() {
+    super(RolePermission);
+  }
+
   async getAll() {
     return await RolePermission.findAll();
   }
@@ -23,7 +27,7 @@ class RolePermissionRepository extends IRepository {
   async delete(id) {
     const rolePermission = await RolePermission.findByPk(id);
     if (!rolePermission) return null;
-    return await rolePermission.destroy();
+    return await rolePermission.update({ IsDeleted: true });
   }
 }
 

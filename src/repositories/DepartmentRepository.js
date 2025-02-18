@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const { Department } = require("../models/Departments");
 
 class DepartmentRepository extends IRepository {
+  constructor() {
+    super(Department);
+  }
+
   async getAll() {
     return await Department.findAll();
   }
@@ -23,8 +27,7 @@ class DepartmentRepository extends IRepository {
   async delete(id) {
     const department = await this.getById(id);
     if (!department) return null;
-    await department.destroy();
-    return { message: "Department deleted successfully" };
+    return await department.update({ IsDeleted: true });
   }
 }
 

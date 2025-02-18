@@ -1,5 +1,6 @@
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("../config/db");
+const { sequelize, Sequelize } = require("../config/db");
+const { DataTypes } = Sequelize;
+
 const Branch = require("./Branches");
 
 const PaymentType = sequelize.define("PaymentTypes", {

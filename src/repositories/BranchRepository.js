@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const { Branch } = require("../models/Branches");
 
 class BranchRepository extends IRepository {
+  constructor() {
+    super(Branch);
+  }
+
   async getAll() {
     return await Branch.findAll();
   }
@@ -23,8 +27,7 @@ class BranchRepository extends IRepository {
   async delete(id) {
     const branch = await Branch.findByPk(id);
     if (!branch) throw new Error("Branch not found");
-    await branch.destroy();
-    return { message: "Branch deleted successfully" };
+    return await branch.update({ IsDeleted: true });
   }
 }
 

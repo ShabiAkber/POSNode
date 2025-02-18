@@ -3,17 +3,16 @@ const OrderDetail = require("../models/OrderDetails");
 const IRepository = require("./IRepository");
 
 class VoucherCardDetailRepository extends IRepository {
+  constructor() {
+    super(VoucherCardDetail);
+  }
+
   async getAll() {
-    return await VoucherCardDetail.findAll({
-      where: { IsDeleted: false },
-      include: [{ model: OrderDetail, as: "OrderDetails" }],
-    });
+    return await VoucherCardDetail.findAll();
   }
 
   async getById(id) {
-    return await VoucherCardDetail.findByPk(id, {
-      include: [{ model: OrderDetail, as: "OrderDetails" }],
-    });
+    return await VoucherCardDetail.findByPk(id);
   }
 
   async create(data) {

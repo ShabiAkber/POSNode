@@ -2,9 +2,13 @@ const IRepository = require("./IRepository");
 const TableDineIn = require("../models/TableDineIns");
 
 class TableDineInRepository extends IRepository {
-    async getAll() {
-      return await TableDineIn.findAll();
-    }
+  constructor() {
+    super(TableDineIn);
+  }
+
+  async getAll() {
+    return await TableDineIn.findAll();
+  }
   
     async getById(id) {
       return await TableDineIn.findByPk(id);
@@ -23,8 +27,8 @@ class TableDineInRepository extends IRepository {
     async delete(id) {
       const tableDineIn = await TableDineIn.findByPk(id);
       if (!tableDineIn) return null;
-      return await tableDineIn.destroy();
-    }
+    return await tableDineIn.update({ IsDeleted: true });
   }
-  
+}
+
   module.exports = new TableDineInRepository();

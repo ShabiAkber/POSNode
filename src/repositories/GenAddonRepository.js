@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const GenAddon = require("../models/GenAddons");
 
 class GenAddonRepository extends IRepository {
+  constructor() {
+    super(GenAddon);
+  }
+
   async getAll() {
     return await GenAddon.findAll({ where: { IsDeleted: false } });
   }

@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const CashTransaction = require("../models/CashTransactions");
 
 class CashTransactionRepository extends IRepository {
+  constructor() {
+    super(CashTransaction);
+  }
+
   async getAll() {
     return await CashTransaction.findAll();
   }
@@ -23,7 +27,7 @@ class CashTransactionRepository extends IRepository {
   async delete(id) {
     const cashTransaction = await CashTransaction.findByPk(id);
     if (!cashTransaction) return null;
-    return await cashTransaction.destroy();
+    return await cashTransaction.update({ IsDeleted: true });
   }
 }
 

@@ -1,19 +1,19 @@
 const GiftCardDetail = require("../models/GiftCardDetails");
-const OrderDetail = require("../models/OrderDetails");
 const IRepository = require("./IRepository");
 
+const OrderDetail = require("../models/OrderDetails");
+
 class GiftCardDetailRepository extends IRepository {
+  constructor() {
+    super(GiftCardDetail);
+  }
+
   async getAll() {
-    return await GiftCardDetail.findAll({
-      where: { IsDeleted: false },
-      include: [{ model: OrderDetail, as: "OrderDetails" }],
-    });
+    return await GiftCardDetail.findAll({ where: { IsDeleted: false } });
   }
 
   async getById(id) {
-    return await GiftCardDetail.findByPk(id, {
-      include: [{ model: OrderDetail, as: "OrderDetails" }],
-    });
+    return await GiftCardDetail.findByPk(id);
   }
 
   async create(data) {

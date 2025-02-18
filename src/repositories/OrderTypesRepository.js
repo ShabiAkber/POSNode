@@ -1,29 +1,33 @@
 const IRepository = require("./IRepository");
-const OrderTypes = require("../models/OrderTypes");
+const OrderType = require("../models/OrderTypes");
 
 class OrderTypesRepository extends IRepository {
+  constructor() {
+    super(OrderType);
+  }
+
   async getAll() {
-    return await OrderTypes.findAll();
+    return await OrderType.findAll();
   }
 
   async getById(id) {
-    return await OrderTypes.findByPk(id);
+    return await OrderType.findByPk(id);
   }
 
   async create(data) {
-    return await OrderTypes.create(data);
+    return await OrderType.create(data);
   }
 
   async update(id, data) {
-    const orderType = await OrderTypes.findByPk(id);
+    const orderType = await OrderType.findByPk(id);
     if (!orderType) return null;
     return await orderType.update(data);
   }
 
   async delete(id) {
-    const orderType = await OrderTypes.findByPk(id);
+    const orderType = await OrderType.findByPk(id);
     if (!orderType) return null;
-    return await orderType.destroy();
+    return await orderType.update({ IsDeleted: true });
   }
 }
 

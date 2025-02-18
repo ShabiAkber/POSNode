@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const MenuGroup = require("../models/MenuGroups");
 
 class MenuGroupRepository extends IRepository {
+  constructor() {
+    super(MenuGroup);
+  }
+
   async getAll() {
     return await MenuGroup.findAll({ where: { IsDeleted: false } });
   }

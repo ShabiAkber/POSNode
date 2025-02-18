@@ -2,11 +2,15 @@ const IRepository = require("./IRepository");
 const UserRole = require("../models/UserRoles");
 
 class UserRoleRepository extends IRepository {
-  async findAll() {
+  constructor() {
+    super(UserRole);
+  }
+
+  async getAll() {
     return await UserRole.findAll();
   }
 
-  async findById(id) {
+  async getById(id) {
     return await UserRole.findByPk(id);
   }
 
@@ -15,15 +19,15 @@ class UserRoleRepository extends IRepository {
   }
 
   async update(id, data) {
-    const userRole = await this.findById(id);
+    const userRole = await UserRole.findByPk(id);
     if (!userRole) return null;
     return await userRole.update(data);
   }
 
   async delete(id) {
-    const userRole = await this.findById(id);
+    const userRole = await UserRole.findByPk(id);
     if (!userRole) return null;
-    return await userRole.destroy();
+    return await userRole.update({ IsDeleted: true });
   }
 }
 

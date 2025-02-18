@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const CashRegister = require("../models/CashRegisters");
 
 class CashRegisterRepository extends IRepository {
+  constructor() {
+    super(CashRegister);
+  }
+
   async getAll() {
     return await CashRegister.findAll({ where: { IsDeleted: false } });
   }

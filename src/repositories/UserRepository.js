@@ -1,30 +1,33 @@
 const IRepository = require("./IRepository");
-const { UserDetails } = require("../models");
+const UserDetail = require("../models/UserDetails");
 
 class UserRepository extends IRepository {
+  constructor() {
+    super(UserDetail);
+  }
+
   async getAll() {
-    return await UserDetails.findAll();
+    return await UserDetail.findAll();
   }
 
   async getById(id) {
-    return await UserDetails.findByPk(id);
+    return await UserDetail.findByPk(id);
   }
 
   async create(data) {
-    return await UserDetails.create(data);
+    return await UserDetail.create(data);
   }
 
   async update(id, data) {
-    const user = await this.getById(id);
+    const user = await UserDetail.findByPk(id);
     if (!user) return null;
     return await user.update(data);
   }
 
   async delete(id) {
-    const user = await this.getById(id);
+    const user = await UserDetail.findByPk(id);
     if (!user) return null;
-    await user.destroy();
-    return { message: "User deleted successfully" };
+    return await user.update({ IsDeleted: true });
   }
 }
 

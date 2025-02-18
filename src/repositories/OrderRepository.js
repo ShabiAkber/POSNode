@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const Order = require("../models/Orders");
 
 class OrderRepository extends IRepository {
+  constructor() {
+    super(Order);
+  }
+
   async getAll() {
     return await Order.findAll();
   }
@@ -23,7 +27,7 @@ class OrderRepository extends IRepository {
   async delete(id) {
     const order = await Order.findByPk(id);
     if (!order) return null;
-    return await order.destroy();
+    return await order.update({ IsDeleted: true });
   }
 }
 

@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const Permission = require("../models/Permissions");
 
 class PermissionRepository extends IRepository {
+  constructor() {
+    super(Permission);
+  }
+
   async getAll() {
     return await Permission.findAll();
   }
@@ -23,7 +27,7 @@ class PermissionRepository extends IRepository {
   async delete(id) {
     const permission = await Permission.findByPk(id);
     if (!permission) return null;
-    return await permission.destroy();
+    return await permission.update({ IsDeleted: true });
   }
 }
 

@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const GenModifire = require("../models/GenModifires");
 
 class GenModifireRepository extends IRepository {
+  constructor() {
+    super(GenModifire);
+  }
+
   async getAll() {
     return await GenModifire.findAll({ where: { IsDeleted: false } });
   }

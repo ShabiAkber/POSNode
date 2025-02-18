@@ -1,20 +1,31 @@
 class IRepository {
-    getAll() {
-      throw new Error("Method not implemented.");
-    }
-    getById(id) {
-      throw new Error("Method not implemented.");
-    }
-    create(data) {
-      throw new Error("Method not implemented.");
-    }
-    update(id, data) {
-      throw new Error("Method not implemented.");
-    }
-    delete(id) {
-      throw new Error("Method not implemented.");
-    }
+  constructor(model) {
+    this.model = model;
   }
-  
-  module.exports = IRepository;
-  
+
+  async getAll() {
+    return await this.model.findAll();
+  }
+
+  async getById(id) {
+    return await this.model.findByPk(id);
+  }
+
+  async create(data) {
+    return await this.model.create(data);
+  }
+
+  async update(id, data) {
+    const record = await this.model.findByPk(id);
+    if (!record) return null;
+    return await record.update(data);
+  }
+
+  async delete(id) {
+    const record = await this.model.findByPk(id);
+    if (!record) return null;
+    return await record.destroy();
+  }
+}
+
+module.exports = IRepository;

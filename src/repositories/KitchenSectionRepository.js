@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const KitchenSection = require("../models/KitchenSections");
 
 class KitchenSectionRepository extends IRepository {
+  constructor() {
+    super(KitchenSection);
+  }
+
   async getAll() {
     return await KitchenSection.findAll({ where: { IsDeleted: false } });
   }

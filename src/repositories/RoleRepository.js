@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const Role = require("../models/Roles");
 
 class RoleRepository extends IRepository {
+  constructor() {
+    super(Role);
+  }
+
   async getAll() {
     return await Role.findAll();
   }
@@ -23,7 +27,7 @@ class RoleRepository extends IRepository {
   async delete(id) {
     const role = await Role.findByPk(id);
     if (!role) return null;
-    return await role.destroy();
+    return await role.update({ IsDeleted: true });
   }
 }
 

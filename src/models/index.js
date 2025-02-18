@@ -29,8 +29,11 @@ const Inventory = require("./Inventories");
 const CashRegister = require("./CashRegisters");
 const CashTransaction = require("./CashTransactions");
 const TableDineIn = require("./TableDineIns");
+const OrderDeal = require("./OrderDeals");
+const OrderDealProduct = require("./OrderDealProducts");
+const OrderDealCategory = require("./OrderDealCategories");
 
-// Initialize models and database
+// Initialize models and database 
 async function initializeModels() {
   try {
     console.log("Connecting to DB...");
@@ -544,7 +547,29 @@ async function initializeModels() {
       as: "UserDetails" 
     });
 
-    console.log("Model associations set up successfully!");
+    // Define Relationships Order Deal
+    OrderDeal.hasMany(OrderDealProduct, { 
+      foreignKey: "DealProduct_DealFK", 
+      as: "OrderDealProducts",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION' 
+    });
+    OrderDeal.hasMany(OrderDealCategory, { 
+      foreignKey: "DealCat_DealFK", 
+      as: "OrderDealCategories",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION' 
+    });
+
+    OrderDealProduct.belongsTo(OrderDeal, { 
+      foreignKey: "DealProduct_DealFK",
+      as: "Deals",
+    });
+
+    OrderDealCategory.belongsTo(OrderDeal, {
+      foreignKey: "DealFK",
+      as: "Deals",
+    });
 
     // Sync models with database
     console.log("Syncing models with database...");
@@ -592,5 +617,8 @@ module.exports = {
   CashRegister,
   CashTransaction,
   TableDineIn,
+  OrderDeal,
+  OrderDealProduct,
+  OrderDealCategory,
   initializeModels
 };

@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const { WageType } = require("../models");
 
 class WageTypeRepository extends IRepository {
+  constructor() {
+    super(WageType);
+  }
+
   async getAll() {
     return await WageType.findAll();
   }
@@ -24,8 +28,7 @@ class WageTypeRepository extends IRepository {
   async delete(id) {
     const wageType = await WageType.findByPk(id);
     if (!wageType) return null;
-    await wageType.destroy();
-    return { message: "Wage Type deleted successfully" };
+    return await wageType.update({ IsDeleted: true });
   }
 }
 

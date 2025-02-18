@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const KitWiseCat = require("../models/KitWiseCats");
 
 class KitWiseCatRepository extends IRepository {
+  constructor() {
+    super(KitWiseCat);
+  }
+
   async getAll() {
     return await KitWiseCat.findAll({ where: { IsDeleted: false }, include: ["Category", "KitchenSection"] });
   }

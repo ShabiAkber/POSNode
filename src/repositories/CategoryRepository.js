@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const Category = require("../models/Categories");
 
 class CategoryRepository extends IRepository {
+  constructor() {
+    super(Category);
+  }
+
   async getAll() {
     return await Category.findAll({ where: { IsDeleted: false } });
   }

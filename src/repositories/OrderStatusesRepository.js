@@ -1,29 +1,33 @@
 const IRepository = require("./IRepository");
-const OrderStatuses = require("../models/OrderStatuses");
+const OrderStatus = require("../models/OrderStatuses");
 
 class OrderStatusesRepository extends IRepository {
+  constructor() {
+    super(OrderStatus);
+  }
+
   async getAll() {
-    return await OrderStatuses.findAll();
+    return await OrderStatus.findAll();
   }
 
   async getById(id) {
-    return await OrderStatuses.findByPk(id);
+    return await OrderStatus.findByPk(id);
   }
 
   async create(data) {
-    return await OrderStatuses.create(data);
+    return await OrderStatus.create(data);
   }
 
   async update(id, data) {
-    const orderStatus = await OrderStatuses.findByPk(id);
+    const orderStatus = await OrderStatus.findByPk(id);
     if (!orderStatus) return null;
     return await orderStatus.update(data);
   }
 
   async delete(id) {
-    const orderStatus = await OrderStatuses.findByPk(id);
+    const orderStatus = await OrderStatus.findByPk(id);
     if (!orderStatus) return null;
-    return await orderStatus.destroy();
+    return await orderStatus.update({ IsDeleted: true });
   }
 }
 

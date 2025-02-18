@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const MenuVersion = require("../models/MenuVersions");
 
 class MenuVersionRepository extends IRepository {
+  constructor() {
+    super(MenuVersion);
+  }
+
   async getAll() {
     return await MenuVersion.findAll({ where: { IsDeleted: false } });
   }

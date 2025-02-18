@@ -2,6 +2,10 @@ const IRepository = require("./IRepository");
 const Inventories = require("../models/Inventories");
 
 class InventoriesRepository extends IRepository {
+  constructor() {
+    super(Inventories);
+  }
+
   async getAll() {
     return await Inventories.findAll({ where: { IsDeleted: false }, include: ["Categories"] });
   }
