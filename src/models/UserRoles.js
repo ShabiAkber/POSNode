@@ -44,4 +44,29 @@ const UserRole = sequelize.define("UserRoles", {
   timestamps: false,
 });
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserRole:
+ *       type: object
+ *       properties:
+ *         UR_PK:
+ *           type: string
+ *           description: Unique identifier for the user-role mapping
+ *         UR_UserFK:
+ *           type: string
+ *           description: Reference to user
+ *         UR_RoleFK:
+ *           type: string
+ *           description: Reference to role
+ *         IsDeleted:
+ *           type: boolean
+ *           description: Soft delete flag
+ *       required:
+ *         - UR_PK
+ *         - UR_UserFK
+ *         - UR_RoleFK
+ */
+
 module.exports = UserRole;

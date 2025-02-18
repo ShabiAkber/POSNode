@@ -1,6 +1,35 @@
 const { sequelize, Sequelize } = require("../config/db");
 const { DataTypes } = Sequelize;
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     BranchInput:
+ *       type: object
+ *       properties:
+ *         Branch_Name:
+ *           type: string
+ *           example: "Main Branch"
+ *         Branch_Address:
+ *           type: string
+ *           example: "123 Main St"
+ *         Branch_City:
+ *           type: string
+ *           example: "New York"
+ *         Branch_State:
+ *           type: string
+ *           example: "NY"
+ *         Branch_Country:
+ *           type: string
+ *           example: "USA"
+ *         IsActive:
+ *           type: boolean
+ *           example: true
+ *       required:
+ *         - Branch_Name
+ */
+
 const Branch = sequelize.define("Branches", {
   Branch_PK: {
     type: DataTypes.STRING,

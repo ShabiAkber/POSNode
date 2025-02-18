@@ -1,20 +1,20 @@
-const UserTypeService = require("../services/UserTypeService");
+const OrderStatusService = require("../services/OrderStatusService");
 
 /**
  * @swagger
  * tags:
- *   name: UserTypes
- *   description: User type management endpoints
+ *   name: OrderStatuses
+ *   description: Order status management endpoints
  * 
- * /api/usertypes:
+ * /api/order-statuses:
  *   get:
- *     summary: Get all user types
- *     tags: [UserTypes]
+ *     summary: Get all order statuses
+ *     tags: [OrderStatuses]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: List of all user types
+ *         description: List of all order statuses
  *         content:
  *           application/json:
  *             schema:
@@ -26,7 +26,7 @@ const UserTypeService = require("../services/UserTypeService");
  *                 data:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/UserType'
+ *                     $ref: '#/components/schemas/OrderStatus'
  *       401:
  *         description: Unauthorized
  *         $ref: '#/components/schemas/Error'
@@ -35,8 +35,8 @@ const UserTypeService = require("../services/UserTypeService");
  *         $ref: '#/components/schemas/Error'
  * 
  *   post:
- *     summary: Create a new user type
- *     tags: [UserTypes]
+ *     summary: Create a new order status
+ *     tags: [OrderStatuses]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -46,14 +46,14 @@ const UserTypeService = require("../services/UserTypeService");
  *           schema:
  *             type: object
  *             properties:
- *               UsrT_Name:
+ *               OrdS_Name:
  *                 type: string
- *                 example: "Manager"
+ *                 example: "Pending"
  *             required:
- *               - UsrT_Name
+ *               - OrdS_Name
  *     responses:
  *       201:
- *         description: User type created successfully
+ *         description: Order status created successfully
  *         content:
  *           application/json:
  *             schema:
@@ -63,7 +63,7 @@ const UserTypeService = require("../services/UserTypeService");
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   $ref: '#/components/schemas/UserType'
+ *                   $ref: '#/components/schemas/OrderStatus'
  *       400:
  *         description: Invalid input
  *         $ref: '#/components/schemas/Error'
@@ -71,10 +71,10 @@ const UserTypeService = require("../services/UserTypeService");
  *         description: Unauthorized
  *         $ref: '#/components/schemas/Error'
  * 
- * /api/usertypes/{id}:
+ * /api/order-statuses/{id}:
  *   get:
- *     summary: Get user type by ID
- *     tags: [UserTypes]
+ *     summary: Get order status by ID
+ *     tags: [OrderStatuses]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -83,10 +83,10 @@ const UserTypeService = require("../services/UserTypeService");
  *         required: true
  *         schema:
  *           type: string
- *         description: User Type ID
+ *         description: Order Status ID
  *     responses:
  *       200:
- *         description: User type details retrieved successfully
+ *         description: Order status details retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -96,14 +96,14 @@ const UserTypeService = require("../services/UserTypeService");
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   $ref: '#/components/schemas/UserType'
+ *                   $ref: '#/components/schemas/OrderStatus'
  *       404:
- *         description: User type not found
+ *         description: Order status not found
  *         $ref: '#/components/schemas/Error'
  * 
  *   put:
- *     summary: Update user type
- *     tags: [UserTypes]
+ *     summary: Update order status
+ *     tags: [OrderStatuses]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -112,7 +112,7 @@ const UserTypeService = require("../services/UserTypeService");
  *         required: true
  *         schema:
  *           type: string
- *         description: User Type ID
+ *         description: Order Status ID
  *     requestBody:
  *       required: true
  *       content:
@@ -120,12 +120,12 @@ const UserTypeService = require("../services/UserTypeService");
  *           schema:
  *             type: object
  *             properties:
- *               UsrT_Name:
+ *               OrdS_Name:
  *                 type: string
- *                 example: "Senior Manager"
+ *                 example: "Completed"
  *     responses:
  *       200:
- *         description: User type updated successfully
+ *         description: Order status updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -135,14 +135,14 @@ const UserTypeService = require("../services/UserTypeService");
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   $ref: '#/components/schemas/UserType'
+ *                   $ref: '#/components/schemas/OrderStatus'
  *       404:
- *         description: User type not found
+ *         description: Order status not found
  *         $ref: '#/components/schemas/Error'
  * 
  *   delete:
- *     summary: Delete user type
- *     tags: [UserTypes]
+ *     summary: Delete order status
+ *     tags: [OrderStatuses]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -151,10 +151,10 @@ const UserTypeService = require("../services/UserTypeService");
  *         required: true
  *         schema:
  *           type: string
- *         description: User Type ID
+ *         description: Order Status ID
  *     responses:
  *       200:
- *         description: User type deleted successfully
+ *         description: Order status deleted successfully
  *         content:
  *           application/json:
  *             schema:
@@ -165,19 +165,19 @@ const UserTypeService = require("../services/UserTypeService");
  *                   example: true
  *                 message:
  *                   type: string
- *                   example: "User type deleted successfully"
+ *                   example: "Order status deleted successfully"
  *       404:
- *         description: User type not found
+ *         description: Order status not found
  *         $ref: '#/components/schemas/Error'
  */
 
-class UserTypeController {
+class OrderStatusController {
   async getAll(req, res, next) {
     try {
-      const userTypes = await UserTypeService.getAll();
+      const orderStatuses = await OrderStatusService.getAll();
       res.json({
         success: true,
-        data: userTypes
+        data: orderStatuses
       });
     } catch (error) {
       next(error);
@@ -186,16 +186,16 @@ class UserTypeController {
 
   async getById(req, res, next) {
     try {
-      const userType = await UserTypeService.getById(req.params.id);
-      if (!userType) {
+      const orderStatus = await OrderStatusService.getById(req.params.id);
+      if (!orderStatus) {
         return res.status(404).json({
           success: false,
-          message: "User type not found"
+          message: "Order status not found"
         });
       }
       res.json({
         success: true,
-        data: userType
+        data: orderStatus
       });
     } catch (error) {
       next(error);
@@ -204,10 +204,10 @@ class UserTypeController {
 
   async create(req, res, next) {
     try {
-      const userType = await UserTypeService.create(req.body);
+      const orderStatus = await OrderStatusService.create(req.body);
       res.status(201).json({
         success: true,
-        data: userType
+        data: orderStatus
       });
     } catch (error) {
       next(error);
@@ -216,16 +216,16 @@ class UserTypeController {
 
   async update(req, res, next) {
     try {
-      const userType = await UserTypeService.update(req.params.id, req.body);
-      if (!userType) {
+      const orderStatus = await OrderStatusService.update(req.params.id, req.body);
+      if (!orderStatus) {
         return res.status(404).json({
           success: false,
-          message: "User type not found"
+          message: "Order status not found"
         });
       }
       res.json({
         success: true,
-        data: userType
+        data: orderStatus
       });
     } catch (error) {
       next(error);
@@ -234,16 +234,16 @@ class UserTypeController {
 
   async delete(req, res, next) {
     try {
-      const result = await UserTypeService.delete(req.params.id);
+      const result = await OrderStatusService.delete(req.params.id);
       if (!result) {
         return res.status(404).json({
           success: false,
-          message: "User type not found"
+          message: "Order status not found"
         });
       }
       res.json({
         success: true,
-        message: "User type deleted successfully"
+        message: "Order status deleted successfully"
       });
     } catch (error) {
       next(error);
@@ -251,4 +251,4 @@ class UserTypeController {
   }
 }
 
-module.exports = new UserTypeController();
+module.exports = new OrderStatusController(); 

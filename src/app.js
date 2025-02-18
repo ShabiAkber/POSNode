@@ -1,4 +1,6 @@
 const express = require("express");
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
 const authMiddleware = require("./middlewares/authMiddleware");
 const corsMiddleware = require("./middlewares/corsMiddleware");
 const errorMiddleware = require("./middlewares/errorMiddleware");
@@ -8,6 +10,15 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+
+// Swagger Documentation - must be before other routes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  swaggerOptions: {
+    persistAuthorization: true
+  },
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "POS API Documentation"
+}));
 
 // ✅ Enable CORS
 app.use(corsMiddleware);

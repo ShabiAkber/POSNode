@@ -83,4 +83,47 @@ const Order = sequelize.define("Orders", {
   timestamps: false,
 });
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Order:
+ *       type: object
+ *       properties:
+ *         Ord_PK:
+ *           type: string
+ *           description: Unique identifier for the order
+ *         Ord_UserFK:
+ *           type: string
+ *           description: Reference to user who created the order
+ *         Ord_BranchFK:
+ *           type: string
+ *           description: Reference to branch where order was placed
+ *         Ord_TypeFK:
+ *           type: string
+ *           description: Reference to order type
+ *         Ord_StatusFK:
+ *           type: string
+ *           description: Reference to order status
+ *         Ord_TotalAmount:
+ *           type: number
+ *           description: Total amount of the order
+ *         Ord_PaymentTypeFK:
+ *           type: string
+ *           description: Reference to payment type
+ *         Ord_PaymentStatusFK:
+ *           type: string
+ *           description: Reference to payment status
+ *         Ord_Date:
+ *           type: string
+ *           format: date-time
+ *           description: Date and time when order was created
+ *       required:
+ *         - Ord_PK
+ *         - Ord_UserFK
+ *         - Ord_BranchFK
+ *         - Ord_TypeFK
+ *         - Ord_StatusFK
+ */
+
 module.exports = Order;

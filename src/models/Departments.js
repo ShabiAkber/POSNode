@@ -30,4 +30,28 @@ const Department = sequelize.define("Departments", {
   timestamps: false,
 });
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Department:
+ *       type: object
+ *       properties:
+ *         Dept_PK:
+ *           type: string
+ *           description: Unique identifier for the department
+ *         Dept_Name:
+ *           type: string
+ *           description: Name of the department
+ *         Dept_Description:
+ *           type: string
+ *           description: Description of the department
+ *         IsActive:
+ *           type: boolean
+ *           description: Department active status
+ *       required:
+ *         - Dept_PK
+ *         - Dept_Name
+ */
+
 module.exports = Department;

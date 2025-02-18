@@ -1,20 +1,20 @@
-const UserTypeService = require("../services/UserTypeService");
+const PaymentTypeService = require("../services/PaymentTypeService");
 
 /**
  * @swagger
  * tags:
- *   name: UserTypes
- *   description: User type management endpoints
+ *   name: PaymentTypes
+ *   description: Payment type management endpoints
  * 
- * /api/usertypes:
+ * /api/payment-types:
  *   get:
- *     summary: Get all user types
- *     tags: [UserTypes]
+ *     summary: Get all payment types
+ *     tags: [PaymentTypes]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: List of all user types
+ *         description: List of all payment types
  *         content:
  *           application/json:
  *             schema:
@@ -26,7 +26,7 @@ const UserTypeService = require("../services/UserTypeService");
  *                 data:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/UserType'
+ *                     $ref: '#/components/schemas/PaymentType'
  *       401:
  *         description: Unauthorized
  *         $ref: '#/components/schemas/Error'
@@ -35,8 +35,8 @@ const UserTypeService = require("../services/UserTypeService");
  *         $ref: '#/components/schemas/Error'
  * 
  *   post:
- *     summary: Create a new user type
- *     tags: [UserTypes]
+ *     summary: Create a new payment type
+ *     tags: [PaymentTypes]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -46,14 +46,14 @@ const UserTypeService = require("../services/UserTypeService");
  *           schema:
  *             type: object
  *             properties:
- *               UsrT_Name:
+ *               PayT_Name:
  *                 type: string
- *                 example: "Manager"
+ *                 example: "Credit Card"
  *             required:
- *               - UsrT_Name
+ *               - PayT_Name
  *     responses:
  *       201:
- *         description: User type created successfully
+ *         description: Payment type created successfully
  *         content:
  *           application/json:
  *             schema:
@@ -63,7 +63,7 @@ const UserTypeService = require("../services/UserTypeService");
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   $ref: '#/components/schemas/UserType'
+ *                   $ref: '#/components/schemas/PaymentType'
  *       400:
  *         description: Invalid input
  *         $ref: '#/components/schemas/Error'
@@ -71,10 +71,10 @@ const UserTypeService = require("../services/UserTypeService");
  *         description: Unauthorized
  *         $ref: '#/components/schemas/Error'
  * 
- * /api/usertypes/{id}:
+ * /api/payment-types/{id}:
  *   get:
- *     summary: Get user type by ID
- *     tags: [UserTypes]
+ *     summary: Get payment type by ID
+ *     tags: [PaymentTypes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -83,10 +83,10 @@ const UserTypeService = require("../services/UserTypeService");
  *         required: true
  *         schema:
  *           type: string
- *         description: User Type ID
+ *         description: Payment Type ID
  *     responses:
  *       200:
- *         description: User type details retrieved successfully
+ *         description: Payment type details retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -96,14 +96,14 @@ const UserTypeService = require("../services/UserTypeService");
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   $ref: '#/components/schemas/UserType'
+ *                   $ref: '#/components/schemas/PaymentType'
  *       404:
- *         description: User type not found
+ *         description: Payment type not found
  *         $ref: '#/components/schemas/Error'
  * 
  *   put:
- *     summary: Update user type
- *     tags: [UserTypes]
+ *     summary: Update payment type
+ *     tags: [PaymentTypes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -112,7 +112,7 @@ const UserTypeService = require("../services/UserTypeService");
  *         required: true
  *         schema:
  *           type: string
- *         description: User Type ID
+ *         description: Payment Type ID
  *     requestBody:
  *       required: true
  *       content:
@@ -120,12 +120,12 @@ const UserTypeService = require("../services/UserTypeService");
  *           schema:
  *             type: object
  *             properties:
- *               UsrT_Name:
+ *               PayT_Name:
  *                 type: string
- *                 example: "Senior Manager"
+ *                 example: "Debit Card"
  *     responses:
  *       200:
- *         description: User type updated successfully
+ *         description: Payment type updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -135,14 +135,14 @@ const UserTypeService = require("../services/UserTypeService");
  *                   type: boolean
  *                   example: true
  *                 data:
- *                   $ref: '#/components/schemas/UserType'
+ *                   $ref: '#/components/schemas/PaymentType'
  *       404:
- *         description: User type not found
+ *         description: Payment type not found
  *         $ref: '#/components/schemas/Error'
  * 
  *   delete:
- *     summary: Delete user type
- *     tags: [UserTypes]
+ *     summary: Delete payment type
+ *     tags: [PaymentTypes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -151,10 +151,10 @@ const UserTypeService = require("../services/UserTypeService");
  *         required: true
  *         schema:
  *           type: string
- *         description: User Type ID
+ *         description: Payment Type ID
  *     responses:
  *       200:
- *         description: User type deleted successfully
+ *         description: Payment type deleted successfully
  *         content:
  *           application/json:
  *             schema:
@@ -165,19 +165,19 @@ const UserTypeService = require("../services/UserTypeService");
  *                   example: true
  *                 message:
  *                   type: string
- *                   example: "User type deleted successfully"
+ *                   example: "Payment type deleted successfully"
  *       404:
- *         description: User type not found
+ *         description: Payment type not found
  *         $ref: '#/components/schemas/Error'
  */
 
-class UserTypeController {
+class PaymentTypeController {
   async getAll(req, res, next) {
     try {
-      const userTypes = await UserTypeService.getAll();
+      const paymentTypes = await PaymentTypeService.getAll();
       res.json({
         success: true,
-        data: userTypes
+        data: paymentTypes
       });
     } catch (error) {
       next(error);
@@ -186,16 +186,16 @@ class UserTypeController {
 
   async getById(req, res, next) {
     try {
-      const userType = await UserTypeService.getById(req.params.id);
-      if (!userType) {
+      const paymentType = await PaymentTypeService.getById(req.params.id);
+      if (!paymentType) {
         return res.status(404).json({
           success: false,
-          message: "User type not found"
+          message: "Payment type not found"
         });
       }
       res.json({
         success: true,
-        data: userType
+        data: paymentType
       });
     } catch (error) {
       next(error);
@@ -204,10 +204,10 @@ class UserTypeController {
 
   async create(req, res, next) {
     try {
-      const userType = await UserTypeService.create(req.body);
+      const paymentType = await PaymentTypeService.create(req.body);
       res.status(201).json({
         success: true,
-        data: userType
+        data: paymentType
       });
     } catch (error) {
       next(error);
@@ -216,16 +216,16 @@ class UserTypeController {
 
   async update(req, res, next) {
     try {
-      const userType = await UserTypeService.update(req.params.id, req.body);
-      if (!userType) {
+      const paymentType = await PaymentTypeService.update(req.params.id, req.body);
+      if (!paymentType) {
         return res.status(404).json({
           success: false,
-          message: "User type not found"
+          message: "Payment type not found"
         });
       }
       res.json({
         success: true,
-        data: userType
+        data: paymentType
       });
     } catch (error) {
       next(error);
@@ -234,16 +234,16 @@ class UserTypeController {
 
   async delete(req, res, next) {
     try {
-      const result = await UserTypeService.delete(req.params.id);
+      const result = await PaymentTypeService.delete(req.params.id);
       if (!result) {
         return res.status(404).json({
           success: false,
-          message: "User type not found"
+          message: "Payment type not found"
         });
       }
       res.json({
         success: true,
-        message: "User type deleted successfully"
+        message: "Payment type deleted successfully"
       });
     } catch (error) {
       next(error);
@@ -251,4 +251,4 @@ class UserTypeController {
   }
 }
 
-module.exports = new UserTypeController();
+module.exports = new PaymentTypeController(); 

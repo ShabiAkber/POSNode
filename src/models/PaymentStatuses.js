@@ -30,4 +30,25 @@ const PaymentStatus = sequelize.define("PaymentStatuses", {
   timestamps: false,
 });
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     PaymentStatus:
+ *       type: object
+ *       properties:
+ *         PayS_PK:
+ *           type: string
+ *           description: Unique identifier for the payment status
+ *         PayS_Name:
+ *           type: string
+ *           description: Name of the payment status
+ *         IsDeleted:
+ *           type: boolean
+ *           description: Soft delete flag
+ *       required:
+ *         - PayS_PK
+ *         - PayS_Name
+ */
+
 module.exports = PaymentStatus;

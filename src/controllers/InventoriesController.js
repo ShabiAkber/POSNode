@@ -1,54 +1,81 @@
 const inventoriesService = require("../services/InventoriesService");
 
 class InventoriesController {
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
-      const inventories = await inventoriesService.getAll();
-      res.json(inventories);
+      const inventory = await inventoriesService.getAll(req.query);
+      res.json({
+        success: true,
+        data: inventory
+      });
     } catch (error) {
-      next(error); // Pass the error to errorMiddleware
+      next(error);
     }
   }
 
-  async getById(req, res) {
+  async getById(req, res, next) {
     try {
-      const { id } = req.params;
-      const inventory = await inventoriesService.getById(id);
-      if (!inventory) return res.status(404).json({ message: "Inventory not found" });
-      res.json(inventory);
+      const item = await inventoriesService.getById(req.params.id);
+      if (!item) {
+        return res.status(404).json({
+          success: false,
+          message: "Inventory item not found"
+        });
+      }
+      res.json({
+        success: true,
+        data: item
+      });
     } catch (error) {
-      next(error); // Pass the error to errorMiddleware
+      next(error);
     }
   }
 
-  async create(req, res) {
+  async create(req, res, next) {
     try {
-      const newInventory = await inventoriesService.create(req.body);
-      res.status(201).json(newInventory);
+      const item = await inventoriesService.create(req.body);
+      res.status(201).json({
+        success: true,
+        data: item
+      });
     } catch (error) {
-      next(error); // Pass the error to errorMiddleware
+      next(error);
     }
   }
 
-  async update(req, res) {
+  async update(req, res, next) {
     try {
-      const { id } = req.params;
-      const updatedInventory = await inventoriesService.update(id, req.body);
-      if (!updatedInventory) return res.status(404).json({ message: "Inventory not found" });
-      res.json(updatedInventory);
+      const item = await inventoriesService.update(req.params.id, req.body);
+      if (!item) {
+        return res.status(404).json({
+          success: false,
+          message: "Inventory item not found"
+        });
+      }
+      res.json({
+        success: true,
+        data: item
+      });
     } catch (error) {
-      next(error); // Pass the error to errorMiddleware
+      next(error);
     }
   }
 
-  async delete(req, res) {
+  async delete(req, res, next) {
     try {
-      const { id } = req.params;
-      const deletedInventory = await inventoriesService.delete(id);
-      if (!deletedInventory) return res.status(404).json({ message: "Inventory not found" });
-      res.json({ message: "Inventory deleted successfully" });
+      const result = await inventoriesService.delete(req.params.id);
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: "Inventory item not found"
+        });
+      }
+      res.json({
+        success: true,
+        message: "Inventory item deleted successfully"
+      });
     } catch (error) {
-      next(error); // Pass the error to errorMiddleware
+      next(error);
     }
   }
 }

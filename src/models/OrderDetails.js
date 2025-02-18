@@ -78,4 +78,37 @@ const OrderDetail = sequelize.define("OrderDetails", {
   timestamps: false,
 });
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     OrderDetail:
+ *       type: object
+ *       properties:
+ *         OrdD_PK:
+ *           type: string
+ *           description: Unique identifier for the order detail
+ *         OrdD_OrderFK:
+ *           type: string
+ *           description: Reference to the order
+ *         OrdD_Quantity:
+ *           type: number
+ *           description: Quantity of items
+ *         OrdD_UnitPrice:
+ *           type: number
+ *           description: Price per unit
+ *         OrdD_TotalAmount:
+ *           type: number
+ *           description: Total amount for this detail line
+ *         IsDeleted:
+ *           type: boolean
+ *           description: Soft delete flag
+ *       required:
+ *         - OrdD_PK
+ *         - OrdD_OrderFK
+ *         - OrdD_Quantity
+ *         - OrdD_UnitPrice
+ *         - OrdD_TotalAmount
+ */
+
 module.exports = OrderDetail;

@@ -44,4 +44,29 @@ const RolePermission = sequelize.define("RolePermissions", {
   timestamps: false,
 });
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     RolePermission:
+ *       type: object
+ *       properties:
+ *         RoleP_PK:
+ *           type: string
+ *           description: Unique identifier for the role-permission mapping
+ *         RoleP_RoleFK:
+ *           type: string
+ *           description: Reference to role
+ *         RoleP_PermFK:
+ *           type: string
+ *           description: Reference to permission
+ *         IsDeleted:
+ *           type: boolean
+ *           description: Soft delete flag
+ *       required:
+ *         - RoleP_PK
+ *         - RoleP_RoleFK
+ *         - RoleP_PermFK
+ */
+
 module.exports = RolePermission;

@@ -30,4 +30,25 @@ const PaymentType = sequelize.define("PaymentTypes", {
   timestamps: false,
 });
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     PaymentType:
+ *       type: object
+ *       properties:
+ *         PayT_PK:
+ *           type: string
+ *           description: Unique identifier for the payment type
+ *         PayT_Name:
+ *           type: string
+ *           description: Name of the payment type
+ *         IsDeleted:
+ *           type: boolean
+ *           description: Soft delete flag
+ *       required:
+ *         - PayT_PK
+ *         - PayT_Name
+ */
+
 module.exports = PaymentType;

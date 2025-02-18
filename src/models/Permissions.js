@@ -31,4 +31,22 @@ const Permission = sequelize.define("Permissions", {
   timestamps: false,
 });
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Permission:
+ *       type: object
+ *       properties:
+ *         Perm_PK:
+ *           type: string
+ *           description: Unique identifier for the permission
+ *         Perm_Name:
+ *           type: string
+ *           description: Name of the permission
+ *       required:
+ *         - Perm_PK
+ *         - Perm_Name
+ */
+
 module.exports = Permission;
