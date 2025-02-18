@@ -2,6 +2,10 @@ const IService = require("./IService");
 const genAddonRepository = require("../repositories/GenAddonRepository");
 
 class GenAddonService extends IService {
+  constructor() {
+    super(genAddonRepository);
+  }
+
   async getAll() {
     return await genAddonRepository.getAll();
   }

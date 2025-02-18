@@ -2,6 +2,10 @@ const IService = require("./IService");
 const kitWiseCatRepository = require("../repositories/KitWiseCatRepository");
 
 class KitWiseCatService extends IService {
+  constructor() {
+    super(kitWiseCatRepository);
+  }
+
   async getAll() {
     return await kitWiseCatRepository.getAll();
   }

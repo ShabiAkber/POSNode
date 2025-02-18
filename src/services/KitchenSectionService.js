@@ -2,6 +2,10 @@ const IService = require("./IService");
 const kitchenSectionRepository = require("../repositories/KitchenSectionRepository");
 
 class KitchenSectionService extends IService {
+  constructor() {
+    super(kitchenSectionRepository);
+  }
+
   async getAll() {
     return await kitchenSectionRepository.getAll();
   }

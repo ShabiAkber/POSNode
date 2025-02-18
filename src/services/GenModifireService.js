@@ -2,6 +2,10 @@ const IService = require("./IService");
 const genModifireRepository = require("../repositories/GenModifireRepository");
 
 class GenModifireService extends IService {
+  constructor() {
+    super(genModifireRepository);
+  }
+
   async getAll() {
     return await genModifireRepository.getAll();
   }

@@ -2,6 +2,10 @@ const IService = require("./IService");
 const tableDineInRepository = require("../repositories/TableDineInRepository");
 
 class TableDineInService extends IService {
+  constructor() {
+    super(tableDineInRepository);
+  }
+
   async getAll() {
     return await tableDineInRepository.findAll();
   }

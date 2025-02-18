@@ -1,20 +1,27 @@
 class IService {
-    getAll() {
-      throw new Error("Method not implemented.");
-    }
-    getById(id) {
-      throw new Error("Method not implemented.");
-    }
-    create(data) {
-      throw new Error("Method not implemented.");
-    }
-    update(id, data) {
-      throw new Error("Method not implemented.");
-    }
-    delete(id) {
-      throw new Error("Method not implemented.");
-    }
+  constructor(repository) {
+    this.repository = repository;
   }
-  
-  module.exports = IService;
-  
+
+  async getAll() {
+    return await this.repository.getAll();
+  }
+
+  async getById(id) {
+    return await this.repository.getById(id);
+  }
+
+  async create(data) {
+    return await this.repository.create(data);
+  }
+
+  async update(id, data) {
+    return await this.repository.update(id, data);
+  }
+
+  async delete(id) {
+    return await this.repository.delete(id);
+  }
+}
+
+module.exports = IService;

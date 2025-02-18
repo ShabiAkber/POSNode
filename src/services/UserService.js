@@ -2,6 +2,10 @@ const IService = require("./IService");
 const userRepository = require("../repositories/UserRepository");
 
 class UserService extends IService {
+  constructor() {
+    super(userRepository);
+  }
+
   async getAll() {
     return await userRepository.getAll();
   }

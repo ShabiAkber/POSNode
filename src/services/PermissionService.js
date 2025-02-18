@@ -2,6 +2,10 @@ const IService = require("./IService");
 const permissionRepository = require("../repositories/PermissionRepository");
 
 class PermissionService extends IService {
+  constructor() {
+    super(permissionRepository);
+  }
+
   async getAll() {
     return await permissionRepository.findAll();
   }

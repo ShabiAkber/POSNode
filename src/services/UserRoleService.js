@@ -2,6 +2,10 @@ const IService = require("./IService");
 const userRoleRepository = require("../repositories/UserRoleRepository");
 
 class UserRoleService extends IService {
+  constructor() {
+    super(userRoleRepository);
+  }
+
   async getAll() {
     return await userRoleRepository.findAll();
   }

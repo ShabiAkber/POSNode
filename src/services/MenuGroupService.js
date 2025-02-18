@@ -2,6 +2,10 @@ const IService = require("./IService");
 const menuGroupRepository = require("../repositories/MenuGroupRepository");
 
 class MenuGroupService extends IService {
+  constructor() {
+    super(menuGroupRepository);
+  }
+
   async getAll() {
     return await menuGroupRepository.getAll();
   }

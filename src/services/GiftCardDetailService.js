@@ -2,6 +2,10 @@ const IService = require("./IService");
 const GiftCardDetailRepository = require("../repositories/GiftCardDetailRepository");
 
 class GiftCardDetailService extends IService {
+  constructor() {
+    super(GiftCardDetailRepository);
+  }
+
   async getAll() {
     return await GiftCardDetailRepository.getAll();
   }

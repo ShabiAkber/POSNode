@@ -2,6 +2,10 @@ const IService = require("./IService");
 const VoucherCardDetailRepository = require("../repositories/VoucherCardDetailRepository");
 
 class VoucherCardDetailService extends IService {
+  constructor() {
+    super(VoucherCardDetailRepository);
+  }
+
   async getAll() {
     return await VoucherCardDetailRepository.getAll();
   }

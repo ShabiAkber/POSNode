@@ -2,6 +2,10 @@ const IService = require("./IService");
 const cashTransactionRepository = require("../repositories/CashTransactionRepository");
 
 class CashTransactionService extends IService {
+  constructor() {
+    super(cashTransactionRepository);
+  }
+
   async getAll() {
     return await cashTransactionRepository.getAll();
   }
