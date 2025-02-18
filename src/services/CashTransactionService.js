@@ -6,8 +6,8 @@ class CashTransactionService extends IService {
     super(cashTransactionRepository);
   }
 
-  async getAll() {
-    return await cashTransactionRepository.getAll();
+  async getAll(query) {
+    return await cashTransactionRepository.getAll(query);
   }
 
   async getById(id) {

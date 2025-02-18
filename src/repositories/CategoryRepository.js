@@ -6,8 +6,8 @@ class CategoryRepository extends IRepository {
     super(Category);
   }
 
-  async getAll() {
-    return await Category.findAll({ where: { IsDeleted: false } });
+  async getAll(query) {
+    return await Category.findAll({ where: { Cat_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

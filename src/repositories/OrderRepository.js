@@ -6,8 +6,8 @@ class OrderRepository extends IRepository {
     super(Order);
   }
 
-  async getAll() {
-    return await Order.findAll();
+  async getAll(query) {
+    return await Order.findAll({ where: { Order_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

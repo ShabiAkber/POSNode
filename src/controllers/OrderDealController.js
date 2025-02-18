@@ -4,7 +4,7 @@ const orderDealService = require("../services/OrderDealService");
 class OrderDealController {
   async getAll(req, res) {
     try {
-      const result = await orderDealService.getAll();
+      const result = await orderDealService.getAll(req.query);
       res.status(200).json(result);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

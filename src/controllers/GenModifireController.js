@@ -3,7 +3,7 @@ const genModifireService = require("../services/GenModifireService");
 class GenModifireController {
   async getAll(req, res) {
     try {
-      const genModifires = await genModifireService.getAll();
+      const genModifires = await genModifireService.getAll(req.query);
       res.json(genModifires);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

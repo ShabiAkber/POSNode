@@ -3,7 +3,7 @@ const genAddonService = require("../services/GenAddonService");
 class GenAddonController {
   async getAll(req, res) {
     try {
-      const genAddons = await genAddonService.getAll();
+      const genAddons = await genAddonService.getAll(req.query);
       res.json(genAddons);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

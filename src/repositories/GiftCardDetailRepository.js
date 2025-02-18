@@ -8,8 +8,8 @@ class GiftCardDetailRepository extends IRepository {
     super(GiftCardDetail);
   }
 
-  async getAll() {
-    return await GiftCardDetail.findAll({ where: { IsDeleted: false } });
+  async getAll(query) {
+    return await GiftCardDetail.findAll({ where: { GiftCardDetail_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

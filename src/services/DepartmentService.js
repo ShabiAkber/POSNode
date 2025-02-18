@@ -6,8 +6,8 @@ class DepartmentService extends IService {
     super(departmentRepository);
   }
 
-  async getAll() {
-    return await departmentRepository.getAll();
+  async getAll(query) {
+    return await departmentRepository.getAll(query);
   }
 
   async getById(id) {

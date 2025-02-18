@@ -6,8 +6,8 @@ class KitchenSectionService extends IService {
     super(kitchenSectionRepository);
   }
 
-  async getAll() {
-    return await kitchenSectionRepository.getAll();
+  async getAll(query) {
+    return await kitchenSectionRepository.getAll(query);
   }
 
   async getById(id) {

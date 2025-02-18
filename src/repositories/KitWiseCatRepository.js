@@ -6,8 +6,8 @@ class KitWiseCatRepository extends IRepository {
     super(KitWiseCat);
   }
 
-  async getAll() {
-    return await KitWiseCat.findAll({ where: { IsDeleted: false }, include: ["Category", "KitchenSection"] });
+  async getAll(query) {
+    return await KitWiseCat.findAll({ where: { KitSecCat_BranchFK: query.BranchId, KitSecCat_CatFK: query.CategoryId, KitSecCat_KitSecFK: query.KitchenSectionId, IsDeleted: false }, include: ["Category", "KitchenSection"] });
   }
 
   async getById(id) {

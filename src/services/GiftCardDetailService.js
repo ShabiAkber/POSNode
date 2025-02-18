@@ -6,8 +6,8 @@ class GiftCardDetailService extends IService {
     super(GiftCardDetailRepository);
   }
 
-  async getAll() {
-    return await GiftCardDetailRepository.getAll();
+  async getAll(query) {
+    return await GiftCardDetailRepository.getAll(query);
   }
 
   async getById(id) {

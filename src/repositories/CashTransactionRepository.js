@@ -6,8 +6,8 @@ class CashTransactionRepository extends IRepository {
     super(CashTransaction);
   }
 
-  async getAll() {
-    return await CashTransaction.findAll();
+  async getAll(query) {
+    return await CashTransaction.findAll({ where: { CashTrans_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

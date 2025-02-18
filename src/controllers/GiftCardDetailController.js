@@ -3,7 +3,7 @@ const GiftCardDetailService = require("../services/GiftCardDetailService");
 class GiftCardDetailController {
   async getAll(req, res) {
     try {
-      const data = await GiftCardDetailService.getAll();
+      const data = await GiftCardDetailService.getAll(req.query);
       res.status(200).json(data);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

@@ -3,7 +3,7 @@ const kitWiseCatService = require("../services/KitWiseCatService");
 class KitWiseCatController {
   async getAll(req, res) {
     try {
-      const kitWiseCats = await kitWiseCatService.getAll();
+      const kitWiseCats = await kitWiseCatService.getAll(req.query);
       res.json(kitWiseCats);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

@@ -6,8 +6,8 @@ class KitchenSectionRepository extends IRepository {
     super(KitchenSection);
   }
 
-  async getAll() {
-    return await KitchenSection.findAll({ where: { IsDeleted: false } });
+  async getAll(query) {
+    return await KitchenSection.findAll({ where: { KitSec_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

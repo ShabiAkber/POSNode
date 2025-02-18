@@ -186,7 +186,7 @@ const DepartmentService = require("../services/DepartmentService");
 class DepartmentController {
   async getAll(req, res, next) {
     try {
-      const departments = await DepartmentService.getAll();
+      const departments = await DepartmentService.getAll(req.query);
       res.json({
         success: true,
         data: departments

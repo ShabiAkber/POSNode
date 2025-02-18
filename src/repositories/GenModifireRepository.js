@@ -6,8 +6,8 @@ class GenModifireRepository extends IRepository {
     super(GenModifire);
   }
 
-  async getAll() {
-    return await GenModifire.findAll({ where: { IsDeleted: false } });
+  async getAll(query) {
+    return await GenModifire.findAll({ where: { GenMod_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

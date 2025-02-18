@@ -6,8 +6,8 @@ class InventoriesRepository extends IRepository {
     super(Inventories);
   }
 
-  async getAll() {
-    return await Inventories.findAll({ where: { IsDeleted: false }, include: ["Categories"] });
+  async getAll(query) {
+    return await Inventories.findAll({ where: { Inv_BranchFK: query.BranchId, IsDeleted: false }, include: ["Categories"] });
   }
 
   async getById(id) {

@@ -6,8 +6,8 @@ class GenAddonService extends IService {
     super(genAddonRepository);
   }
 
-  async getAll() {
-    return await genAddonRepository.getAll();
+  async getAll(query) {
+    return await genAddonRepository.getAll(query);
   }
 
   async getById(id) {

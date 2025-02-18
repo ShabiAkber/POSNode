@@ -6,8 +6,8 @@ class InventoriesService extends IService {
     super(inventoriesRepository);
   }
 
-  async getAll() {
-    return await inventoriesRepository.getAll();
+  async getAll(query) {
+    return await inventoriesRepository.getAll(query);
   }
 
   async getById(id) {

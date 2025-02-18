@@ -9,8 +9,8 @@ class OrderDealRepository extends IRepository {
   }
 
   // Implement all required methods from IRepository
-  async getAll() {
-    return await OrderDeal.findAll();
+  async getAll(query) {
+    return await OrderDeal.findAll({ where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {
@@ -34,8 +34,9 @@ class OrderDealRepository extends IRepository {
   }
 
   // ✅ Custom method to fetch details along with relationships
-  async getAllWithDetails() {
+  async getAllWithDetails(query) {
     return await OrderDeal.findAll({
+      where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false },
       include: [
         { model: OrderDealProduct, as: "Products" },
         { model: OrderDealCategory, as: "Categories" },
@@ -45,6 +46,7 @@ class OrderDealRepository extends IRepository {
 
   async getByIdWithDetails(id) {
     return await OrderDeal.findByPk(id, {
+      where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false },
       include: [
         { model: OrderDealProduct, as: "Products" },
         { model: OrderDealCategory, as: "Categories" },

@@ -7,8 +7,8 @@ class OrderDealService extends IService {
   }
 
   // ✅ Implementing all methods from IService
-  async getAll() {
-    return await orderDealRepository.getAll();
+  async getAll(query) {
+    return await orderDealRepository.getAll(query);
   }
 
   async getById(id) {

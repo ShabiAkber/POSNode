@@ -6,8 +6,8 @@ class GenAddonRepository extends IRepository {
     super(GenAddon);
   }
 
-  async getAll() {
-    return await GenAddon.findAll({ where: { IsDeleted: false } });
+  async getAll(query) {
+    return await GenAddon.findAll({ where: { GenAddon_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

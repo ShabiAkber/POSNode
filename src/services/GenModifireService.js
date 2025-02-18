@@ -6,8 +6,8 @@ class GenModifireService extends IService {
     super(genModifireRepository);
   }
 
-  async getAll() {
-    return await genModifireRepository.getAll();
+  async getAll(query) {
+    return await genModifireRepository.getAll(query);
   }
 
   async getById(id) {

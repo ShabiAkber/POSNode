@@ -6,8 +6,8 @@ class DepartmentRepository extends IRepository {
     super(Department);
   }
 
-  async getAll() {
-    return await Department.findAll();
+  async getAll(query) {
+    return await Department.findAll({ where: { Dep_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

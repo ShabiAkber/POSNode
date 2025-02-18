@@ -6,8 +6,8 @@ class KitWiseCatService extends IService {
     super(kitWiseCatRepository);
   }
 
-  async getAll() {
-    return await kitWiseCatRepository.getAll();
+  async getAll(query) {
+    return await kitWiseCatRepository.getAll(query);
   }
 
   async getById(id) {

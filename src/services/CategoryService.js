@@ -6,8 +6,8 @@ class CategoryService extends IService {
     super(categoryRepository);
   }
 
-  async getAll() {
-    return await categoryRepository.getAll();
+  async getAll(query) {
+    return await categoryRepository.getAll(query);
   }
 
   async getById(id) {

@@ -3,7 +3,7 @@ const categoryService = require("../services/CategoryService");
 class CategoryController {
   async getAll(req, res) {
     try {
-      const categories = await categoryService.getAll();
+      const categories = await categoryService.getAll(req.query);
       res.json(categories);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

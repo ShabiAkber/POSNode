@@ -6,8 +6,8 @@ class OrderService extends IService {
     super(orderRepository);
   }
 
-  async getAll() {
-    return await orderRepository.findAll();
+  async getAll(query) {
+    return await orderRepository.getAll(query);
   }
 
   async getById(id) {

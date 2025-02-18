@@ -3,7 +3,7 @@ const cashTransactionService = require("../services/CashTransactionService");
 class CashTransactionController {
   async getAll(req, res) {
     try {
-      const transactions = await cashTransactionService.getAll();
+      const transactions = await cashTransactionService.getAll(req.query);
       res.json(transactions);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware
