@@ -1,13 +1,13 @@
 const IRepository = require("./IRepository");
-const { WageType } = require("../models");
+const WageType = require("../models/WageTypes");
 
 class WageTypeRepository extends IRepository {
   constructor() {
     super(WageType);
   }
 
-  async getAll() {
-    return await WageType.findAll();
+  async getAll(query) {
+    return await WageType.findAll({ where: { WageT_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

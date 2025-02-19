@@ -3,7 +3,7 @@ const tableDineInService = require("../services/TableDineInService");
 class TableDineInController {
   async getAll(req, res) {
     try {
-      const rolePermissions = await tableDineInService.getAll();
+      const rolePermissions = await tableDineInService.getAll(req.query);
       res.status(200).json(rolePermissions);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

@@ -6,12 +6,12 @@ class OrderTypesService extends IService {
     super(orderTypesRepository);
   }
 
-  async getAll() {
-    return await orderTypesRepository.findAll();
+  async getAll(query) {
+    return await orderTypesRepository.getAll(query);
   }
 
   async getById(id) {
-    return await orderTypesRepository.findById(id);
+    return await orderTypesRepository.getById(id);
   }
 
   async create(data) {

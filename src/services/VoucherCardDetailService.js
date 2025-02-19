@@ -6,8 +6,8 @@ class VoucherCardDetailService extends IService {
     super(VoucherCardDetailRepository);
   }
 
-  async getAll() {
-    return await VoucherCardDetailRepository.getAll();
+  async getAll(query) {
+    return await VoucherCardDetailRepository.getAll(query);
   }
 
   async getById(id) {

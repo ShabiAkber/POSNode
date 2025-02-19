@@ -6,8 +6,8 @@ class MenuGroupService extends IService {
     super(menuGroupRepository);
   }
 
-  async getAll() {
-    return await menuGroupRepository.getAll();
+  async getAll(query) {
+    return await menuGroupRepository.getAll(query);
   }
 
   async getById(id) {

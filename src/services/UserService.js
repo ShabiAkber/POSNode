@@ -6,12 +6,16 @@ class UserService extends IService {
     super(userRepository);
   }
 
-  async getAll() {
-    return await userRepository.getAll();
+  async getAll(query) {
+    return await userRepository.getAll(query);
   }
 
   async getById(id) {
     return await userRepository.getById(id);
+  }
+
+  async findByEmail(email) {
+    return await userRepository.findByEmail(email);
   }
 
   async create(data) {

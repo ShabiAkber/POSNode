@@ -6,12 +6,12 @@ class TableDineInService extends IService {
     super(tableDineInRepository);
   }
 
-  async getAll() {
-    return await tableDineInRepository.findAll();
+  async getAll(query) {
+    return await tableDineInRepository.getAll(query);
   }
 
   async getById(id) {
-    return await tableDineInRepository.findById(id);
+    return await tableDineInRepository.getById(id);
   }
 
   async create(data) {

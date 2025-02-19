@@ -6,8 +6,8 @@ class TableDineInRepository extends IRepository {
     super(TableDineIn);
   }
 
-  async getAll() {
-    return await TableDineIn.findAll();
+  async getAll(query) {
+    return await TableDineIn.findAll({ where: { Table_BranchFK: query.BranchId, IsDeleted: false } });
   }
   
     async getById(id) {

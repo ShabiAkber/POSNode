@@ -106,7 +106,7 @@ const UserDetail = sequelize.define("UserDetails", {
   },
   Usr_BranchFK: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: Branch,
       key: "Branch_PK"
@@ -120,93 +120,5 @@ const UserDetail = sequelize.define("UserDetails", {
   tableName: "UserDetails",
   timestamps: false,
 });
-
-/**
- * @swagger
- * components:
- *   schemas:
- *     UserDetail:
- *       type: object
- *       properties:
- *         Usr_PK:
- *           type: string
- *           description: Unique identifier for the user
- *         Usr_UserName:
- *           type: string
- *           description: Username for login
- *         Usr_FirstName:
- *           type: string
- *           description: User's first name
- *         Usr_LastName:
- *           type: string
- *           description: User's last name
- *         Usr_Email:
- *           type: string
- *           description: User's email address
- *         Usr_ContactNo:
- *           type: string
- *           description: User's contact number
- *         Usr_Address:
- *           type: string
- *           description: User's address
- *         Usr_City:
- *           type: string
- *           description: User's city
- *         Usr_States:
- *           type: string
- *           description: User's state
- *         Usr_Country:
- *           type: string
- *           description: User's country
- *         Usr_IsActive:
- *           type: boolean
- *           description: User's active status
- *         Usr_BranchFK:
- *           type: string
- *           description: Reference to branch
- *         Usr_UsrTFK:
- *           type: string
- *           description: Reference to user type
- *         Usr_DeptFK:
- *           type: string
- *           description: Reference to department
- *         Usr_WageTFK:
- *           type: string
- *           description: Reference to wage type
- *         Usr_WageAmt:
- *           type: number
- *           description: User's wage amount
- *       required:
- *         - Usr_PK
- *         - Usr_UserName
- *         - Usr_Email
- *         - Usr_BranchFK
- *     UserInput:
- *       type: object
- *       properties:
- *         Usr_UserName:
- *           type: string
- *           example: "john.doe"
- *         Usr_Password:
- *           type: string
- *           example: "password123"
- *         Usr_FirstName:
- *           type: string
- *           example: "John"
- *         Usr_LastName:
- *           type: string
- *           example: "Doe"
- *         Usr_Email:
- *           type: string
- *           example: "john.doe@example.com"
- *         Usr_BranchFK:
- *           type: string
- *           example: "BR001"
- *       required:
- *         - Usr_UserName
- *         - Usr_Password
- *         - Usr_Email
- *         - Usr_BranchFK
- */
 
 module.exports = UserDetail;

@@ -30,22 +30,4 @@ const WageType = sequelize.define("WageTypes", {
   timestamps: false,
 });
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     WageType:
- *       type: object
- *       properties:
- *         WageT_PK:
- *           type: string
- *           description: Unique identifier for the wage type
- *         WageT_Name:
- *           type: string
- *           description: Name of the wage type
- *       required:
- *         - WageT_PK
- *         - WageT_Name
- */
-
 module.exports = WageType;

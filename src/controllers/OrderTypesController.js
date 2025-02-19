@@ -3,7 +3,7 @@ const orderTypesService = require("../services/OrderTypesService");
 class OrderTypesController {
   async getAll(req, res) {
     try {
-      const orderTypes = await orderTypesService.getAll();
+      const orderTypes = await orderTypesService.getAll(req.query);
       res.status(200).json(orderTypes);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

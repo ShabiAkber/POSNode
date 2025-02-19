@@ -6,8 +6,8 @@ class MenuVersionService extends IService {
     super(menuVersionRepository);
   }
 
-  async getAll() {
-    return await menuVersionRepository.getAll();
+  async getAll(query) {
+    return await menuVersionRepository.getAll(query);
   }
 
   async getById(id) {

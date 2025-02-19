@@ -6,8 +6,8 @@ class UserTypeService extends IService {
     super(userTypeRepository);
   }
 
-  async getAll() {
-    return await userTypeRepository.getAll();
+  async getAll(query) {
+    return await userTypeRepository.getAll(query);
   }
 
   async getById(id) {

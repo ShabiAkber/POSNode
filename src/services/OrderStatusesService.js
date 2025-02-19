@@ -11,7 +11,7 @@ class OrderStatusesService extends IService {
   }
 
   async getById(id) {
-    return await orderStatusesRepository.findById(id);
+    return await orderStatusesRepository.getById(id);
   }
 
   async create(data) {

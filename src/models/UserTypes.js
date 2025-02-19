@@ -30,22 +30,4 @@ const UserType = sequelize.define("UserTypes", {
   timestamps: false,
 });
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     UserType:
- *       type: object
- *       properties:
- *         UsrT_PK:
- *           type: string
- *           description: Unique identifier for the user type
- *         UsrT_Name:
- *           type: string
- *           description: Name of the user type
- *       required:
- *         - UsrT_PK
- *         - UsrT_Name
- */
-
 module.exports = UserType;

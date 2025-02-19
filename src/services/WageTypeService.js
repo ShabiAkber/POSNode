@@ -6,8 +6,8 @@ class WageTypeService extends IService {
     super(wageTypeRepository);
   }
 
-  async getAll() {
-    return await wageTypeRepository.getAll();
+  async getAll(query) {
+    return await wageTypeRepository.getAll(query);
   }
 
   async getById(id) {

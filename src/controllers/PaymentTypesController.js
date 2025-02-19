@@ -3,7 +3,7 @@ const paymentTypesService = require("../services/PaymentTypesService");
 class PaymentTypesController {
   async getAll(req, res) {
     try {
-      const paymentTypes = await paymentTypesService.getAll();
+      const paymentTypes = await paymentTypesService.getAll(req.query);
       res.status(200).json(paymentTypes);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

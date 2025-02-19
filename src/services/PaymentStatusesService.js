@@ -6,12 +6,12 @@ class PaymentStatusesService extends IService {
     super(paymentStatusesRepository);
   }
 
-  async getAll() {
-    return await paymentStatusesRepository.findAll();
+  async getAll(query) {
+    return await paymentStatusesRepository.getAll(query);
   }
 
   async getById(id) {
-    return await paymentStatusesRepository.findById(id);
+    return await paymentStatusesRepository.getById(id);
   }
 
   async create(data) {

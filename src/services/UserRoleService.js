@@ -6,12 +6,12 @@ class UserRoleService extends IService {
     super(userRoleRepository);
   }
 
-  async getAll() {
-    return await userRoleRepository.findAll();
+  async getAll(query) {
+    return await userRoleRepository.getAll(query);
   }
 
   async getById(id) {
-    return await userRoleRepository.findById(id);
+    return await userRoleRepository.getById(id);
   }
 
   async create(data) {

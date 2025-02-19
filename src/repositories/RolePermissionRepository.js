@@ -6,8 +6,8 @@ class RolePermissionRepository extends IRepository {
     super(RolePermission);
   }
 
-  async getAll() {
-    return await RolePermission.findAll();
+  async getAll(query) {
+    return await RolePermission.findAll({ where: { RP_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

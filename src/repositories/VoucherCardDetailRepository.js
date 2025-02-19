@@ -1,5 +1,4 @@
 const VoucherCardDetail = require("../models/VoucherCardDetails");
-const OrderDetail = require("../models/OrderDetails");
 const IRepository = require("./IRepository");
 
 class VoucherCardDetailRepository extends IRepository {
@@ -7,8 +6,8 @@ class VoucherCardDetailRepository extends IRepository {
     super(VoucherCardDetail);
   }
 
-  async getAll() {
-    return await VoucherCardDetail.findAll();
+  async getAll(query) {
+    return await VoucherCardDetail.findAll({ where: { VchCrd_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

@@ -11,7 +11,7 @@ class OrderDetailService extends IService {
   }
 
   async getById(id) {
-    return await orderDetailRepository.findById(id);
+    return await orderDetailRepository.getById(id);
   }
 
   async create(data) {

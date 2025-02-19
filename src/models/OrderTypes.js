@@ -34,25 +34,4 @@ const OrderType = sequelize.define("OrderTypes", {
   timestamps: false,
 });
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     OrderType:
- *       type: object
- *       properties:
- *         OrdT_PK:
- *           type: string
- *           description: Unique identifier for the order type
- *         OrdT_Name:
- *           type: string
- *           description: Name of the order type
- *         IsDeleted:
- *           type: boolean
- *           description: Soft delete flag
- *       required:
- *         - OrdT_PK
- *         - OrdT_Name
- */
-
 module.exports = OrderType;

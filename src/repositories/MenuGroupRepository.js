@@ -6,8 +6,8 @@ class MenuGroupRepository extends IRepository {
     super(MenuGroup);
   }
 
-  async getAll() {
-    return await MenuGroup.findAll({ where: { IsDeleted: false } });
+  async getAll(query) {
+    return await MenuGroup.findAll({ where: { MenuGrp_MenuVerFK: query.MenuVerId, MenuGrp_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

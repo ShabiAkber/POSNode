@@ -3,7 +3,7 @@ const VoucherCardDetailService = require("../services/VoucherCardDetailService")
 class VoucherCardDetailController {
   async getAll(req, res) {
     try {
-      const data = await VoucherCardDetailService.getAll();
+      const data = await VoucherCardDetailService.getAll(req.query);
       res.status(200).json(data);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

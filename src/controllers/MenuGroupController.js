@@ -3,7 +3,7 @@ const menuGroupService = require("../services/MenuGroupService");
 class MenuGroupController {
   async getAll(req, res) {
     try {
-      const menuGroups = await menuGroupService.getAll();
+      const menuGroups = await menuGroupService.getAll(req.query);
       res.json(menuGroups);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

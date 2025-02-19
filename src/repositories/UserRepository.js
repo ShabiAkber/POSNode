@@ -6,12 +6,16 @@ class UserRepository extends IRepository {
     super(UserDetail);
   }
 
-  async getAll() {
-    return await UserDetail.findAll();
+  async getAll(query) {
+    return await UserDetail.findAll({ where: { Usr_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {
     return await UserDetail.findByPk(id);
+  }
+
+  async findByEmail(email) {
+    return await UserDetail.findOne({ where: { Usr_Email: email, IsDeleted: false } });
   }
 
   async create(data) {

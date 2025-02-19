@@ -6,8 +6,8 @@ class UserRoleRepository extends IRepository {
     super(UserRole);
   }
 
-  async getAll() {
-    return await UserRole.findAll();
+  async getAll(query) {
+    return await UserRole.findAll({ where: { UR_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

@@ -6,8 +6,8 @@ class PaymentStatusesRepository extends IRepository {
     super(PaymentStatus);
   }
 
-  async getAll() {
-    return await PaymentStatus.findAll();
+  async getAll(query) {
+    return await PaymentStatus.findAll({ where: { PayS_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

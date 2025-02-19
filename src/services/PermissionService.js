@@ -6,12 +6,12 @@ class PermissionService extends IService {
     super(permissionRepository);
   }
 
-  async getAll() {
-    return await permissionRepository.findAll();
+  async getAll(query) {
+    return await permissionRepository.getAll(query);
   }
 
   async getById(id) {
-    return await permissionRepository.findById(id);
+    return await permissionRepository.getById(id);
   }
 
   async create(data) {

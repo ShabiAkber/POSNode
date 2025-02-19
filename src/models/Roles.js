@@ -31,22 +31,4 @@ const Role = sequelize.define("Roles", {
   timestamps: false,
 });
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     Role:
- *       type: object
- *       properties:
- *         Role_PK:
- *           type: string
- *           description: Unique identifier for the role
- *         Role_Name:
- *           type: string
- *           description: Name of the role
- *       required:
- *         - Role_PK
- *         - Role_Name
- */
-
 module.exports = Role;

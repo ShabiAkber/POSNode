@@ -3,7 +3,7 @@ const menuVersionService = require("../services/MenuVersionService");
 class MenuVersionController {
   async getAll(req, res) {
     try {
-      const menuVersions = await menuVersionService.getAll();
+      const menuVersions = await menuVersionService.getAll(req.query);
       res.json(menuVersions);
     } catch (error) {
       next(error); // Pass the error to errorMiddleware

@@ -34,25 +34,4 @@ const OrderStatus = sequelize.define("OrderStatuses", {
   timestamps: false,
 });
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     OrderStatus:
- *       type: object
- *       properties:
- *         OrdS_PK:
- *           type: string
- *           description: Unique identifier for the order status
- *         OrdS_Name:
- *           type: string
- *           description: Name of the order status
- *         IsDeleted:
- *           type: boolean
- *           description: Soft delete flag
- *       required:
- *         - OrdS_PK
- *         - OrdS_Name
- */
-
 module.exports = OrderStatus;

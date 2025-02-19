@@ -6,12 +6,12 @@ class RolePermissionService extends IService {
     super(rolePermissionRepository);
   }
 
-  async getAll() {
-    return await rolePermissionRepository.findAll();
+  async getAll(query) {
+    return await rolePermissionRepository.getAll(query);
   }
 
   async getById(id) {
-    return await rolePermissionRepository.findById(id);
+    return await rolePermissionRepository.getById(id);
   }
 
   async create(data) {

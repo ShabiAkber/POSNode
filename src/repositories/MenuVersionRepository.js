@@ -6,8 +6,8 @@ class MenuVersionRepository extends IRepository {
     super(MenuVersion);
   }
 
-  async getAll() {
-    return await MenuVersion.findAll({ where: { IsDeleted: false } });
+  async getAll(query) {
+    return await MenuVersion.findAll({ where: { MenuVer_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {

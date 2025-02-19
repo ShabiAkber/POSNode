@@ -6,8 +6,8 @@ class PaymentTypesRepository extends IRepository {
     super(PaymentType);
   }
 
-  async getAll() {
-    return await PaymentType.findAll();
+  async getAll(query) {
+    return await PaymentType.findAll({ where: { PayT_BranchFK: query.BranchId, IsDeleted: false } });
   }
 
   async getById(id) {
