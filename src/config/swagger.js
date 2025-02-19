@@ -31,9 +31,18 @@ function getSwaggerType(sequelizeType) {
 // Generate tags from controller files
 function generateTags() {
   const controllerMappings = {
+    'Auth': 'Authentication endpoints',
     'Branch': 'Branch management',
+    'CashRegister': 'Cash Register management',
+    'CashTransaction': 'Cash Transaction management',
     'Category': 'Category management',
     'Department': 'Department management',
+    'GenAddon': 'General Addon management',
+    'GenModifire': 'General Modifiers management',
+    'Inventory': 'Inventory management',
+    'GiftCardDetail': 'Gift Card Detail management',
+    'KitchenSection': 'Kitchen Section management',
+    'KitWiseCat': 'Kit Wise Category management',
     'Order': 'Order management',
     'OrderDetail': 'Order detail management',
     'OrderStatus': 'Order status management',
@@ -47,9 +56,7 @@ function generateTags() {
     'UserRole': 'User Role management',
     'UserType': 'User type management',
     'WageType': 'Wage type management',
-    'Auth': 'Authentication endpoints',
-    'CashRegister': 'Cash Register management',
-    'CashTransaction': 'Cash Transaction management'
+    
   };
 
   return Object.entries(controllerMappings).map(([name, description]) => ({
@@ -71,6 +78,12 @@ function generateApiPaths() {
     'CashTransaction': 'CashTransactionController.js',
     'Category': 'CategoryController.js',
     'Department': 'DepartmentController.js',
+    'GenAddon': 'GenAddonController.js',
+    'GenModifire': 'GenModifireController.js',
+    'GiftCardDetail': 'GiftCardDetailController.js',
+    'Inventory': 'InventoriesController.js',
+    'KitchenSection': 'KitchenSectionController.js',
+    'KitWiseCat': 'KitWiseCatController.js',
     'Order': 'OrderController.js',
     'OrderDetail': 'OrderDetailController.js',
     'OrderStatus': 'OrderStatusesController.js',
@@ -83,7 +96,8 @@ function generateApiPaths() {
     'User': 'UserController.js',
     'UserRole': 'UserRoleController.js',
     'UserType': 'UserTypeController.js',
-    'WageType': 'WageTypeController.js'
+    'WageType': 'WageTypeController.js',
+    
   };
 
   Object.entries(controllerMappings).forEach(([resourceName, fileName]) => {
@@ -100,33 +114,6 @@ function generateApiPaths() {
       // Handle special cases for path naming
       let basePath;
       switch(resourceName) {
-        case 'OrderDetail':
-          basePath = '/api/order-details';
-          break;
-        case 'OrderStatus':
-          basePath = '/api/order-statuses';
-          break;
-        case 'OrderType':
-          basePath = '/api/order-types';
-          break;
-        case 'PaymentType':
-          basePath = '/api/payment-types';
-          break;
-        case 'PaymentStatus':
-          basePath = '/api/payment-statuses';
-          break;
-        case 'UserRole':
-          basePath = '/api/user-roles';
-          break;
-        case 'RolePermission':
-          basePath = '/api/role-permissions';
-          break;
-        case 'WageType':
-          basePath = '/api/wage-types';
-          break;
-        case 'UserType':
-          basePath = '/api/user-types';
-          break;
         default:
           basePath = `/api/${resourceName.toLowerCase()}s`;
       }
@@ -1683,6 +1670,1287 @@ function generateApiPaths() {
                       properties: {
                         success: { type: 'boolean', example: true },
                         message: { type: 'string', example: 'Cash Transaction deleted successfully' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+      }
+
+      // For Department controller specifically
+      if (resourceName === 'Department') {
+        // GET /api/departments
+        if (typeof controller.getAll === 'function') {
+          paths[basePath].get = {
+            summary: 'Get all Departments',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: {
+                            $ref: '#/components/schemas/Departments'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // POST /api/departments
+        if (typeof controller.create === 'function') {
+          paths[basePath].post = {
+            summary: 'Create new Department',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Departments'
+                  }
+                }
+              }
+            },
+            responses: {
+              201: {
+                description: 'Created successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/Departments'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // GET /api/departments/{id}
+        if (typeof controller.getById === 'function') {
+          paths[`${basePath}/{id}`].get = {
+            summary: 'Get Department by ID',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/Departments'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // PUT /api/departments/{id}
+        if (typeof controller.update === 'function') {
+          paths[`${basePath}/{id}`].put = {
+            summary: 'Update Department',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Departments'
+                  }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: 'Updated successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/Departments'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // DELETE /api/departments/{id}
+        if (typeof controller.delete === 'function') {
+          paths[`${basePath}/{id}`].delete = {
+            summary: 'Delete Department',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Deleted successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        message: { type: 'string', example: 'Department deleted successfully' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+      }
+
+      // For GenAddon controller specifically
+      if (resourceName === 'GenAddon') {
+        // GET /api/gen-addons
+        if (typeof controller.getAll === 'function') {
+          paths[basePath].get = {
+            summary: 'Get all General Addons',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: {
+                            $ref: '#/components/schemas/GenAddons'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // POST /api/gen-addons
+        if (typeof controller.create === 'function') {
+          paths[basePath].post = {
+            summary: 'Create new General Addon',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/GenAddons'
+                  }
+                }
+              }
+            },
+            responses: {
+              201: {
+                description: 'Created successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/GenAddons'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // GET /api/gen-addons/{id}
+        if (typeof controller.getById === 'function') {
+          paths[`${basePath}/{id}`].get = {
+            summary: 'Get General Addon by ID',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/GenAddons'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // PUT /api/gen-addons/{id}
+        if (typeof controller.update === 'function') {
+          paths[`${basePath}/{id}`].put = {
+            summary: 'Update General Addon',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/GenAddons'
+                  }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: 'Updated successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/GenAddons'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // DELETE /api/gen-addons/{id}
+        if (typeof controller.delete === 'function') {
+          paths[`${basePath}/{id}`].delete = {
+            summary: 'Delete General Addon',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Deleted successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        message: { type: 'string', example: 'General Addon deleted successfully' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+      }
+
+      // For GenModifire controller specifically
+      if (resourceName === 'GenModifire') {
+        // GET /api/gen-modifires
+        if (typeof controller.getAll === 'function') {
+          paths[basePath].get = {
+            summary: 'Get all General Modifiers',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: {
+                            $ref: '#/components/schemas/GenModifires'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // POST /api/gen-modifires
+        if (typeof controller.create === 'function') {
+          paths[basePath].post = {
+            summary: 'Create new General Modifier',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/GenModifires'
+                  }
+                }
+              }
+            },
+            responses: {
+              201: {
+                description: 'Created successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/GenModifires'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // GET /api/gen-modifires/{id}
+        if (typeof controller.getById === 'function') {
+          paths[`${basePath}/{id}`].get = {
+            summary: 'Get General Modifier by ID',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/GenModifires'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // PUT /api/gen-modifires/{id}
+        if (typeof controller.update === 'function') {
+          paths[`${basePath}/{id}`].put = {
+            summary: 'Update General Modifier',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/GenModifires'
+                  }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: 'Updated successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/GenModifires'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // DELETE /api/gen-modifires/{id}
+        if (typeof controller.delete === 'function') {
+          paths[`${basePath}/{id}`].delete = {
+            summary: 'Delete General Modifier',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Deleted successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        message: { type: 'string', example: 'General Modifier deleted successfully' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+      }
+
+      // For GiftCardDetail controller specifically
+      if (resourceName === 'GiftCardDetail') {
+        // GET /api/gift-cards
+        if (typeof controller.getAll === 'function') {
+          paths[basePath].get = {
+            summary: 'Get all Gift Cards',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: {
+                            $ref: '#/components/schemas/GiftCardDetails'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // POST /api/gift-cards
+        if (typeof controller.create === 'function') {
+          paths[basePath].post = {
+            summary: 'Create new Gift Card',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/GiftCardDetails'
+                  }
+                }
+              }
+            },
+            responses: {
+              201: {
+                description: 'Created successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/GiftCardDetails'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // GET /api/gift-cards/{id}
+        if (typeof controller.getById === 'function') {
+          paths[`${basePath}/{id}`].get = {
+            summary: 'Get Gift Card by ID',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/GiftCardDetails'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // PUT /api/gift-cards/{id}
+        if (typeof controller.update === 'function') {
+          paths[`${basePath}/{id}`].put = {
+            summary: 'Update Gift Card',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/GiftCardDetails'
+                  }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: 'Updated successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/GiftCardDetails'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // DELETE /api/gift-cards/{id}
+        if (typeof controller.delete === 'function') {
+          paths[`${basePath}/{id}`].delete = {
+            summary: 'Delete Gift Card',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Deleted successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        message: { type: 'string', example: 'Gift Card deleted successfully' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+      }
+
+      // For Inventory controller specifically
+      if (resourceName === 'Inventory') {
+        // GET /api/inventories
+        if (typeof controller.getAll === 'function') {
+          paths[basePath].get = {
+            summary: 'Get all Inventories',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: {
+                            $ref: '#/components/schemas/Inventories'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // POST /api/inventories
+        if (typeof controller.create === 'function') {
+          paths[basePath].post = {
+            summary: 'Create new Inventory',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Inventories'
+                  }
+                }
+              }
+            },
+            responses: {
+              201: {
+                description: 'Created successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/Inventories'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // GET /api/inventories/{id}
+        if (typeof controller.getById === 'function') {
+          paths[`${basePath}/{id}`].get = {
+            summary: 'Get Inventory by ID',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/Inventories'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // PUT /api/inventories/{id}
+        if (typeof controller.update === 'function') {
+          paths[`${basePath}/{id}`].put = {
+            summary: 'Update Inventory',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Inventories'
+                  }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: 'Updated successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/Inventories'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // DELETE /api/inventories/{id}
+        if (typeof controller.delete === 'function') {
+          paths[`${basePath}/{id}`].delete = {
+            summary: 'Delete Inventory',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Deleted successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        message: { type: 'string', example: 'Inventory deleted successfully' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+      }
+
+      // For KitchenSection controller specifically
+      if (resourceName === 'KitchenSection') {
+        // GET /api/kitchen-sections
+        if (typeof controller.getAll === 'function') {
+          paths[basePath].get = {
+            summary: 'Get all Kitchen Sections',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: {
+                            $ref: '#/components/schemas/KitchenSections'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // POST /api/kitchen-sections
+        if (typeof controller.create === 'function') {
+          paths[basePath].post = {
+            summary: 'Create new Kitchen Section',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/KitchenSections'
+                  }
+                }
+              }
+            },
+            responses: {
+              201: {
+                description: 'Created successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/KitchenSections'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // GET /api/kitchen-sections/{id}
+        if (typeof controller.getById === 'function') {
+          paths[`${basePath}/{id}`].get = {
+            summary: 'Get Kitchen Section by ID',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/KitchenSections'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // PUT /api/kitchen-sections/{id}
+        if (typeof controller.update === 'function') {
+          paths[`${basePath}/{id}`].put = {
+            summary: 'Update Kitchen Section',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/KitchenSections'
+                  }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: 'Updated successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/KitchenSections'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // DELETE /api/kitchen-sections/{id}
+        if (typeof controller.delete === 'function') {
+          paths[`${basePath}/{id}`].delete = {
+            summary: 'Delete Kitchen Section',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Deleted successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        message: { type: 'string', example: 'Kitchen Section deleted successfully' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+      }
+
+      // For KitWiseCat controller specifically
+      if (resourceName === 'KitWiseCat') {
+        // GET /api/kit-wise-cats
+        if (typeof controller.getAll === 'function') {
+          paths[basePath].get = {
+            summary: 'Get all Kitchen Wise Categories',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: {
+                            $ref: '#/components/schemas/KitWiseCats'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // POST /api/kit-wise-cats
+        if (typeof controller.create === 'function') {
+          paths[basePath].post = {
+            summary: 'Create new Kitchen Wise Category',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/KitWiseCats'
+                  }
+                }
+              }
+            },
+            responses: {
+              201: {
+                description: 'Created successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/KitWiseCats'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // GET /api/kit-wise-cats/{id}
+        if (typeof controller.getById === 'function') {
+          paths[`${basePath}/{id}`].get = {
+            summary: 'Get Kitchen Wise Category by ID',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/KitWiseCats'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // PUT /api/kit-wise-cats/{id}
+        if (typeof controller.update === 'function') {
+          paths[`${basePath}/{id}`].put = {
+            summary: 'Update Kitchen Wise Category',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/KitWiseCats'
+                  }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: 'Updated successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/KitWiseCats'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // DELETE /api/kit-wise-cats/{id}
+        if (typeof controller.delete === 'function') {
+          paths[`${basePath}/{id}`].delete = {
+            summary: 'Delete Kitchen Wise Category',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Deleted successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        message: { type: 'string', example: 'Kitchen Wise Category deleted successfully' }
                       }
                     }
                   }
