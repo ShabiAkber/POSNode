@@ -43,6 +43,7 @@ function generateTags() {
     'GiftCardDetail': 'Gift Card Detail management',
     'KitchenSection': 'Kitchen Section management',
     'KitWiseCat': 'Kit Wise Category management',
+    'MenuGroup': 'Menu Group management',
     'Order': 'Order management',
     'OrderDetail': 'Order detail management',
     'OrderStatus': 'Order status management',
@@ -84,6 +85,7 @@ function generateApiPaths() {
     'Inventory': 'InventoriesController.js',
     'KitchenSection': 'KitchenSectionController.js',
     'KitWiseCat': 'KitWiseCatController.js',
+    'MenuGroup': 'MenuGroupController.js',
     'Order': 'OrderController.js',
     'OrderDetail': 'OrderDetailController.js',
     'OrderStatus': 'OrderStatusesController.js',
@@ -2951,6 +2953,189 @@ function generateApiPaths() {
                       properties: {
                         success: { type: 'boolean', example: true },
                         message: { type: 'string', example: 'Kitchen Wise Category deleted successfully' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+      }
+
+      // For MenuGroup controller specifically
+      if (resourceName === 'MenuGroup') {
+        // GET /api/menu-groups
+        if (typeof controller.getAll === 'function') {
+          paths[basePath].get = {
+            summary: 'Get all Menu Groups',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: {
+                            $ref: '#/components/schemas/MenuGroups'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // POST /api/menu-groups
+        if (typeof controller.create === 'function') {
+          paths[basePath].post = {
+            summary: 'Create new Menu Group',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/MenuGroups'
+                  }
+                }
+              }
+            },
+            responses: {
+              201: {
+                description: 'Created successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/MenuGroups'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // GET /api/menu-groups/{id}
+        if (typeof controller.getById === 'function') {
+          paths[`${basePath}/{id}`].get = {
+            summary: 'Get Menu Group by ID',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Successful response',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/MenuGroups'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // PUT /api/menu-groups/{id}
+        if (typeof controller.update === 'function') {
+          paths[`${basePath}/{id}`].put = {
+            summary: 'Update Menu Group',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/MenuGroups'
+                  }
+                }
+              }
+            },
+            responses: {
+              200: {
+                description: 'Updated successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          $ref: '#/components/schemas/MenuGroups'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        // DELETE /api/menu-groups/{id}
+        if (typeof controller.delete === 'function') {
+          paths[`${basePath}/{id}`].delete = {
+            summary: 'Delete Menu Group',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'path',
+                name: 'id',
+                required: true,
+                schema: { type: 'string' }
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Deleted successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        message: { type: 'string', example: 'Menu Group deleted successfully' }
                       }
                     }
                   }
