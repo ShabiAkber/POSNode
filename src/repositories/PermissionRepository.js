@@ -7,11 +7,11 @@ class PermissionRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await Permission.findAll({ where: { Perm_BranchFK: query.BranchId, IsDeleted: false } });
+    return await Permission.findAll({ where: { Perm_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await Permission.findByPk(id);
+    return await Permission.findByPk(id, { include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class PermissionRepository extends IRepository {
   }
 
   async update(id, data) {
-    const permission = await Permission.findByPk(id);
-    if (!permission) return null;
-    return await permission.update(data);
+    return await Permission.update(data, { where: { Perm_PK: id } });
   }
 
   async delete(id) {
-    const permission = await Permission.findByPk(id);
-    if (!permission) return null;
-    return await permission.update({ IsDeleted: true });
+    return await Permission.update({ IsDeleted: true }, { where: { Perm_PK: id } });
   }
 }
 

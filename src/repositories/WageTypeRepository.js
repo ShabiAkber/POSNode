@@ -7,11 +7,11 @@ class WageTypeRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await WageType.findAll({ where: { WageT_BranchFK: query.BranchId, IsDeleted: false } });
+    return await WageType.findAll({ where: { WageT_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await WageType.findByPk(id);
+    return await WageType.findByPk(id, { include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,16 +19,11 @@ class WageTypeRepository extends IRepository {
   }
 
   async update(id, data) {
-    const wageType = await WageType.findByPk(id);
-    if (!wageType) return null;
-    await wageType.update(data);
-    return wageType;
+    return await WageType.update(data, { where: { WageT_PK: id } });
   }
 
   async delete(id) {
-    const wageType = await WageType.findByPk(id);
-    if (!wageType) return null;
-    return await wageType.update({ IsDeleted: true });
+    return await WageType.update({ IsDeleted: true }, { where: { WageT_PK: id } });
   }
 }
 

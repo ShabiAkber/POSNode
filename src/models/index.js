@@ -32,6 +32,10 @@ const TableDineIn = require("./TableDineIns");
 const OrderDeal = require("./OrderDeals");
 const OrderDealProduct = require("./OrderDealProducts");
 const OrderDealCategory = require("./OrderDealCategories");
+const Product = require("./Products");
+const ProductVariant = require("./ProductVariants");
+const ProductAddOn = require("./ProductAddOns");
+const KitchenOrder = require("./KitchenOrders");
 
 // Initialize models and database 
 async function initializeModels() {
@@ -336,6 +340,17 @@ async function initializeModels() {
       as: "Branches"
     });
 
+    Branch.hasMany(KitchenOrder, {
+      foreignKey: "KitOrd_BranchFK",
+      as: "KitchenOrders",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+    KitchenOrder.belongsTo(Branch, {
+      foreignKey: "KitOrd_BranchFK",
+      as: "Branches"
+    });
+
     Branch.hasMany(Inventory, {
       foreignKey: "Ivn_BranchFK",
       as: "Inventories",
@@ -377,6 +392,39 @@ async function initializeModels() {
     });
     TableDineIn.belongsTo(Branch, {
       foreignKey: "Table_BranchFK",
+      as: "Branches"
+    });
+
+    Branch.hasMany(Product, {
+      foreignKey: "Prd_BranchFK",
+      as: "Products",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+    Product.belongsTo(Branch, {
+      foreignKey: "Prd_BranchFK",
+      as: "Branches"
+    });
+
+    Branch.hasMany(ProductVariant, {
+      foreignKey: "PrdVar_BranchFK",
+      as: "ProductVariants",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+    ProductVariant.belongsTo(Branch, {
+      foreignKey: "PrdVar_BranchFK",
+      as: "Branches"
+    });
+
+    Branch.hasMany(ProductAddOn, {
+      foreignKey: "PrdAdd_BranchFK",
+      as: "ProductAddOns",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+    ProductAddOn.belongsTo(Branch, {
+      foreignKey: "PrdAdd_BranchFK",
       as: "Branches"
     });
 
@@ -442,6 +490,17 @@ async function initializeModels() {
       as: "TableDineIns" 
     });
 
+    Order.hasMany(KitchenOrder, {
+      foreignKey: "Ord_OrderFK",
+      as: "KitchenOrders",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+    KitchenOrder.belongsTo(Order, {
+      foreignKey: "Ord_OrderFK",
+      as: "Orders"
+    });
+
     // Define Relationships Order Detail
     OrderDetail.belongsTo(Order, {
       foreignKey: "OrdD_OrdFK",
@@ -493,6 +552,65 @@ async function initializeModels() {
       onUpdate: 'NO ACTION'
     });
 
+    // Define Relationship of Product
+    Product.belongsTo(Category, {
+      foreignKey: "Prd_Category",
+      as: "Categories",
+    });
+    Category.hasMany(Product, {
+      foreignKey: "Prd_CategoryFK",
+      as: "Products",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+
+    Product.belongsTo(Order, {
+      foreignKey: "Prd_OrderFK",
+      as: "Orders",
+    });
+    Order.hasMany(Product, {
+      foreignKey: "Prd_OrderFK",
+      as: "Products",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+
+    // Define Relationship of Product Variant
+    ProductVariant.belongsTo(Product, {
+      foreignKey: "PrdVar_ProductFK",
+      as: "Products",
+    });
+    Product.hasMany(ProductVariant, {
+      foreignKey: "PrdVar_ProductFK",
+      as: "ProductVariants",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+
+    // Define Relationship of Product AddOn
+    ProductAddOn.belongsTo(Product, {
+      foreignKey: "PrdAdd_ProductFK",
+      as: "Products",
+    });
+    Product.hasMany(ProductAddOn, { 
+      foreignKey: "PrdAdd_ProductFK",
+      as: "ProductAddOns",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+
+    // Define Relationship of Product AddOn
+    ProductAddOn.belongsTo(GenAddon, {
+      foreignKey: "PrdAdd_GenAddonFK",
+      as: "GenAddons",
+    });
+    GenAddon.hasMany(ProductAddOn, {
+      foreignKey: "PrdAdd_GenAddonFK",
+      as: "ProductAddOns",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+
     // Define Relationship Gen Modifire
     GenModifire.belongsTo(Category, {
       foreignKey: "GenMod_CatFK",
@@ -525,6 +643,18 @@ async function initializeModels() {
     KitWiseCat.belongsTo(KitchenSection, {
       foreignKey: "KitSecCat_KitSecFK",
       as: "KitchenSection",
+    });
+
+    // Define Relationships Kitchen Order
+    KitchenOrder.belongsTo(KitchenSection, {
+      foreignKey: "KitOrd_KitchenSectionFK",
+      as: "KitchenSections",
+    });
+    KitchenSection.hasMany(KitchenOrder, {
+      foreignKey: "KitOrd_KitchenSectionFK",
+      as: "KitchenOrders",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
     });
 
     // Define Relationships Inventory
@@ -620,5 +750,8 @@ module.exports = {
   OrderDeal,
   OrderDealProduct,
   OrderDealCategory,
+  Product,
+  ProductVariant,
+  ProductAddOn,
   initializeModels
 };

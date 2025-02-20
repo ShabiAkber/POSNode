@@ -7,11 +7,11 @@ class KitWiseCatRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await KitWiseCat.findAll({ where: { KitSecCat_BranchFK: query.BranchId, KitSecCat_CatFK: query.CategoryId, KitSecCat_KitSecFK: query.KitchenSectionId, IsDeleted: false }, include: ["Category", "KitchenSection"] });
+    return await KitWiseCat.findAll({ where: { KitSecCat_BranchFK: query.BranchId, IsDeleted: false }, include: ["Category", "KitchenSection", "Branch"] });
   }
 
   async getById(id) {
-    return await KitWiseCat.findOne({ where: { KitSecCat_PK: id, IsDeleted: false }, include: ["Category", "KitchenSection"] });
+    return await KitWiseCat.findOne({ where: { KitSecCat_PK: id, IsDeleted: false }, include: ["Category", "KitchenSection", "Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class KitWiseCatRepository extends IRepository {
   }
 
   async update(id, data) {
-    const kitWiseCat = await KitWiseCat.findByPk(id);
-    if (!kitWiseCat) return null;
-    return await kitWiseCat.update(data);
+    return await KitWiseCat.update(data, { where: { KitSecCat_PK: id } });
   }
 
   async delete(id) {
-    const kitWiseCat = await KitWiseCat.findByPk(id);
-    if (!kitWiseCat) return null;
-    return await kitWiseCat.update({ IsDeleted: true });
+    return await KitWiseCat.update({ IsDeleted: true }, { where: { KitSecCat_PK: id } });
   }
 }
 

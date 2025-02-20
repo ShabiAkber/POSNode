@@ -7,11 +7,11 @@ class OrderRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await Order.findAll({ where: { Order_BranchFK: query.BranchId, IsDeleted: false } });
+    return await Order.findAll({ where: { Ord_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "OrderDetail", "OrderType", "PaymentStatus", "PaymentType", "OrderStatus", "TableDineIn"] });
   }
 
   async getById(id) {
-    return await Order.findByPk(id);
+    return await Order.findByPk(id, { include: ["Branch", "OrderDetail", "OrderType", "PaymentStatus", "PaymentType", "OrderStatus", "TableDineIn"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class OrderRepository extends IRepository {
   }
 
   async update(id, data) {
-    const order = await Order.findByPk(id);
-    if (!order) return null;
-    return await order.update(data);
+    return await Order.update(data, { where: { Ord_PK: id } });
   }
 
   async delete(id) {
-    const order = await Order.findByPk(id);
-    if (!order) return null;
-    return await order.update({ IsDeleted: true });
+    return await Order.update({ IsDeleted: true }, { where: { Ord_PK: id } });
   }
 }
 

@@ -7,11 +7,11 @@ class VoucherCardDetailRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await VoucherCardDetail.findAll({ where: { VchCrd_BranchFK: query.BranchId, IsDeleted: false } });
+    return await VoucherCardDetail.findAll({ where: { VchCrd_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await VoucherCardDetail.findByPk(id);
+    return await VoucherCardDetail.findByPk(id, { include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class VoucherCardDetailRepository extends IRepository {
   }
 
   async update(id, data) {
-    const voucherCard = await VoucherCardDetail.findByPk(id);
-    if (!voucherCard) return null;
-    return await voucherCard.update(data);
+    return await VoucherCardDetail.update(data, { where: { VchCrd_PK: id } });
   }
 
   async delete(id) {
-    const voucherCard = await VoucherCardDetail.findByPk(id);
-    if (!voucherCard) return null;
-    return await voucherCard.update({ IsDeleted: true });
+    return await VoucherCardDetail.update({ IsDeleted: true }, { where: { VchCrd_PK: id } });
   }
 }
 

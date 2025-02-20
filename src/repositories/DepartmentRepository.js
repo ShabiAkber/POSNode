@@ -7,11 +7,11 @@ class DepartmentRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await Department.findAll({ where: { Dep_BranchFK: query.BranchId, IsDeleted: false } });
+    return await Department.findAll({ where: { Dep_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await Department.findByPk(id);
+    return await Department.findOne({ where: { Dep_PK: id, IsDeleted: false }, include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class DepartmentRepository extends IRepository {
   }
 
   async update(id, data) {
-    const department = await this.getById(id);
-    if (!department) return null;
-    return await department.update(data);
+    return await Department.update(data, { where: { Dep_PK: id } });
   }
 
   async delete(id) {
-    const department = await this.getById(id);
-    if (!department) return null;
-    return await department.update({ IsDeleted: true });
+    return await Department.update({ IsDeleted: true }, { where: { Dep_PK: id } });
   }
 }
 

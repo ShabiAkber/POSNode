@@ -7,11 +7,11 @@ class InventoriesRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await Inventories.findAll({ where: { Inv_BranchFK: query.BranchId, IsDeleted: false }, include: ["Categories"] });
+    return await Inventories.findAll({ where: { Inv_BranchFK: query.BranchId, IsDeleted: false }, include: ["Categories", "Branch"] });
   }
 
   async getById(id) {
-    return await Inventories.findOne({ where: { Inv_PK: id, IsDeleted: false }, include: ["Categories"] });
+    return await Inventories.findOne({ where: { Inv_PK: id, IsDeleted: false }, include: ["Categories", "Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class InventoriesRepository extends IRepository {
   }
 
   async update(id, data) {
-    const inventory = await Inventories.findByPk(id);
-    if (!inventory) return null;
-    return await inventory.update(data);
+    return await Inventories.update(data, { where: { Inv_PK: id } });
   }
 
   async delete(id) {
-    const inventory = await Inventories.findByPk(id);
-    if (!inventory) return null;
-    return await inventory.update({ IsDeleted: true });
+    return await Inventories.update({ IsDeleted: true }, { where: { Inv_PK: id } });
   }
 }
 

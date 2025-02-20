@@ -7,11 +7,11 @@ class PaymentTypesRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await PaymentType.findAll({ where: { PayT_BranchFK: query.BranchId, IsDeleted: false } });
+    return await PaymentType.findAll({ where: { PayT_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await PaymentType.findByPk(id);
+    return await PaymentType.findByPk(id, { include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class PaymentTypesRepository extends IRepository {
   }
 
   async update(id, data) {
-    const paymentType = await PaymentType.findByPk(id);
-    if (!paymentType) return null;
-    return await paymentType.update(data);
+    return await PaymentType.update(data, { where: { PayT_PK: id } });
   }
 
   async delete(id) {
-    const paymentType = await PaymentType.findByPk(id);
-    if (!paymentType) return null;
-    return await paymentType.update({ IsDeleted: true });
+    return await PaymentType.update({ IsDeleted: true }, { where: { PayT_PK: id } });
   }
 }
 

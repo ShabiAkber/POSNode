@@ -7,11 +7,11 @@ class UserRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await UserDetail.findAll({ where: { Usr_BranchFK: query.BranchId, IsDeleted: false } });
+    return await UserDetail.findAll({ where: { Usr_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await UserDetail.findByPk(id);
+    return await UserDetail.findByPk(id, { include: ["Branch"] });
   }
 
   async findByEmail(email) {
@@ -23,15 +23,11 @@ class UserRepository extends IRepository {
   }
 
   async update(id, data) {
-    const user = await UserDetail.findByPk(id);
-    if (!user) return null;
-    return await user.update(data);
+    return await UserDetail.update(data, { where: { Usr_PK: id } });
   }
 
   async delete(id) {
-    const user = await UserDetail.findByPk(id);
-    if (!user) return null;
-    return await user.update({ IsDeleted: true });
+    return await UserDetail.update({ IsDeleted: true }, { where: { Usr_PK: id } });
   }
 }
 

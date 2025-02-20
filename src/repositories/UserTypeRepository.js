@@ -7,11 +7,11 @@ class UserTypeRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await UserType.findAll({ where: { UsrT_BranchFK: query.BranchId, IsDeleted: false } });
+    return await UserType.findAll({ where: { UsrT_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await UserType.findByPk(id);
+    return await UserType.findByPk(id, { include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,16 +19,11 @@ class UserTypeRepository extends IRepository {
   }
 
   async update(id, data) {
-    const userType = await UserType.findByPk(id);
-    if (!userType) return null;
-    await userType.update(data);
-    return userType;
+    return await UserType.update(data, { where: { UsrT_PK: id } });
   }
 
   async delete(id) {
-    const userType = await UserType.findByPk(id);
-    if (!userType) return null;
-    return await userType.update({ IsDeleted: true });
+    return await UserType.update({ IsDeleted: true }, { where: { UsrT_PK: id } });
   }
 }
 

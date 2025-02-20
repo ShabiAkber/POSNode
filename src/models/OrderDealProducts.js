@@ -35,6 +35,10 @@ const OrderDealProduct = sequelize.define("OrderDealProducts", {
     type: DataTypes.DOUBLE,
     allowNull: false,
   },
+  IsDeleted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 }, {
   tableName: "OrderDealProducts",
   timestamps: false,

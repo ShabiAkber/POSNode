@@ -10,11 +10,11 @@ class OrderDealRepository extends IRepository {
 
   // Implement all required methods from IRepository
   async getAll(query) {
-    return await OrderDeal.findAll({ where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false } });
+    return await OrderDeal.findAll({ where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await OrderDeal.findByPk(id);
+    return await OrderDeal.findByPk(id, { include: ["Branch"] });
   }
 
   async create(data) {
@@ -22,35 +22,25 @@ class OrderDealRepository extends IRepository {
   }
 
   async update(id, data) {
-    const deal = await OrderDeal.findByPk(id);
-    if (!deal) return null;
-    return await deal.update(data);
+    return await OrderDeal.update(data, { where: { OrderDeal_PK: id } });
   }
 
   async delete(id) {
-    const deal = await OrderDeal.findByPk(id);
-    if (!deal) return null;
-    return await deal.update({ IsDeleted: true });
+    return await OrderDeal.update({ IsDeleted: true }, { where: { OrderDeal_PK: id } });
   }
 
   // ✅ Custom method to fetch details along with relationships
   async getAllWithDetails(query) {
     return await OrderDeal.findAll({
       where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false },
-      include: [
-        { model: OrderDealProduct, as: "Products" },
-        { model: OrderDealCategory, as: "Categories" },
-      ],
+      include: [ 'OrderDealProduct', 'OrderDealCategory', 'Branch' ],
     });
   }
 
   async getByIdWithDetails(id) {
     return await OrderDeal.findByPk(id, {
       where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false },
-      include: [
-        { model: OrderDealProduct, as: "Products" },
-        { model: OrderDealCategory, as: "Categories" },
-      ],
+      include: [ 'OrderDealProduct', 'OrderDealCategory', 'Branch' ],
     });
   }
 }

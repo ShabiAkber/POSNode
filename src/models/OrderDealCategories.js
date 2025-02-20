@@ -27,6 +27,10 @@ const OrderDealCategory = sequelize.define("OrderDealCategories", {
       key: "Cat_PK"
     }
   },
+  IsDeleted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 }, {
   tableName: "OrderDealCategories",
   timestamps: false,

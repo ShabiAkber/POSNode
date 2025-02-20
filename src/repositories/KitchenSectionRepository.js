@@ -7,11 +7,11 @@ class KitchenSectionRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await KitchenSection.findAll({ where: { KitSec_BranchFK: query.BranchId, IsDeleted: false } });
+    return await KitchenSection.findAll({ where: { KitSec_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await KitchenSection.findOne({ where: { KitSec_PK: id, IsDeleted: false } });
+    return await KitchenSection.findOne({ where: { KitSec_PK: id, IsDeleted: false }, include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class KitchenSectionRepository extends IRepository {
   }
 
   async update(id, data) {
-    const kitchenSection = await KitchenSection.findByPk(id);
-    if (!kitchenSection) return null;
-    return await kitchenSection.update(data);
+    return await KitchenSection.update(data, { where: { KitSec_PK: id } });
   }
 
   async delete(id) {
-    const kitchenSection = await KitchenSection.findByPk(id);
-    if (!kitchenSection) return null;
-    return await kitchenSection.update({ IsDeleted: true });
+    return await KitchenSection.update({ IsDeleted: true }, { where: { KitSec_PK: id } });
   }
 }
 

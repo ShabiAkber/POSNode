@@ -23,6 +23,10 @@ const OrderDeal = sequelize.define("OrderDeals", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  IsDeleted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 }, {
   tableName: "OrderDeals",
   timestamps: false,

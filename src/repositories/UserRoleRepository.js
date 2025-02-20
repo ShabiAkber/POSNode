@@ -7,11 +7,11 @@ class UserRoleRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await UserRole.findAll({ where: { UR_BranchFK: query.BranchId, IsDeleted: false } });
+    return await UserRole.findAll({ where: { UR_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "User", "Role"] });
   }
 
   async getById(id) {
-    return await UserRole.findByPk(id);
+    return await UserRole.findByPk(id, { include: ["Branch", "User", "Role"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class UserRoleRepository extends IRepository {
   }
 
   async update(id, data) {
-    const userRole = await UserRole.findByPk(id);
-    if (!userRole) return null;
-    return await userRole.update(data);
+    return await UserRole.update(data, { where: { UR_PK: id } });
   }
 
   async delete(id) {
-    const userRole = await UserRole.findByPk(id);
-    if (!userRole) return null;
-    return await userRole.update({ IsDeleted: true });
+    return await UserRole.update({ IsDeleted: true }, { where: { UR_PK: id } });
   }
 }
 

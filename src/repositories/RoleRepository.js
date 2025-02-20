@@ -7,11 +7,11 @@ class RoleRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await Role.findAll({ where: { R_BranchFK: query.BranchId, IsDeleted: false } });
+    return await Role.findAll({ where: { R_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await Role.findByPk(id);
+    return await Role.findByPk(id, { include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class RoleRepository extends IRepository {
   }
 
   async update(id, data) {
-    const role = await Role.findByPk(id);
-    if (!role) return null;
-    return await role.update(data);
+    return await Role.update(data, { where: { R_PK: id } });
   }
 
   async delete(id) {
-    const role = await Role.findByPk(id);
-    if (!role) return null;
-    return await role.update({ IsDeleted: true });
+    return await Role.update({ IsDeleted: true }, { where: { R_PK: id } });
   }
 }
 

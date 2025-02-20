@@ -7,11 +7,11 @@ class MenuVersionRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await MenuVersion.findAll({ where: { MenuVer_BranchFK: query.BranchId, IsDeleted: false } });
+    return await MenuVersion.findAll({ where: { MenuVer_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await MenuVersion.findOne({ where: { MenuVer_PK: id, IsDeleted: false } });
+    return await MenuVersion.findOne({ where: { MenuVer_PK: id, IsDeleted: false }, include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class MenuVersionRepository extends IRepository {
   }
 
   async update(id, data) {
-    const menuVersion = await MenuVersion.findByPk(id);
-    if (!menuVersion) return null;
-    return await menuVersion.update(data);
+    return await MenuVersion.update(data, { where: { MenuVer_PK: id } });
   }
 
   async delete(id) {
-    const menuVersion = await MenuVersion.findByPk(id);
-    if (!menuVersion) return null;
-    return await menuVersion.update({ IsDeleted: true });
+    return await MenuVersion.update({ IsDeleted: true }, { where: { MenuVer_PK: id } });
   }
 }
 

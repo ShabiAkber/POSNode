@@ -7,11 +7,11 @@ class PaymentStatusesRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await PaymentStatus.findAll({ where: { PayS_BranchFK: query.BranchId, IsDeleted: false } });
+    return await PaymentStatus.findAll({ where: { PayS_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await PaymentStatus.findByPk(id);
+    return await PaymentStatus.findByPk(id, { include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class PaymentStatusesRepository extends IRepository {
   }
 
   async update(id, data) {
-    const status = await PaymentStatus.findByPk(id);
-    if (!status) return null;
-    return await status.update(data);
+    return await PaymentStatus.update(data, { where: { PayS_PK: id } });
   }
 
   async delete(id) {
-    const status = await PaymentStatus.findByPk(id);
-    if (!status) return null;
-    return await status.update({ IsDeleted: true });
+    return await PaymentStatus.update({ IsDeleted: true }, { where: { PayS_PK: id } });
   }
 }
 

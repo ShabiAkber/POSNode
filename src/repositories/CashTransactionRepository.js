@@ -7,11 +7,11 @@ class CashTransactionRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await CashTransaction.findAll({ where: { CashTrans_BranchFK: query.BranchId, IsDeleted: false } });
+    return await CashTransaction.findAll({ where: { CashTrans_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await CashTransaction.findOne({ where: { CashTrans_PK: id } });
+    return await CashTransaction.findOne({ where: { CashTrans_PK: id, IsDeleted: false }, include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class CashTransactionRepository extends IRepository {
   }
 
   async update(id, data) {
-    const cashTransaction = await CashTransaction.findByPk(id);
-    if (!cashTransaction) return null;
-    return await cashTransaction.update(data);
+    return await CashTransaction.update(data, { where: { CashTrans_PK: id } });
   }
 
   async delete(id) {
-    const cashTransaction = await CashTransaction.findByPk(id);
-    if (!cashTransaction) return null;
-    return await cashTransaction.update({ IsDeleted: true });
+    return await CashTransaction.update({ IsDeleted: true }, { where: { CashTrans_PK: id } });
   }
 }
 

@@ -7,11 +7,11 @@ class GenModifireRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await GenModifire.findAll({ where: { GenMod_BranchFK: query.BranchId, IsDeleted: false } });
+    return await GenModifire.findAll({ where: { GenMod_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await GenModifire.findOne({ where: { GenMod_PK: id, IsDeleted: false } });
+    return await GenModifire.findOne({ where: { GenMod_PK: id, IsDeleted: false }, include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class GenModifireRepository extends IRepository {
   }
 
   async update(id, data) {
-    const genModifire = await GenModifire.findByPk(id);
-    if (!genModifire) return null;
-    return await genModifire.update(data);
+    return await GenModifire.update(data, { where: { GenMod_PK: id } });
   }
 
   async delete(id) {
-    const genModifire = await GenModifire.findByPk(id);
-    if (!genModifire) return null;
-    return await genModifire.update({ IsDeleted: true });
+    return await GenModifire.update({ IsDeleted: true }, { where: { GenMod_PK: id } });
   }
 }
 

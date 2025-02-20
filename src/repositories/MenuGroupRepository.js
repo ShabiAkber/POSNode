@@ -7,11 +7,11 @@ class MenuGroupRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await MenuGroup.findAll({ where: { MenuGrp_MenuVerFK: query.MenuVerId, MenuGrp_BranchFK: query.BranchId, IsDeleted: false } });
+    return await MenuGroup.findAll({ where: { MenuGrp_MenuVerFK: query.MenuVerId, MenuGrp_BranchFK: query.BranchId, IsDeleted: false }, include: ["MenuVersion", "Branch"] });
   }
 
   async getById(id) {
-    return await MenuGroup.findOne({ where: { MenuGrp_PK: id, IsDeleted: false } });
+    return await MenuGroup.findOne({ where: { MenuGrp_PK: id, IsDeleted: false }, include: ["MenuVersion", "Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class MenuGroupRepository extends IRepository {
   }
 
   async update(id, data) {
-    const menuGroup = await MenuGroup.findByPk(id);
-    if (!menuGroup) return null;
-    return await menuGroup.update(data);
+    return await MenuGroup.update(data, { where: { MenuGrp_PK: id } });
   }
 
   async delete(id) {
-    const menuGroup = await MenuGroup.findByPk(id);
-    if (!menuGroup) return null;
-    return await menuGroup.update({ IsDeleted: true });
+    return await MenuGroup.update({ IsDeleted: true }, { where: { MenuGrp_PK: id } });
   }
 }
 

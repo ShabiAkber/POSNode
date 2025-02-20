@@ -7,11 +7,11 @@ class CategoryRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await Category.findAll({ where: { Cat_BranchFK: query.BranchId, IsDeleted: false } });
+    return await Category.findAll({ where: { Cat_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "MenuGroup"] });
   }
 
   async getById(id) {
-    return await Category.findOne({ where: { Cat_PK: id, IsDeleted: false } });
+    return await Category.findOne({ where: { Cat_PK: id, IsDeleted: false }, include: ["Branch", "MenuGroup"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class CategoryRepository extends IRepository {
   }
 
   async update(id, data) {
-    const category = await Category.findByPk(id);
-    if (!category) return null;
-    return await category.update(data);
+    return await Category.update(data, { where: { Cat_PK: id } });
   }
 
   async delete(id) {
-    const category = await Category.findByPk(id);
-    if (!category) return null;
-    return await category.update({ IsDeleted: true });
+    return await Category.update({ IsDeleted: true }, { where: { Cat_PK: id } });
   }
 }
 

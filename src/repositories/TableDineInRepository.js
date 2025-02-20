@@ -7,11 +7,11 @@ class TableDineInRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await TableDineIn.findAll({ where: { Table_BranchFK: query.BranchId, IsDeleted: false } });
+    return await TableDineIn.findAll({ where: { Table_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
   
     async getById(id) {
-      return await TableDineIn.findByPk(id);
+      return await TableDineIn.findByPk(id, { include: ["Branch"] });
     }
   
     async create(data) {
@@ -19,15 +19,11 @@ class TableDineInRepository extends IRepository {
     }
   
     async update(id, data) {
-      const tableDineIn = await TableDineIn.findByPk(id);
-      if (!tableDineIn) return null;
-      return await tableDineIn.update(data);
+      return await TableDineIn.update(data, { where: { Table_PK: id } });
     }
   
-    async delete(id) {
-      const tableDineIn = await TableDineIn.findByPk(id);
-      if (!tableDineIn) return null;
-    return await tableDineIn.update({ IsDeleted: true });
+  async delete(id) {
+    return await TableDineIn.update({ IsDeleted: true }, { where: { Table_PK: id } });
   }
 }
 

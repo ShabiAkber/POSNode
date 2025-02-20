@@ -9,11 +9,11 @@ class GiftCardDetailRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await GiftCardDetail.findAll({ where: { GiftCardDetail_BranchFK: query.BranchId, IsDeleted: false } });
+    return await GiftCardDetail.findAll({ where: { GiftCardDetail_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await GiftCardDetail.findByPk(id);
+    return await GiftCardDetail.findOne({ where: { GiftCardDetail_PK: id, IsDeleted: false }, include: ["Branch"] });
   }
 
   async create(data) {
@@ -21,15 +21,11 @@ class GiftCardDetailRepository extends IRepository {
   }
 
   async update(id, data) {
-    const giftCard = await GiftCardDetail.findByPk(id);
-    if (!giftCard) return null;
-    return await giftCard.update(data);
+    return await GiftCardDetail.update(data, { where: { GiftCardDetail_PK: id } });
   }
 
   async delete(id) {
-    const giftCard = await GiftCardDetail.findByPk(id);
-    if (!giftCard) return null;
-    return await giftCard.update({ IsDeleted: true });
+    return await GiftCardDetail.update({ IsDeleted: true }, { where: { GiftCardDetail_PK: id } });
   }
 }
 

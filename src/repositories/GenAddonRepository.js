@@ -7,11 +7,11 @@ class GenAddonRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await GenAddon.findAll({ where: { GenAddon_BranchFK: query.BranchId, IsDeleted: false } });
+    return await GenAddon.findAll({ where: { GenAddon_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await GenAddon.findOne({ where: { GenAddon_PK: id, IsDeleted: false } });
+    return await GenAddon.findOne({ where: { GenAddon_PK: id, IsDeleted: false }, include: ["Branch"] });
   }
 
   async create(data) {
@@ -19,15 +19,11 @@ class GenAddonRepository extends IRepository {
   }
 
   async update(id, data) {
-    const genAddon = await GenAddon.findByPk(id);
-    if (!genAddon) return null;
-    return await genAddon.update(data);
+    return await GenAddon.update(data, { where: { GenAddon_PK: id } });
   }
 
   async delete(id) {
-    const genAddon = await GenAddon.findByPk(id);
-    if (!genAddon) return null;
-    return await genAddon.update({ IsDeleted: true });
+    return await GenAddon.update({ IsDeleted: true }, { where: { GenAddon_PK: id } });
   }
 }
 
