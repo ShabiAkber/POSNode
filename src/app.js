@@ -57,6 +57,10 @@ const cashRegisterRoutes = require("./routes/cashRegisterRoutes");
 const cashTransactionRoutes = require("./routes/cashTransactionRoutes");
 const tableDineInRoutes = require("./routes/tableDineInRoutes");
 const orderDealRoutes = require("./routes/orderDealRoutes");
+const productRoutes = require("./routes/productRoutes");
+const productVariantRoutes = require("./routes/productVariantRoutes");
+const productAddOnRoutes = require("./routes/productAddOnRoutes");
+const kitchenOrderRoutes = require("./routes/kitchenOrderRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/users", authMiddleware, userRoutes);
@@ -88,6 +92,10 @@ app.use("/api/cash-registers", authMiddleware, cashRegisterRoutes);
 app.use("/api/cash-transactions", authMiddleware, cashTransactionRoutes);
 app.use("/api/tabledineins", authMiddleware, tableDineInRoutes);
 app.use("/api/orderdeals", authMiddleware, orderDealRoutes);
+app.use("/api/products", authMiddleware, productRoutes);
+app.use("/api/product-variants", authMiddleware, productVariantRoutes);
+app.use("/api/product-add-ons", authMiddleware, productAddOnRoutes);
+app.use("/api/kitchen-orders", authMiddleware, kitchenOrderRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);
