@@ -7,7 +7,10 @@ class TableDineInRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await TableDineIn.findAll({ where: { Table_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    if (query.BranchId) {
+      return await TableDineIn.findAll({ where: { Table_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    }
+    return await TableDineIn.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
   }
   
     async getById(id) {

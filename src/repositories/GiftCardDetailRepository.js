@@ -9,7 +9,10 @@ class GiftCardDetailRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await GiftCardDetail.findAll({ where: { GiftCardDetail_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    if (query.BranchId) {
+      return await GiftCardDetail.findAll({ where: { GiftCardDetail_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    }
+    return await GiftCardDetail.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {

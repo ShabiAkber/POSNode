@@ -7,7 +7,10 @@ class ProductRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await Product.findAll({ where: { Prd_BranchFK: query.BranchId, IsDeleted: false }, include: ["Category", "ProductVariant", "ProductAddOn"] });
+    if (query.BranchId) {
+      return await Product.findAll({ where: { Prd_BranchFK: query.BranchId, IsDeleted: false }, include: ["Category", "ProductVariant", "ProductAddOn"] });
+    }
+    return await Product.findAll({ where: { IsDeleted: false }, include: ["Category", "ProductVariant", "ProductAddOn"] });
   }
 
   async getById(id) {

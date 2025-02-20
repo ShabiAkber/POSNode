@@ -7,7 +7,10 @@ class OrderStatusesRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await OrderStatus.findAll({ where: { OrderStatus_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    if (query.BranchId) {
+      return await OrderStatus.findAll({ where: { OrderStatus_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    }
+    return await OrderStatus.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {

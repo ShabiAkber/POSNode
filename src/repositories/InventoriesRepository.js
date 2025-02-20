@@ -7,7 +7,10 @@ class InventoriesRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await Inventories.findAll({ where: { Inv_BranchFK: query.BranchId, IsDeleted: false }, include: ["Categories", "Branch"] });
+    if (query.BranchId) {
+      return await Inventories.findAll({ where: { Inv_BranchFK: query.BranchId, IsDeleted: false }, include: ["Categories", "Branch"] });
+    }
+    return await Inventories.findAll({ where: { IsDeleted: false }, include: ["Categories", "Branch"] });
   }
 
   async getById(id) {

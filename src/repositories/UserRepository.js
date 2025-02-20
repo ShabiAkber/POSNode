@@ -7,7 +7,10 @@ class UserRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await UserDetail.findAll({ where: { Usr_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    if (query.BranchId) {
+      return await UserDetail.findAll({ where: { Usr_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    }
+    return await UserDetail.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {

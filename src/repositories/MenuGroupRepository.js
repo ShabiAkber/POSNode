@@ -7,7 +7,10 @@ class MenuGroupRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await MenuGroup.findAll({ where: { MenuGrp_MenuVerFK: query.MenuVerId, MenuGrp_BranchFK: query.BranchId, IsDeleted: false }, include: ["MenuVersion", "Branch"] });
+    if (query.MenuVerId) {
+      return await MenuGroup.findAll({ where: { MenuGrp_MenuVerFK: query.MenuVerId, MenuGrp_BranchFK: query.BranchId, IsDeleted: false }, include: ["MenuVersion", "Branch"] });
+    }
+    return await MenuGroup.findAll({ where: { IsDeleted: false }, include: ["MenuVersion", "Branch"] });
   }
 
   async getById(id) {

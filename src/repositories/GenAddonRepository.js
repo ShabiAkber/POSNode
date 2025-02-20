@@ -7,7 +7,10 @@ class GenAddonRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await GenAddon.findAll({ where: { GenAddon_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    if (query.BranchId) {
+      return await GenAddon.findAll({ where: { GenAddon_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    }
+    return await GenAddon.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {

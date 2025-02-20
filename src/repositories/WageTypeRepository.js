@@ -7,7 +7,10 @@ class WageTypeRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await WageType.findAll({ where: { WageT_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    if (query.BranchId) {
+      return await WageType.findAll({ where: { WageT_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    }
+    return await WageType.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {

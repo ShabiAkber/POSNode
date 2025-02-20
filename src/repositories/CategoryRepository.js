@@ -7,7 +7,10 @@ class CategoryRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await Category.findAll({ where: { Cat_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "MenuGroup"] });
+    if (query.BranchId) {
+      return await Category.findAll({ where: { Cat_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "MenuGroup"] });
+    }
+    return await Category.findAll({ where: { IsDeleted: false }, include: ["Branch", "MenuGroup"] });
   }
 
   async getById(id) {

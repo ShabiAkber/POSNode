@@ -7,7 +7,10 @@ class KitWiseCatRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await KitWiseCat.findAll({ where: { KitSecCat_BranchFK: query.BranchId, IsDeleted: false }, include: ["Category", "KitchenSection", "Branch"] });
+    if (query.BranchId) {
+      return await KitWiseCat.findAll({ where: { KitSecCat_BranchFK: query.BranchId, IsDeleted: false }, include: ["Category", "KitchenSection", "Branch"] });
+    }
+    return await KitWiseCat.findAll({ where: { IsDeleted: false }, include: ["Category", "KitchenSection", "Branch"] });
   }
 
   async getById(id) {

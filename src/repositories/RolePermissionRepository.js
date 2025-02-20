@@ -7,7 +7,10 @@ class RolePermissionRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await RolePermission.findAll({ where: { RP_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "Role", "Permission"] });
+    if (query.BranchId) {
+      return await RolePermission.findAll({ where: { RP_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "Role", "Permission"] });
+    }
+    return await RolePermission.findAll({ where: { IsDeleted: false }, include: ["Branch", "Role", "Permission"] });
   }
 
   async getById(id) {

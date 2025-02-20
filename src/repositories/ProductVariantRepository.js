@@ -7,7 +7,10 @@ class ProductVariantRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await ProductVariant.findAll({ where: { PrdVar_BranchFK: query.BranchId, IsDeleted: false }, include: ["Product"] });
+    if (query.BranchId) {
+      return await ProductVariant.findAll({ where: { PrdVar_BranchFK: query.BranchId, IsDeleted: false }, include: ["Product"] });
+    }
+    return await ProductVariant.findAll({ where: { IsDeleted: false }, include: ["Product"] });
   }
 
   async getById(id) {

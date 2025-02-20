@@ -10,7 +10,10 @@ class OrderDealRepository extends IRepository {
 
   // Implement all required methods from IRepository
   async getAll(query) {
-    return await OrderDeal.findAll({ where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    if (query.BranchId) {
+      return await OrderDeal.findAll({ where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    }
+    return await OrderDeal.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
@@ -31,15 +34,21 @@ class OrderDealRepository extends IRepository {
 
   // ✅ Custom method to fetch details along with relationships
   async getAllWithDetails(query) {
+    if (query.BranchId) {
+      return await OrderDeal.findAll({
+        where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false },
+        include: [ 'OrderDealProduct', 'OrderDealCategory', 'Branch' ],
+      });
+    }
     return await OrderDeal.findAll({
-      where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false },
+      where: { IsDeleted: false },
       include: [ 'OrderDealProduct', 'OrderDealCategory', 'Branch' ],
     });
   }
 
   async getByIdWithDetails(id) {
     return await OrderDeal.findByPk(id, {
-      where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false },
+      where: { IsDeleted: false },
       include: [ 'OrderDealProduct', 'OrderDealCategory', 'Branch' ],
     });
   }

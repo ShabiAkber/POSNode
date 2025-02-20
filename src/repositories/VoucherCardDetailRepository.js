@@ -7,7 +7,10 @@ class VoucherCardDetailRepository extends IRepository {
   }
 
   async getAll(query) {
-    return await VoucherCardDetail.findAll({ where: { VchCrd_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    if (query.BranchId) {
+      return await VoucherCardDetail.findAll({ where: { VchCrd_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    }
+    return await VoucherCardDetail.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
