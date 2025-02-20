@@ -116,8 +116,14 @@ function generateApiPaths() {
       // Handle special cases for path naming
       let basePath;
       switch(resourceName) {
+        case 'Branch':
+          basePath = `/api/branches`; // Keep plural form
+          break;
+          case 'Auth':
+            basePath = `/api/auth`;
+            break;
         default:
-          basePath = `/api/${resourceName.toLowerCase()}s`;
+          basePath = `/api/${resourceName.toLowerCase()}`; // Keep the 's' for plural resources
       }
 
       // Special handling for Auth endpoints

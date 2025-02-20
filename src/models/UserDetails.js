@@ -94,7 +94,7 @@ const UserDetail = sequelize.define("UserDetails", {
   },
   Usr_WageTFK: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: WageType,
       key: "WageT_PK"

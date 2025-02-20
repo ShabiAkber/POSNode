@@ -670,7 +670,7 @@ async function initializeModels() {
     });
     CashTransaction.belongsTo(UserDetail, { 
       foreignKey: "CashTrans_AuthUsrFK", 
-      as: "UserDetails" 
+      as: "AuthUserDetails" 
     });
     CashTransaction.belongsTo(UserDetail, { 
       foreignKey: "CashTrans_UserFK", 

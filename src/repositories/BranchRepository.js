@@ -1,5 +1,5 @@
 const IRepository = require("./IRepository");
-const { Branch } = require("../models/Branches");
+const Branch = require("../models/Branches");
 
 class BranchRepository extends IRepository {
   constructor() {
@@ -7,28 +7,32 @@ class BranchRepository extends IRepository {
   }
 
   async getAll() {
-    return await Branch.findAll();
+    return await Branch.findAll({
+      where: {
+        IsActive: true // Only get non-deleted branches
+      }
+    });
   }
 
   async getById(id) {
-    return await Branch.findByPk(id);
-  }
+      return await Branch.findByPk(id);
+    }
 
   async create(data) {
-    return await Branch.create(data);
-  }
+      return await Branch.create(data);
+    }
 
   async update(id, data) {
-    const branch = await Branch.findByPk(id);
-    if (!branch) throw new Error("Branch not found");
-    return await branch.update(data);
-  }
+      const branch = await Branch.findByPk(id);
+      if(!branch) throw new Error("Branch not found");
+      return await branch.update(data);
+    }
 
-  async delete(id) {
-    const branch = await Branch.findByPk(id);
-    if (!branch) throw new Error("Branch not found");
-    return await branch.update({ IsDeleted: true });
-  }
+  async delete (id) {
+      const branch = await Branch.findByPk(id);
+      if(!branch) throw new Error("Branch not found");
+      return await branch.update({ IsDeleted: true });
+    }
 }
 
 module.exports = new BranchRepository();

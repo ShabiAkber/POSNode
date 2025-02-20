@@ -4,7 +4,7 @@ const UserService = require("../services/UserService");
 
 const AuthController = {
   // ✅ Register User
-  async register(req, res) {
+  async register(req, res, next) {
     try {
       const { email, password } = req.body;
       
@@ -39,19 +39,19 @@ const AuthController = {
   },
 
   // ✅ Login User
-  async login(req, res) {
+  async login(req, res, next) {
     try {
       const { email, password } = req.body;
 
       // Check if user exists
-      const user = await UserRepository.findByEmail(email);
+      const user = await UserService.findByEmail(email);
       if (!user) return res.status(400).json({ 
         success: false,
         message: "Invalid email or password" 
       });
 
       // Compare password
-      const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = await bcrypt.compare(password, user.Usr_Password);
       if (!isMatch) return res.status(400).json({ 
         success: false,
         message: "Invalid email or password" 
