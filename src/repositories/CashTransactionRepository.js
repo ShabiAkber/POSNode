@@ -8,13 +8,13 @@ class CashTransactionRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await CashTransaction.findAll({ where: { CashTrans_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+      return await CashTransaction.findAll({ where: { CashTrans_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches"] });
     }
-    return await CashTransaction.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
+    return await CashTransaction.findAll({ where: { IsDeleted: false }, include: ["Branches"] });
   }
 
   async getById(id) {
-    return await CashTransaction.findOne({ where: { CashTrans_PK: id, IsDeleted: false }, include: ["Branch"] });
+    return await CashTransaction.findOne({ where: { CashTrans_PK: id, IsDeleted: false }, include: ["Branches"] });
   }
 
   async create(data) {

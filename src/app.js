@@ -23,6 +23,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 // ✅ Enable CORS
 app.use(corsMiddleware);
 
+// Add this before your routes
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 // ✅ Auth Routes (No Middleware)
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
@@ -63,39 +69,39 @@ const productAddOnRoutes = require("./routes/productAddOnRoutes");
 const kitchenOrderRoutes = require("./routes/kitchenOrderRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
-app.use("/api/users", authMiddleware, userRoutes);
-app.use("/api/departments", authMiddleware, departmentRoutes);
-app.use("/api/wage-types", authMiddleware, wageTypeRoutes);
-app.use("/api/user-types", authMiddleware, userTypeRoutes);
-app.use("/api/branches", authMiddleware, branchRoutes);
-app.use("/api/roles", authMiddleware, roleRoutes);
-app.use("/api/permissions", authMiddleware, permissionRoutes);
-app.use("/api/role-permissions", authMiddleware, rolePermissionRoutes);
-app.use("/api/user-roles", authMiddleware, userRoleRoutes);
-app.use("/api/payment-types", authMiddleware, paymentTypesRoutes);
-app.use("/api/payment-statuses", authMiddleware, paymentStatusesRoutes);
-app.use("/api/order-types", authMiddleware, orderTypesRoutes);
-app.use("/api/order-statuses", authMiddleware, orderStatusesRoutes);
-app.use("/api/orders", authMiddleware, orderRoutes);
-app.use("/api/order-details", authMiddleware, orderDetailRoutes);
-app.use("/api/voucher-cards", authMiddleware, voucherCardRoutes);
-app.use("/api/gift-cards", authMiddleware, giftCardRoutes);
-app.use("/api/menuVersions", authMiddleware, menuVersionRoutes);
-app.use("/api/menuGroups", authMiddleware, menuGroupRoutes);
-app.use("/api/categories", authMiddleware, categoryRoutes);
-app.use("/api/genmodifires", authMiddleware, genModifireRoutes);
-app.use("/api/genaddons", authMiddleware, genAddonRoutes);
-app.use("/api/kitchensections", authMiddleware, kitchenSectionRoutes);
-app.use("/api/kitwisecats", authMiddleware, kitWiseCatRoutes);
-app.use("/api/inventories", authMiddleware, inventoriesRoutes);
-app.use("/api/cash-registers", authMiddleware, cashRegisterRoutes);
-app.use("/api/cash-transactions", authMiddleware, cashTransactionRoutes);
-app.use("/api/tabledineins", authMiddleware, tableDineInRoutes);
-app.use("/api/orderdeals", authMiddleware, orderDealRoutes);
-app.use("/api/products", authMiddleware, productRoutes);
-app.use("/api/product-variants", authMiddleware, productVariantRoutes);
-app.use("/api/product-add-ons", authMiddleware, productAddOnRoutes);
-app.use("/api/kitchen-orders", authMiddleware, kitchenOrderRoutes);
+app.use("/api/user", authMiddleware, userRoutes);
+app.use("/api/department", authMiddleware, departmentRoutes);
+app.use("/api/wage-type", authMiddleware, wageTypeRoutes);
+app.use("/api/user-type", authMiddleware, userTypeRoutes);
+app.use("/api/branch", authMiddleware, branchRoutes);
+app.use("/api/role", authMiddleware, roleRoutes);
+app.use("/api/permission", authMiddleware, permissionRoutes);
+app.use("/api/role-permission", authMiddleware, rolePermissionRoutes);
+app.use("/api/user-role", authMiddleware, userRoleRoutes);
+app.use("/api/payment-type", authMiddleware, paymentTypesRoutes);
+app.use("/api/payment-status", authMiddleware, paymentStatusesRoutes);
+app.use("/api/order-type", authMiddleware, orderTypesRoutes);
+app.use("/api/order-status", authMiddleware, orderStatusesRoutes);
+app.use("/api/order", authMiddleware, orderRoutes);
+app.use("/api/order-detail", authMiddleware, orderDetailRoutes);
+app.use("/api/voucher-card", authMiddleware, voucherCardRoutes);
+app.use("/api/gift-card", authMiddleware, giftCardRoutes);
+app.use("/api/menu-version", authMiddleware, menuVersionRoutes);
+app.use("/api/menu-grp", authMiddleware, menuGroupRoutes);
+app.use("/api/category", authMiddleware, categoryRoutes);
+app.use("/api/general-modifier", authMiddleware, genModifireRoutes);
+app.use("/api/general-addon", authMiddleware, genAddonRoutes);
+app.use("/api/kitchen-section", authMiddleware, kitchenSectionRoutes);
+app.use("/api/kitchen-category", authMiddleware, kitWiseCatRoutes);
+app.use("/api/inventory", authMiddleware, inventoriesRoutes);
+app.use("/api/cash-register", authMiddleware, cashRegisterRoutes);
+app.use("/api/cash-transaction", authMiddleware, cashTransactionRoutes);
+app.use("/api/tabledinein", authMiddleware, tableDineInRoutes);
+app.use("/api/order-deal", authMiddleware, orderDealRoutes);
+app.use("/api/product", authMiddleware, productRoutes);
+app.use("/api/product-variant", authMiddleware, productVariantRoutes);
+app.use("/api/product-addon", authMiddleware, productAddOnRoutes);
+app.use("/api/kitchen-order", authMiddleware, kitchenOrderRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);

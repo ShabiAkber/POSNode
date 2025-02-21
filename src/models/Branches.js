@@ -29,6 +29,7 @@ const Branch = sequelize.define("Branches", {
   },
   IsActive: {
     type: DataTypes.BOOLEAN,
+    allowNull: false,
     defaultValue: true,
   },
 }, {

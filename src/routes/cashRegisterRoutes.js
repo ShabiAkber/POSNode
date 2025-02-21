@@ -1,12 +1,12 @@
 const express = require("express");
-const cashRegisterController = require("../controllers/CashRegisterController");
-
 const router = express.Router();
+const CashRegisterController = require("../controllers/CashRegisterController");
 
-router.get("/", cashRegisterController.getAll);
-router.get("/:id", cashRegisterController.getById);
-router.post("/", cashRegisterController.create);
-router.put("/:id", cashRegisterController.update);
-router.delete("/:id", cashRegisterController.delete);
+// Define routes
+router.get("/", CashRegisterController.getAll);
+router.get("/:id", CashRegisterController.getById);
+router.post("/", CashRegisterController.create);
+router.put("/:id", CashRegisterController.update);
+router.delete("/:id", CashRegisterController.delete);
 
 module.exports = router;

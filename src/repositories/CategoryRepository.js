@@ -8,13 +8,13 @@ class CategoryRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await Category.findAll({ where: { Cat_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "MenuGroup"] });
+      return await Category.findAll({ where: { Cat_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches", "MenuGroups"] });
     }
-    return await Category.findAll({ where: { IsDeleted: false }, include: ["Branch", "MenuGroup"] });
+    return await Category.findAll({ where: { IsDeleted: false }, include: ["Branches", "MenuGroups"] });
   }
 
   async getById(id) {
-    return await Category.findOne({ where: { Cat_PK: id, IsDeleted: false }, include: ["Branch", "MenuGroup"] });
+    return await Category.findOne({ where: { Cat_PK: id, IsDeleted: false }, include: ["Branches", "MenuGroups"] });
   }
 
   async create(data) {

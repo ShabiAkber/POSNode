@@ -8,9 +8,9 @@ class CashRegisterRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await CashRegister.findAll({ where: { CashReg_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+      return await CashRegister.findAll({ where: { CashReg_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches"] });
     }
-    return await CashRegister.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
+    return await CashRegister.findAll({ where: { IsDeleted: false }, include: ["Branches"] });
   }
 
   async getById(id) {

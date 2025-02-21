@@ -1,5 +1,5 @@
 const app = require("./app");
-const { connectDB } = require("./config/db");
+const { initializeModels } = require("./models");
 const adminSeeder = require('./seeders/adminSeeder');
 
 const PORT = process.env.PORT || 5000;
@@ -7,11 +7,8 @@ const PORT = process.env.PORT || 5000;
 // Start server
 const startServer = async () => {
   try {
-    // Connect to database
-    const isConnected = await connectDB();
-    if (!isConnected) {
-      throw new Error('Database connection failed');
-    }
+    console.log('Starting database initialization...');
+    await initializeModels();
 
     // Seed admin user
     const seedingResult = await adminSeeder.seedAdmin();

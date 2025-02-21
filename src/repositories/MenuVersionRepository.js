@@ -8,13 +8,13 @@ class MenuVersionRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await MenuVersion.findAll({ where: { MenuVer_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+      return await MenuVersion.findAll({ where: { MenuVer_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches"] });
     }
-    return await MenuVersion.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
+    return await MenuVersion.findAll({ where: { IsDeleted: false }, include: ["Branches"] });
   }
 
   async getById(id) {
-    return await MenuVersion.findOne({ where: { MenuVer_PK: id, IsDeleted: false }, include: ["Branch"] });
+    return await MenuVersion.findOne({ where: { MenuVer_PK: id, IsDeleted: false }, include: ["Branches"] });
   }
 
   async create(data) {

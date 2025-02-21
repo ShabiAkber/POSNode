@@ -1,6 +1,7 @@
 const { UserDetail } = require('../models');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
+const roleSeeder = require('./roleSeeder');
 
 class AdminSeeder {
   async seedAdmin() {
@@ -17,9 +18,10 @@ class AdminSeeder {
         }
       });
 
+      let adminUser;
       if (!existingAdmin) {
-        const adminUser = {
-          Usr_PK: uuidv4(),
+        adminUser = await UserDetail.create({
+          Usr_PK: '0000000001',
           Usr_UserName: 'admin',
           Usr_Password: hashedPassword,
           Usr_FirstName: 'Admin',
@@ -31,23 +33,19 @@ class AdminSeeder {
           Usr_CheckOut: new Date(),
           Usr_WageAmt: 0,
           IsDeleted: false
-        };
-
-        await UserDetail.create(adminUser)
-          .catch(error => {
-            console.error('Failed to create admin user:', error);
-            throw new Error('Admin user creation failed');
-          });
-
+        });
         console.log('✅ Admin user created successfully!');
       } else {
+        adminUser = existingAdmin;
         console.log('ℹ️ Admin user already exists');
       }
+
+      // Seed admin role and assign to admin user
+      await roleSeeder.seedAdminRole();
 
       return true;
     } catch (error) {
       console.error('❌ Admin seeding failed:', error.message);
-      // Instead of throwing, return false to indicate failure
       return false;
     }
   }

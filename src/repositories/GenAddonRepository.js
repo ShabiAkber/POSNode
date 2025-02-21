@@ -8,13 +8,13 @@ class GenAddonRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await GenAddon.findAll({ where: { GenAddon_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+      return await GenAddon.findAll({ where: { GenAddon_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches"] });
     }
-    return await GenAddon.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
+    return await GenAddon.findAll({ where: { IsDeleted: false }, include: ["Branches"] });
   }
 
   async getById(id) {
-    return await GenAddon.findOne({ where: { GenAddon_PK: id, IsDeleted: false }, include: ["Branch"] });
+    return await GenAddon.findOne({ where: { GenAddon_PK: id, IsDeleted: false }, include: ["Branches"] });
   }
 
   async create(data) {

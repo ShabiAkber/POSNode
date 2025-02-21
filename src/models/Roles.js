@@ -16,7 +16,7 @@ const Role = sequelize.define("Roles", {
   },
   R_BranchFK: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: Branch,
       key: "Branch_PK"

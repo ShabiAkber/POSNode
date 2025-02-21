@@ -1,5 +1,5 @@
 const IRepository = require("./IRepository");
-const UserDetail = require("../models/UserDetails");
+const { UserDetail, Branch } = require("../models"); // Import from models index
 
 class UserRepository extends IRepository {
   constructor() {
@@ -7,18 +7,54 @@ class UserRepository extends IRepository {
   }
 
   async getAll(query) {
-    if (query.BranchId) {
-      return await UserDetail.findAll({ where: { Usr_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+    try {
+      const whereClause = { IsDeleted: false };
+      if (query?.BranchId) {
+        whereClause.Usr_BranchFK = query.BranchId;
+      }
+
+      const users = await UserDetail.findAll({
+        where: whereClause,
+        include: [{
+          model: Branch,
+          as: "Branches",
+          attributes: ["Branch_PK", "Branch_Name"]
+        }]
+      });
+
+      return users;
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      throw error;
     }
-    return await UserDetail.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
   }
 
   async getById(id) {
-    return await UserDetail.findByPk(id, { include: ["Branch"] });
+    return await UserDetail.findOne({
+      where: { 
+        Usr_PK: id,
+        IsDeleted: false 
+      },
+      include: [{
+        model: Branch,
+        as: "Branches",
+        attributes: ["Branch_PK", "Branch_Name"]
+      }]
+    });
   }
 
   async findByEmail(email) {
-    return await UserDetail.findOne({ where: { Usr_Email: email, IsDeleted: false } });
+    return await UserDetail.findOne({
+      where: { 
+        Usr_Email: email, 
+        IsDeleted: false 
+      },
+      include: [{
+        model: Branch,
+        as: "Branches",
+        attributes: ["Branch_PK", "Branch_Name"]
+      }]
+    });
   }
 
   async create(data) {
@@ -26,11 +62,16 @@ class UserRepository extends IRepository {
   }
 
   async update(id, data) {
-    return await UserDetail.update(data, { where: { Usr_PK: id } });
+    return await UserDetail.update(data, { 
+      where: { Usr_PK: id }
+    });
   }
 
   async delete(id) {
-    return await UserDetail.update({ IsDeleted: true }, { where: { Usr_PK: id } });
+    return await UserDetail.update(
+      { IsDeleted: true }, 
+      { where: { Usr_PK: id }}
+    );
   }
 }
 

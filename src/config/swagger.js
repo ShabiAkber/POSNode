@@ -6,7 +6,7 @@ const path = require('path');
 // Helper function to convert Sequelize data types to Swagger types
 function getSwaggerType(sequelizeType) {
   if (!sequelizeType) return 'string';
-  
+
   const type = sequelizeType.key || sequelizeType.constructor.key;
   switch (type) {
     case 'STRING':
@@ -43,6 +43,7 @@ function generateTags() {
     'GiftCardDetail': 'Gift Card Detail management',
     'KitchenSection': 'Kitchen Section management',
     'KitWiseCat': 'Kit Wise Category management',
+    'MenuVersion': 'Menu Version management',
     'MenuGroup': 'Menu Group management',
     'Order': 'Order management',
     'OrderDetail': 'Order detail management',
@@ -57,7 +58,6 @@ function generateTags() {
     'UserRole': 'User Role management',
     'UserType': 'User type management',
     'WageType': 'Wage type management',
-    
   };
 
   return Object.entries(controllerMappings).map(([name, description]) => ({
@@ -70,7 +70,7 @@ function generateTags() {
 function generateApiPaths() {
   const paths = {};
   const controllersPath = path.join(__dirname, '../controllers');
-  
+
   // Map controller names to their expected file names
   const controllerMappings = {
     'Auth': 'AuthController.js',
@@ -85,6 +85,7 @@ function generateApiPaths() {
     'Inventory': 'InventoriesController.js',
     'KitchenSection': 'KitchenSectionController.js',
     'KitWiseCat': 'KitWiseCatController.js',
+    'MenuVersion': 'MenuVersionController.js',
     'MenuGroup': 'MenuGroupController.js',
     'Order': 'OrderController.js',
     'OrderDetail': 'OrderDetailController.js',
@@ -99,7 +100,6 @@ function generateApiPaths() {
     'UserRole': 'UserRoleController.js',
     'UserType': 'UserTypeController.js',
     'WageType': 'WageTypeController.js',
-    
   };
 
   Object.entries(controllerMappings).forEach(([resourceName, fileName]) => {
@@ -112,18 +112,105 @@ function generateApiPaths() {
 
       const Controller = require(filePath);
       const controller = typeof Controller === 'function' ? new Controller() : Controller;
-      
+
       // Handle special cases for path naming
       let basePath;
-      switch(resourceName) {
+      switch (resourceName) {
         case 'Branch':
-          basePath = `/api/branches`; // Keep plural form
+          basePath = `/api/branch`;
           break;
-          case 'Auth':
-            basePath = `/api/auth`;
-            break;
+        case 'Auth':
+          basePath = `/api/auth`;
+          break;
+        case 'User':
+          basePath = `/api/user`;
+          break;
+        case 'CashRegister':
+          basePath = `/api/cash-register`;
+          break;
+        case 'CashTransaction':
+          basePath = `/api/cash-transaction`; // Updated to match route
+          break;
+        case 'Category':
+          basePath = `/api/category`;
+          break;
+        case 'OrderStatus':
+          basePath = `/api/order-status`;
+          break;
+        case 'OrderType':
+          basePath = `/api/order-type`;
+          break;
+        case 'PaymentStatus':
+          basePath = `/api/payment-status`;
+          break;
+        case 'PaymentType':
+          basePath = `/api/payment-type`;
+          break;
+        case 'Permission':
+          basePath = `/api/permission`;
+          break;
+        case 'Role':
+          basePath = `/api/role`;
+          break;
+        case 'RolePermission':
+          basePath = `/api/role-permission`;
+          break;
+        case 'Department':
+          basePath = `/api/department`;
+          break;
+        case 'GenAddon':
+          basePath = `/api/general-addon`;
+          break;
+        case 'GenModifire':
+          basePath = `/api/general-modifire`;
+          break;
+        case 'GiftCardDetail':
+          basePath = `/api/gift-card`;
+          break;
+        case 'Inventory':
+          basePath = `/api/inventory`;
+          break;
+        case 'KitchenSection':
+          basePath = `/api/kitchen-section`;
+          break;
+        case 'KitWiseCat':
+          basePath = `/api/kitchen-category`;
+          break;
+        case 'MenuGroup':
+          basePath = `/api/menu-grp`;
+          break;
+        case 'Order':
+          basePath = `/api/order`;
+          break;
+        case 'OrderDetail':
+          basePath = `/api/order-detail`;
+          break;
+        case 'OrderDeal':
+          basePath = `/api/order-deal`;
+          break;
+        case 'Product':
+          basePath = `/api/product`;
+          break;
+        case 'ProductVariant':
+          basePath = `/api/product-variant`;
+          break;
+        case 'TableDineIn':
+          basePath = `/api/tabledinein`;
+          break;
+        case 'VoucherCard':
+          basePath = `/api/voucher-card`;
+          break;
+        case 'ProductAddon':
+          basePath = `/api/product-addon`;
+          break;
+        case 'KitchenOrder':
+          basePath = `/api/kitchen-order`;
+          break;
+        case 'MenuVersion':
+          basePath = `/api/menu-version`;
+          break;
         default:
-          basePath = `/api/${resourceName.toLowerCase()}`; // Keep the 's' for plural resources
+          basePath = `/api/${resourceName.toLowerCase()}`;
       }
 
       // Special handling for Auth endpoints
@@ -2969,188 +3056,7 @@ function generateApiPaths() {
         }
       }
 
-      // For MenuGroup controller specifically
-      if (resourceName === 'MenuGroup') {
-        // GET /api/menu-groups
-        if (typeof controller.getAll === 'function') {
-          paths[basePath].get = {
-            summary: 'Get all Menu Groups',
-            tags: [resourceName],
-            security: [{ bearerAuth: [] }],
-            responses: {
-              200: {
-                description: 'Successful response',
-                content: {
-                  'application/json': {
-                    schema: {
-                      type: 'object',
-                      properties: {
-                        success: { type: 'boolean', example: true },
-                        data: {
-                          type: 'array',
-                          items: {
-                            $ref: '#/components/schemas/MenuGroups'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          };
-        }
-
-        // POST /api/menu-groups
-        if (typeof controller.create === 'function') {
-          paths[basePath].post = {
-            summary: 'Create new Menu Group',
-            tags: [resourceName],
-            security: [{ bearerAuth: [] }],
-            requestBody: {
-              required: true,
-              content: {
-                'application/json': {
-                  schema: {
-                    $ref: '#/components/schemas/MenuGroups'
-                  }
-                }
-              }
-            },
-            responses: {
-              201: {
-                description: 'Created successfully',
-                content: {
-                  'application/json': {
-                    schema: {
-                      type: 'object',
-                      properties: {
-                        success: { type: 'boolean', example: true },
-                        data: {
-                          $ref: '#/components/schemas/MenuGroups'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          };
-        }
-
-        // GET /api/menu-groups/{id}
-        if (typeof controller.getById === 'function') {
-          paths[`${basePath}/{id}`].get = {
-            summary: 'Get Menu Group by ID',
-            tags: [resourceName],
-            security: [{ bearerAuth: [] }],
-            parameters: [
-              {
-                in: 'path',
-                name: 'id',
-                required: true,
-                schema: { type: 'string' }
-              }
-            ],
-            responses: {
-              200: {
-                description: 'Successful response',
-                content: {
-                  'application/json': {
-                    schema: {
-                      type: 'object',
-                      properties: {
-                        success: { type: 'boolean', example: true },
-                        data: {
-                          $ref: '#/components/schemas/MenuGroups'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          };
-        }
-
-        // PUT /api/menu-groups/{id}
-        if (typeof controller.update === 'function') {
-          paths[`${basePath}/{id}`].put = {
-            summary: 'Update Menu Group',
-            tags: [resourceName],
-            security: [{ bearerAuth: [] }],
-            parameters: [
-              {
-                in: 'path',
-                name: 'id',
-                required: true,
-                schema: { type: 'string' }
-              }
-            ],
-            requestBody: {
-              required: true,
-              content: {
-                'application/json': {
-                  schema: {
-                    $ref: '#/components/schemas/MenuGroups'
-                  }
-                }
-              }
-            },
-            responses: {
-              200: {
-                description: 'Updated successfully',
-                content: {
-                  'application/json': {
-                    schema: {
-                      type: 'object',
-                      properties: {
-                        success: { type: 'boolean', example: true },
-                        data: {
-                          $ref: '#/components/schemas/MenuGroups'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          };
-        }
-
-        // DELETE /api/menu-groups/{id}
-        if (typeof controller.delete === 'function') {
-          paths[`${basePath}/{id}`].delete = {
-            summary: 'Delete Menu Group',
-            tags: [resourceName],
-            security: [{ bearerAuth: [] }],
-            parameters: [
-              {
-                in: 'path',
-                name: 'id',
-                required: true,
-                schema: { type: 'string' }
-              }
-            ],
-            responses: {
-              200: {
-                description: 'Deleted successfully',
-                content: {
-                  'application/json': {
-                    schema: {
-                      type: 'object',
-                      properties: {
-                        success: { type: 'boolean', example: true },
-                        message: { type: 'string', example: 'Menu Group deleted successfully' }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          };
-        }
-      }
+      
     } catch (error) {
       console.warn(`Warning: Could not generate API paths for ${fileName}:`, error.message);
     }
@@ -3196,11 +3102,11 @@ function generateModelSchemas() {
   modelFiles.forEach(file => {
     try {
       const model = require(path.join(modelsPath, file));
-      
+
       if (model && model.getAttributes) {
         const modelName = model.name;
         const attributes = model.getAttributes();
-        
+
         const properties = {};
         const required = [];
 
@@ -3209,7 +3115,7 @@ function generateModelSchemas() {
             type: getSwaggerType(attribute.type),
             description: attribute.comment || `${key} field`
           };
-          
+
           if (attribute.allowNull === false) {
             required.push(key);
           }

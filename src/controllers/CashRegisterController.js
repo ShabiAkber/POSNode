@@ -1,54 +1,81 @@
-const cashRegisterService = require("../services/CashRegisterService");
+const CashRegisterService = require("../services/CashRegisterService");
 
 class CashRegisterController {
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
-      const cashRegisters = await cashRegisterService.getAll(req.query);
-      res.json(cashRegisters);
+      const cashRegisters = await CashRegisterService.getAll(req.query);
+      res.json({
+        success: true,
+        data: cashRegisters
+      });
     } catch (error) {
-      next(error); // Pass the error to errorMiddleware
+      next(error);
     }
   }
 
-  async getById(req, res) {
+  async getById(req, res, next) {
     try {
-      const { id } = req.params;
-      const cashRegister = await cashRegisterService.getById(id);
-      if (!cashRegister) return res.status(404).json({ message: "Cash Register not found" });
-      res.json(cashRegister);
+      const cashRegister = await CashRegisterService.getById(req.params.id);
+      if (!cashRegister) {
+        return res.status(404).json({
+          success: false,
+          message: "Cash Register not found"
+        });
+      }
+      res.json({
+        success: true,
+        data: cashRegister
+      });
     } catch (error) {
-      next(error); // Pass the error to errorMiddleware
+      next(error);
     }
   }
 
-  async create(req, res) {
+  async create(req, res, next) {
     try {
-      const newCashRegister = await cashRegisterService.create(req.body);
-      res.status(201).json(newCashRegister);
+      const cashRegister = await CashRegisterService.create(req.body);
+      res.status(201).json({
+        success: true,
+        data: cashRegister
+      });
     } catch (error) {
-      next(error); // Pass the error to errorMiddleware
+      next(error);
     }
   }
 
-  async update(req, res) {
+  async update(req, res, next) {
     try {
-      const { id } = req.params;
-      const updatedCashRegister = await cashRegisterService.update(id, req.body);
-      if (!updatedCashRegister) return res.status(404).json({ message: "Cash Register not found" });
-      res.json(updatedCashRegister);
+      const cashRegister = await CashRegisterService.update(req.params.id, req.body);
+      if (!cashRegister) {
+        return res.status(404).json({
+          success: false,
+          message: "Cash Register not found"
+        });
+      }
+      res.json({
+        success: true,
+        data: cashRegister
+      });
     } catch (error) {
-      next(error); // Pass the error to errorMiddleware
+      next(error);
     }
   }
 
-  async delete(req, res) {
+  async delete(req, res, next) {
     try {
-      const { id } = req.params;
-      const deletedCashRegister = await cashRegisterService.delete(id);
-      if (!deletedCashRegister) return res.status(404).json({ message: "Cash Register not found" });
-      res.json({ message: "Cash Register deleted successfully" });
+      const result = await CashRegisterService.delete(req.params.id);
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: "Cash Register not found"
+        });
+      }
+      res.json({
+        success: true,
+        message: "Cash Register deleted successfully"
+      });
     } catch (error) {
-      next(error); // Pass the error to errorMiddleware
+      next(error);
     }
   }
 }

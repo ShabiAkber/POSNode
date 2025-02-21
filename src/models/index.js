@@ -697,13 +697,13 @@ async function initializeModels() {
     });
 
     OrderDealCategory.belongsTo(OrderDeal, {
-      foreignKey: "DealFK",
-      as: "Deals",
+      foreignKey: "DealProduct_DealFK",
+      as: "OrderDeals",
     });
 
     // Sync models with database
     console.log("Syncing models with database...");
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: true });
     console.log("✅ All models synchronized successfully!");
 
     return true;
