@@ -3197,6 +3197,144 @@ function generateApiPaths() {
 
         // Add other paths (GET /{id}, PUT, DELETE) here...
       }
+
+      // In the generateApiPaths function, update or add the menu version paths:
+
+      if (resourceName === 'MenuVersion') {
+        paths[basePath] = {
+          get: {
+            summary: 'Get all menu versions',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'query',
+                name: 'BranchId',
+                schema: { type: 'string' },
+                description: 'Filter by branch ID'
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Success',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: { $ref: '#/components/schemas/MenuVersions' }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          post: {
+            summary: 'Create menu versions for multiple branches',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    required: ['branchPKs', 'MenuVer_Name'],
+                    properties: {
+                      branchPKs: {
+                        type: 'array',
+                        items: { type: 'string' },
+                        description: 'Array of branch PKs',
+                        example: ['0000000001', '0000000002']
+                      },
+                      MenuVer_Name: {
+                        type: 'string',
+                        description: 'Name of the menu version',
+                        example: 'Summer Menu 2024'
+                      }
+                    }
+                  },
+                  examples: {
+                    multipleBranches: {
+                      summary: 'Create menu version for multiple branches',
+                      value: {
+                        branchPKs: ['0000000001', '0000000002'],
+                        MenuVer_Name: 'Summer Menu 2024'
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            responses: {
+              201: {
+                description: 'Menu versions created successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: {
+                            type: 'object',
+                            properties: {
+                              MenuVer_PK: { type: 'string', example: '0000000001' },
+                              MenuVer_Name: { type: 'string', example: 'Summer Menu 2024' },
+                              MenuVer_BranchFK: { type: 'string', example: '0000000001' },
+                              IsDeleted: { type: 'boolean', example: false }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    example: {
+                      success: true,
+                      data: [{
+                        MenuVer_PK: '0000000001',
+                        MenuVer_Name: 'Summer Menu 2024',
+                        MenuVer_BranchFK: '0000000001',
+                        IsDeleted: false
+                      }, {
+                        MenuVer_PK: '0000000002',
+                        MenuVer_Name: 'Summer Menu 2024',
+                        MenuVer_BranchFK: '0000000002',
+                        IsDeleted: false
+                      }]
+                    }
+                  }
+                }
+              },
+              400: {
+                description: 'Validation error',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: false },
+                        error: { type: 'string' }
+                      }
+                    },
+                    example: {
+                      success: false,
+                      error: 'branchPKs must be an array, MenuVer_Name is required'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        // Add other paths (GET /{id}, PUT, DELETE) here...
+      }
     } catch (error) {
       console.warn(`Warning: Could not generate API paths for ${fileName}:`, error.message);
     }

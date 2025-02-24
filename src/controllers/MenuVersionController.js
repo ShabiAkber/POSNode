@@ -33,10 +33,16 @@ class MenuVersionController {
 
   async create(req, res, next) {
     try {
-      const menuVersion = await menuVersionService.create(req.body);
+      // Example request body:
+      // {
+      //   "branchPKs": ["0000000001", "0000000002"],
+      //   "MenuVer_Name": "Summer Menu 2024"
+      // }
+
+      const menuVersions = await menuVersionService.createMultiple(req.body);
       res.status(201).json({
         success: true,
-        data: menuVersion
+        data: menuVersions
       });
     } catch (error) {
       next(error);

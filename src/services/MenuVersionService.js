@@ -1,5 +1,6 @@
 const IService = require("./IService");
 const menuVersionRepository = require("../repositories/MenuVersionRepository");
+const MenuVersionDto = require("../dtos/MenuVersionDto");
 
 class MenuVersionService extends IService {
   constructor() {
@@ -15,7 +16,17 @@ class MenuVersionService extends IService {
   }
 
   async create(data) {
-    return await menuVersionRepository.create(data);
+    // Validate using DTO
+    const validationErrors = MenuVersionDto.validate(data);
+    if (validationErrors.length > 0) {
+      throw new Error(validationErrors.join(", "));
+    }
+
+    // Transform data using DTO
+    const menuVersionDto = new MenuVersionDto(data);
+
+    // Create menu versions
+    return await menuVersionRepository.create(menuVersionDto.toJSON());
   }
 
   async update(id, data) {
@@ -24,6 +35,10 @@ class MenuVersionService extends IService {
 
   async delete(id) {
     return await menuVersionRepository.delete(id);
+  }
+
+  async createMultiple(data) {
+    
   }
 }
 

@@ -1,5 +1,5 @@
 const IRepository = require("./IRepository");
-const MenuVersion = require("../models/MenuVersions");
+const { MenuVersion } = require("../models");
 const PKGenerator = require("../utils/pkGenerator");
 
 class MenuVersionRepository extends IRepository {
@@ -19,13 +19,27 @@ class MenuVersionRepository extends IRepository {
   }
 
   async create(data) {
-    try{
-      const pk = await PKGenerator.generatePK('MenuVersions', 'MenuVer_PK');
-      return await MenuVersion.create({
-        ...data,
-        MenuVer_PK: pk
-      });
+    try {
+      const { branchPKs, versionData } = menuVersionData;
+      const createdVersions = [];
+
+      // Create menu version for each branch PK
+      for (const branchPK of branchPKs) {
+        const pk = await PKGenerator.generatePK('MenuVersions', 'MenuVer_PK');
+
+        const menuVersion = await MenuVersion.create({
+          MenuVer_PK: pk,
+          MenuVer_Name: versionData.MenuVer_Name,
+          MenuVer_BranchFK: branchPK,
+          IsDeleted: false
+        });
+
+        createdVersions.push(menuVersion);
+      }
+
+      return createdVersions;
     } catch (error) {
+      console.error("Error creating menu versions:", error);
       throw error;
     }
   }
