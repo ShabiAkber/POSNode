@@ -8,17 +8,25 @@ class DepartmentRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await Department.findAll({ where: { Dep_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+      return await Department.findAll({ where: { Dep_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches"] });
     }
-    return await Department.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
+    return await Department.findAll({ where: { IsDeleted: false }, include: ["Branches"] });
   }
 
   async getById(id) {
-    return await Department.findOne({ where: { Dep_PK: id, IsDeleted: false }, include: ["Branch"] });
+    return await Department.findOne({ where: { Dep_PK: id, IsDeleted: false }, include: ["Branches"] });
   }
 
   async create(data) {
-    return await Department.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('Departments', 'Dep_PK');
+      return await Department.create({
+        ...data,
+        Dep_PK: pk
+      });
+    } catch (error) {
+      throw error;  
+    }
   }
 
   async update(id, data) {

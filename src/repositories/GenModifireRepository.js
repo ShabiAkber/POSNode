@@ -18,7 +18,15 @@ class GenModifireRepository extends IRepository {
   }
 
   async create(data) {
-    return await GenModifire.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('GenModifires', 'GenMod_PK');
+      return await GenModifire.create({
+          ...data,
+        GenMod_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

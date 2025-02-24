@@ -36,6 +36,7 @@ const Product = require("./Products");
 const ProductVariant = require("./ProductVariants");
 const ProductAddOn = require("./ProductAddOns");
 const KitchenOrder = require("./KitchenOrders");
+const Restaurant = require("./Restaurants");
 
 // Initialize models and database 
 async function initializeModels() {
@@ -50,6 +51,18 @@ async function initializeModels() {
 
     // Define all associations
     console.log("Setting up model associations...");
+
+    // Restaurant Relationships with Branch
+    Restaurant.hasMany(Branch, {
+      foreignKey: "Branch_ResFK",
+      as: "Branches",
+      onDelete: 'NO ACTION',
+      onUpdate: 'NO ACTION'
+    });
+    Branch.belongsTo(Restaurant, {
+      foreignKey: "Branch_ResFK",
+      as: "Restaurants"
+    });
 
     // UserDetail Relationships with NO ACTION
     UserType.hasMany(UserDetail, {

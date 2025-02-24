@@ -18,7 +18,15 @@ class CashRegisterRepository extends IRepository {
   }
 
   async create(data) {
-    return await CashRegister.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('CashRegisters', 'CashReg_PK');
+      return await CashRegister.create({
+        ...data,
+        CashReg_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

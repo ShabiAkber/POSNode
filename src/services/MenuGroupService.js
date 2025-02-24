@@ -1,5 +1,6 @@
 const IService = require("./IService");
 const menuGroupRepository = require("../repositories/MenuGroupRepository");
+const MenuGroupDto = require("../dtos/MenuGroupDto");
 
 class MenuGroupService extends IService {
   constructor() {
@@ -14,16 +15,26 @@ class MenuGroupService extends IService {
     return await menuGroupRepository.getById(id);
   }
 
-  async create(data) {
-    return await menuGroupRepository.create(data);
-  }
-
   async update(id, data) {
     return await menuGroupRepository.update(id, data);
   }
 
   async delete(id) {
     return await menuGroupRepository.delete(id);
+  }
+
+  async createMultiple(data) {
+    // Validate using DTO
+    const validationErrors = MenuGroupDto.validate(data);
+    if (validationErrors.length > 0) {
+      throw new Error(validationErrors.join(", "));
+    }
+
+    // Transform data using DTO
+    const menuGroupDto = new MenuGroupDto(data);
+
+    // Create menu groups
+    return await menuGroupRepository.createMultiple(menuGroupDto.toJSON());
   }
 }
 

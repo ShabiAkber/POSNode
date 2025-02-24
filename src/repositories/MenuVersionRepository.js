@@ -1,5 +1,6 @@
 const IRepository = require("./IRepository");
 const MenuVersion = require("../models/MenuVersions");
+const PKGenerator = require("../utils/pkGenerator");
 
 class MenuVersionRepository extends IRepository {
   constructor() {
@@ -18,7 +19,15 @@ class MenuVersionRepository extends IRepository {
   }
 
   async create(data) {
-    return await MenuVersion.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('MenuVersions', 'MenuVer_PK');
+      return await MenuVersion.create({
+        ...data,
+        MenuVer_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

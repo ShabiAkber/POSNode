@@ -1,5 +1,6 @@
 const IRepository = require("./IRepository");
 const { UserDetail, Branch } = require("../models"); // Import from models index
+const PKGenerator = require("../utils/pkGenerator");
 
 class UserRepository extends IRepository {
   constructor() {
@@ -58,7 +59,16 @@ class UserRepository extends IRepository {
   }
 
   async create(data) {
-    return await UserDetail.create(data);
+    try {
+      // Generate PK before creating record
+      const pk = await PKGenerator.generatePK('UserDetails', 'Usr_PK');
+      return await UserDetail.create({
+        ...data,
+        Usr_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

@@ -11,17 +11,25 @@ class OrderDealRepository extends IRepository {
   // Implement all required methods from IRepository
   async getAll(query) {
     if (query.BranchId) {
-      return await OrderDeal.findAll({ where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+      return await OrderDeal.findAll({ where: { OrderDeal_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches"] });
     }
-    return await OrderDeal.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
+    return await OrderDeal.findAll({ where: { IsDeleted: false }, include: ["Branches"] });
   }
 
   async getById(id) {
-    return await OrderDeal.findByPk(id, { include: ["Branch"] });
+    return await OrderDeal.findByPk(id, { include: ["Branches"] });
   }
 
   async create(data) {
-    return await OrderDeal.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('OrderDeals', 'OrderDeal_PK');
+      return await OrderDeal.create({
+        ...data,
+        OrderDeal_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

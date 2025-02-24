@@ -8,19 +8,27 @@ class UserRoleRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await UserRole.findAll({ where: { UR_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "User", "Role"] });
+      return await UserRole.findAll({ where: { UR_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches", "Users", "Roles"] });
     }
-    return await UserRole.findAll({ where: { IsDeleted: false }, include: ["Branch", "User", "Role"] });
+    return await UserRole.findAll({ where: { IsDeleted: false }, include: ["Branches", "Users", "Roles"] });
   }
 
   async getById(id) {
-    return await UserRole.findByPk(id, { include: ["Branch", "User", "Role"] });
+    return await UserRole.findByPk(id, { include: ["Branches", "Users", "Roles"] });
   }
 
   async create(data) {
-    return await UserRole.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('UserRoles', 'UR_PK');
+      return await UserRole.create({
+        ...data,
+        UR_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
-
+  
   async update(id, data) {
     return await UserRole.update(data, { where: { UR_PK: id } });
   }

@@ -32,6 +32,7 @@ function getSwaggerType(sequelizeType) {
 function generateTags() {
   const controllerMappings = {
     'Auth': 'Authentication endpoints',
+    'Restaurant': 'Restaurant management',
     'Branch': 'Branch management',
     'CashRegister': 'Cash Register management',
     'CashTransaction': 'Cash Transaction management',
@@ -74,6 +75,7 @@ function generateApiPaths() {
   // Map controller names to their expected file names
   const controllerMappings = {
     'Auth': 'AuthController.js',
+    'Restaurant': 'RestaurantController.js',
     'Branch': 'BranchController.js',
     'CashRegister': 'CashRegisterController.js',
     'CashTransaction': 'CashTransactionController.js',
@@ -208,6 +210,9 @@ function generateApiPaths() {
           break;
         case 'MenuVersion':
           basePath = `/api/menu-version`;
+          break;
+        case 'Restaurant':
+          basePath = `/api/restaurant`;
           break;
         default:
           basePath = `/api/${resourceName.toLowerCase()}`;
@@ -3056,7 +3061,142 @@ function generateApiPaths() {
         }
       }
 
-      
+      // For MenuGroup paths
+      if (resourceName === 'MenuGroup') {
+        paths[basePath] = {
+          get: {
+            summary: 'Get all menu groups',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            parameters: [
+              {
+                in: 'query',
+                name: 'BranchId',
+                schema: { type: 'string' },
+                description: 'Filter by branch ID'
+              }
+            ],
+            responses: {
+              200: {
+                description: 'Success',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: { $ref: '#/components/schemas/MenuGroups' }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          post: {
+            summary: 'Create menu groups for multiple menu versions',
+            tags: [resourceName],
+            security: [{ bearerAuth: [] }],
+            requestBody: {
+              required: true,
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    required: ['menuVersionPKs', 'MenuGrp_Name', 'MenuGrp_BranchFK'],
+                    properties: {
+                      menuVersionPKs: {
+                        type: 'array',
+                        items: { type: 'string' },
+                        description: 'Array of menu version PKs',
+                        example: ['0000000001', '0000000002']
+                      },
+                      MenuGrp_Name: {
+                        type: 'string',
+                        description: 'Name of the menu group',
+                        example: 'Breakfast Menu'
+                      },
+                      MenuGrp_BranchFK: {
+                        type: 'string',
+                        description: 'Branch foreign key',
+                        example: '0000000001'
+                      }
+                    }
+                  },
+                  examples: {
+                    multipleVersions: {
+                      summary: 'Create menu group for multiple versions',
+                      value: {
+                        menuVersionPKs: ['0000000001', '0000000002'],
+                        MenuGrp_Name: 'Breakfast Menu',
+                        MenuGrp_BranchFK: '0000000001'
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            responses: {
+              201: {
+                description: 'Menu groups created successfully',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: true },
+                        data: {
+                          type: 'array',
+                          items: { $ref: '#/components/schemas/MenuGroups' }
+                        }
+                      }
+                    },
+                    example: {
+                      success: true,
+                      data: [{
+                        MenuGrp_PK: '0000000001',
+                        MenuGrp_Name: 'Breakfast Menu',
+                        MenuGrp_MenuVerFK: '0000000001',
+                        MenuGrp_BranchFK: '0000000001',
+                        IsDeleted: false
+                      }, {
+                        MenuGrp_PK: '0000000002',
+                        MenuGrp_Name: 'Breakfast Menu',
+                        MenuGrp_MenuVerFK: '0000000002',
+                        MenuGrp_BranchFK: '0000000001',
+                        IsDeleted: false
+                      }]
+                    }
+                  }
+                }
+              },
+              400: {
+                description: 'Validation error',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        success: { type: 'boolean', example: false },
+                        error: { type: 'string' }
+                      }
+                    },
+                    example: {
+                      success: false,
+                      error: 'menuVersionPKs must be an array, MenuGrp_Name is required'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        // Add other paths (GET /{id}, PUT, DELETE) here...
+      }
     } catch (error) {
       console.warn(`Warning: Could not generate API paths for ${fileName}:`, error.message);
     }

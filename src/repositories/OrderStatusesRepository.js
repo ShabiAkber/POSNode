@@ -8,17 +8,25 @@ class OrderStatusesRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await OrderStatus.findAll({ where: { OrderStatus_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+      return await OrderStatus.findAll({ where: { OrderStatus_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches"] });
     }
-    return await OrderStatus.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
+    return await OrderStatus.findAll({ where: { IsDeleted: false }, include: ["Branches"] });
   }
 
   async getById(id) {
-    return await OrderStatus.findByPk(id, { include: ["Branch"] });
+    return await OrderStatus.findByPk(id, { include: ["Branches"] });
   }
 
   async create(data) {
-    return await OrderStatus.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('OrderStatuses', 'OrdS_PK');
+      return await OrderStatus.create({
+        ...data,
+        OrdS_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

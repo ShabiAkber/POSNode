@@ -8,17 +8,25 @@ class OrderDetailRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await OrderDetail.findAll({ where: { OrderDetail_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+      return await OrderDetail.findAll({ where: { OrderDetail_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches"] });
     }
-    return await OrderDetail.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
+    return await OrderDetail.findAll({ where: { IsDeleted: false }, include: ["Branches"] });
   }
 
   async getById(id) {
-    return await OrderDetail.findByPk(id, { include: ["Branch"] });
+    return await OrderDetail.findByPk(id, { include: ["Branches"] });
   }
 
   async create(data) {
-    return await OrderDetail.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('OrderDetails', 'OrdD_PK');
+      return await OrderDetail.create({
+        ...data,
+        OrdD_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

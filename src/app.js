@@ -67,6 +67,7 @@ const productRoutes = require("./routes/productRoutes");
 const productVariantRoutes = require("./routes/productVariantRoutes");
 const productAddOnRoutes = require("./routes/productAddOnRoutes");
 const kitchenOrderRoutes = require("./routes/kitchenOrderRoutes");
+const restaurantRoutes = require("./routes/restaurantRoutes");
 
 // 🔒 Apply authMiddleware only to protected routes
 app.use("/api/user", authMiddleware, userRoutes);
@@ -102,6 +103,7 @@ app.use("/api/product", authMiddleware, productRoutes);
 app.use("/api/product-variant", authMiddleware, productVariantRoutes);
 app.use("/api/product-addon", authMiddleware, productAddOnRoutes);
 app.use("/api/kitchen-order", authMiddleware, kitchenOrderRoutes);
+app.use("/api/restaurant", authMiddleware, restaurantRoutes);
 
 // 🔥 Error Handling Middleware (must be last)
 app.use(errorMiddleware);

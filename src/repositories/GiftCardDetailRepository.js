@@ -10,17 +10,25 @@ class GiftCardDetailRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await GiftCardDetail.findAll({ where: { GiftCardDetail_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch"] });
+      return await GiftCardDetail.findAll({ where: { GiftCardDetail_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches"] });
     }
-    return await GiftCardDetail.findAll({ where: { IsDeleted: false }, include: ["Branch"] });
+    return await GiftCardDetail.findAll({ where: { IsDeleted: false }, include: ["Branches"] });
   }
 
   async getById(id) {
-    return await GiftCardDetail.findOne({ where: { GiftCardDetail_PK: id, IsDeleted: false }, include: ["Branch"] });
+    return await GiftCardDetail.findOne({ where: { GiftCardDetail_PK: id, IsDeleted: false }, include: ["Branches"] });
   }
 
   async create(data) {
-    return await GiftCardDetail.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('GiftCardDetails', 'GiftCardDetail_PK');
+      return await GiftCardDetail.create({
+        ...data,
+        GiftCardDetail_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

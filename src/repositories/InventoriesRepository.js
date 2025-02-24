@@ -8,17 +8,25 @@ class InventoriesRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await Inventories.findAll({ where: { Inv_BranchFK: query.BranchId, IsDeleted: false }, include: ["Categories", "Branch"] });
+      return await Inventories.findAll({ where: { Inv_BranchFK: query.BranchId, IsDeleted: false }, include: ["Categories", "Branches"] });
     }
-    return await Inventories.findAll({ where: { IsDeleted: false }, include: ["Categories", "Branch"] });
+    return await Inventories.findAll({ where: { IsDeleted: false }, include: ["Categories", "Branches"] });
   }
 
   async getById(id) {
-    return await Inventories.findOne({ where: { Inv_PK: id, IsDeleted: false }, include: ["Categories", "Branch"] });
+    return await Inventories.findOne({ where: { Inv_PK: id, IsDeleted: false }, include: ["Categories", "Branches"] });
   }
 
-  async create(data) {
-    return await Inventories.create(data);
+  async create(data) {  
+    try{
+      const pk = await PKGenerator.generatePK('Inventories', 'Inv_PK');
+      return await Inventories.create({
+        ...data,
+        Inv_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

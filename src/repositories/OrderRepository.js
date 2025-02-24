@@ -8,17 +8,25 @@ class OrderRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await Order.findAll({ where: { Ord_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "OrderDetail", "OrderType", "PaymentStatus", "PaymentType", "OrderStatus", "TableDineIn"] });
+      return await Order.findAll({ where: { Ord_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches", "OrderDetails", "OrderTypes", "PaymentStatus", "PaymentTypes", "OrderStatus", "TableDineIns"] });
     }
-    return await Order.findAll({ where: { IsDeleted: false }, include: ["Branch", "OrderDetail", "OrderType", "PaymentStatus", "PaymentType", "OrderStatus", "TableDineIn"] });
+    return await Order.findAll({ where: { IsDeleted: false }, include: ["Branches", "OrderDetails", "OrderTypes", "PaymentStatus", "PaymentTypes", "OrderStatus", "TableDineIns"] });
   }
 
   async getById(id) {
-    return await Order.findByPk(id, { include: ["Branch", "OrderDetail", "OrderType", "PaymentStatus", "PaymentType", "OrderStatus", "TableDineIn"] });
+    return await Order.findByPk(id, { include: ["Branches", "OrderDetails", "OrderTypes", "PaymentStatus", "PaymentTypes", "OrderStatus", "TableDineIns"] });
   }
 
   async create(data) {
-    return await Order.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('Orders', 'Ord_PK');
+      return await Order.create({
+        ...data,
+        Ord_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

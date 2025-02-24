@@ -18,7 +18,15 @@ class GenAddonRepository extends IRepository {
   }
 
   async create(data) {
-    return await GenAddon.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('GenAddons', 'GenAddon_PK');
+      return await GenAddon.create({
+        ...data,
+        GenAddon_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

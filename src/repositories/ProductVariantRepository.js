@@ -8,19 +8,27 @@ class ProductVariantRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await ProductVariant.findAll({ where: { PrdVar_BranchFK: query.BranchId, IsDeleted: false }, include: ["Product"] });
+      return await ProductVariant.findAll({ where: { PrdVar_BranchFK: query.BranchId, IsDeleted: false }, include: ["Products", "Branches"] });
     }
-    return await ProductVariant.findAll({ where: { IsDeleted: false }, include: ["Product"] });
+    return await ProductVariant.findAll({ where: { IsDeleted: false }, include: ["Products", "Branches"] });
   }
 
   async getById(id) {
-    return await ProductVariant.findOne({ where: { PrdVar_PK: id, IsDeleted: false }, include: ["Product"] });
+    return await ProductVariant.findOne({ where: { PrdVar_PK: id, IsDeleted: false }, include: ["Products", "Branches"] });
   }
 
   async create(data) {
-    return await ProductVariant.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('ProductVariants', 'PrdVar_PK');
+      return await ProductVariant.create({
+        ...data,
+        PrdVar_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
-
+  
   async update(id, data) {
     return await ProductVariant.update(data, { where: { PrdVar_PK: id } });
   }

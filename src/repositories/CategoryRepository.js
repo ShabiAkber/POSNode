@@ -18,7 +18,15 @@ class CategoryRepository extends IRepository {
   }
 
   async create(data) {
-    return await Category.create(data);
+    try{
+      const pk = await PKGenerator.generatePK('Categories', 'Cat_PK');
+      return await Category.create({
+        ...data,
+        Cat_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {

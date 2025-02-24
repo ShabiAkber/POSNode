@@ -8,17 +8,25 @@ class KitchenOrderRepository extends IRepository {
 
   async getAll(query) {
     if (query.BranchId) {
-      return await KitchenOrder.findAll({ where: { KitOrd_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branch", "Order", "KitchenSection"] });
+      return await KitchenOrder.findAll({ where: { KitOrd_BranchFK: query.BranchId, IsDeleted: false }, include: ["Branches", "Orders", "KitchenSections"] });
     }
-    return await KitchenOrder.findAll({ where: { IsDeleted: false }, include: ["Branch", "Order", "KitchenSection"] });
+    return await KitchenOrder.findAll({ where: { IsDeleted: false }, include: ["Branches", "Orders", "KitchenSections"] });
   }
 
   async getById(id) {
-    return await KitchenOrder.findByPk(id, { include: ["Branch", "Order", "KitchenSection"] });
+    return await KitchenOrder.findByPk(id, { include: ["Branches", "Orders", "KitchenSections"] });
   }
 
-  async create(data) {
-    return await KitchenOrder.create(data);
+    async create(data) {
+    try{
+      const pk = await PKGenerator.generatePK('KitchenOrders', 'KitOrd_PK');
+      return await KitchenOrder.create({
+        ...data,
+        KitOrd_PK: pk
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async update(id, data) {
